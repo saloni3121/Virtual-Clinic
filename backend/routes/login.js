@@ -11,16 +11,19 @@ router.get("/",(req,res)=>{
     res.status(200).send("login");
 })
 
-router.post(
-    '/',
-    passport.authenticate([ 'patient-local', 'doctor-local' ], {
+router.post( '/', passport.authenticate([ 'patient-local', 'doctor-local' ], {
         failureRedirect : 'http://localhost:5000/login'
     }),
     async (req, res) => {
-        if (req.user.role === 'doctor') 
-            return res.redirect('http://localhost:5000/doctor-home');
-        else 
-            return res.redirect('http://localhost:5000/patient-home');
+        console.log(req.user.id);
+        if (req.user.role === 'doctor') {
+            console.log("doctorrrrrrr")
+            return res.redirect("doctor-home/" + req.user.id);
+        }else {
+            console.log("patientttttttt")
+            return res.redirect("patient-home/" + req.user.id);
+        }
+            
     }
 );
 

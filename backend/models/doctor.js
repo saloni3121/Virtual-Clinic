@@ -9,6 +9,8 @@ const doctorSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+
+    fullName : String,
     dob : Date,
     clinicContact : String,
     gender : String,
@@ -20,6 +22,10 @@ const doctorSchema = new mongoose.Schema({
     password: String,
     role: String,
     specialisation: String,
+    appointments : [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref :"Appointment"
+    }]
 })
  
 const doctor = mongoose.model('doctor',doctorSchema);

@@ -12,4 +12,5 @@ const urlencodedParser = bodyParser.urlencoded({ extended: true });
 router.get("/",urlencodedParser, getPatient)
 router.post('/',jsonParser,createPatient);
 
+
 export default router;

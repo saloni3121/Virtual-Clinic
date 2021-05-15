@@ -7,6 +7,9 @@ import passportLocal from 'passport-local'
 import patientRoute from './routes/patientRegister.js';
 import doctorRoute from './routes/doctorRegister.js';
 import loginRoute from './routes/login.js';
+import createAppointmentRoute from './routes/createAppointment.js';
+import doctorHomeRoute from './routes/doctorhome.js';
+import patientHomeRoute from './routes/patienthome.js';
 import Patient from "./models/patient.js";
 import Doctor from "./models/doctor.js";
 import expressSession from 'express-session';
@@ -29,7 +32,10 @@ app.use(passport.session());
 
 app.use('/patient-register',patientRoute);
 app.use('/doctor-register',doctorRoute);
-app.use('/login',loginRoute)
+app.use('/login',loginRoute);
+app.use('/book-appointment',createAppointmentRoute)
+app.use("/doctor-home",doctorHomeRoute)
+app.use("/patient-home",patientHomeRoute)
 
 app.use(express({
     secret: "Rusty is the best and cutest dog in the world",
@@ -104,12 +110,7 @@ passport.deserializeUser((login, done) => {
 app.get("/", (req,res)=>{
     res.send("hello");
 })
-app.get("/doctor-home", (req,res)=>{
-    res.send("doc home");
-})
-app.get("/patient-home", (req,res)=>{
-    res.send("patient home");
-})
+
 
 mongoose.connect(CONNECTION_URL,{
     useNewUrlParser : true,

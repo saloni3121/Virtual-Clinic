@@ -18,7 +18,11 @@ const patientSchema = new mongoose.Schema({
     password: String,
     phoneNumber: String,
     gender : String,
-    role: String
+    role: String,
+    appointments : [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref :"Appointment"
+    }]
 });
 
 const patient = mongoose.model('patient',patientSchema);

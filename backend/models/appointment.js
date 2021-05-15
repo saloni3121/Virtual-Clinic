@@ -8,6 +8,6 @@ const appointmentSchema = new mongoose.Schema({
     meetingLink: String,
 })
  
-const appointment = mongoose.model('doctor',appointmentSchema);
+const appointment = mongoose.model('appointment',appointmentSchema);
 
 export default appointment
