@@ -1,7 +1,12 @@
-import patientData from '../models/patient.js';
+import Patient from '../models/patient.js';
+import bcrypt from 'bcrypt';
+
+
+// const jsonParser = bodyParser.json();
+// const urlencodedParser = bodyParser.urlencoded({ extended: true });
 
 export const getPatient = async (req,res) =>{
-    const allPatients = await patientData.find()
+    const allPatients = await Patient.find()
     try{
         res.status(200).json(allPatients);
     }
@@ -11,10 +16,18 @@ export const getPatient = async (req,res) =>{
 }
 
 export const createPatient = async (req,res) =>{
-    const patient = req.body;
-    const newPatient = new patientData(patient);
+    Patient.findOne({email:req.body.email},(patient,done)=>{
+        if(patient){
+            return done(null,false,{message: "Email already registered"})
+        }
+    })
+    const saltRounds =10
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hash = bcrypt.hashSync(req.body.password, salt);
+    const patient = {...req.body,"password": hash,"role": "patient"};
+    const newPatient = new Patient(patient);
     try{
-        await patientData.create(newPatient);
+        await Patient.create(newPatient);
         res.status(201).json(newPatient);
     }
     catch(error){

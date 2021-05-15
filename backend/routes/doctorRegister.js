@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import {getDoctor, createDoctor} from '../controller/doctor.js';
+import bcrypt from 'bcrypt';
 
 const router = express.Router();
 

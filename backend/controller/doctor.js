@@ -1,7 +1,8 @@
-import doctorData from '../models/doctor.js';
+import Doctor from '../models/doctor.js';
+import bcrypt from 'bcrypt';
 
 export const getDoctor = async (req,res) =>{
-    const allDoctors = await doctorData.find()
+    const allDoctors = await Doctor.find()
     try{
         res.status(200).json(allDoctors);
     }
@@ -11,10 +12,17 @@ export const getDoctor = async (req,res) =>{
 }
 
 export const createDoctor = async (req,res) =>{
-    const doctor = req.body;
-    const newDoctor = new doctorData(doctor);
+    Doctor.findOne({email:req.body.email},(doc,err,done)=>{
+        if(doc){
+            return done(null,false,{message: "Email already registered"})
+        }
+    })
+    const salt = bcrypt.genSaltSync();
+    const hash = bcrypt.hashSync(req.body.password, salt);
+    const doctor = {...req.body,"password": hash,"role": "doctor"};
+    const newDoctor = new Doctor(doctor);
     try{
-        await doctorData.create(newDoctor);
+        await Doctor.create(newDoctor);
         res.status(201).json(newDoctor);
     }
     catch(error){
