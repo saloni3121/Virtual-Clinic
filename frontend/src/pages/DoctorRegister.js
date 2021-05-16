@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp() {
+export default function SignUp(props) {
   const classes = useStyles();
 
   const [doctor,setDoctor] = useState({
@@ -60,12 +60,15 @@ export default function SignUp() {
   const createDoctor= (evt) =>{
     evt.preventDefault();
     console.log(doctor)
-    axios.post('http://localhost:5000/doctor-register',doctor).then(()=>{
-        console.log("req sent")
+    axios.post('http://localhost:5000/doctor-register',doctor).then((response)=>{
+      console.log(response)
+      props.history.push('/login')
       }).catch((error)=>{
           console.log(error);
+          props.history.push('/register-doctor')
       })
   }
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />

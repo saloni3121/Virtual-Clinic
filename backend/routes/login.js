@@ -7,8 +7,8 @@ import bcrypt from 'bcrypt';
 const router = express.Router();
 
 router.get("/",(req,res)=>{
-    console.log("login");
-    res.status(200).send("login");
+    console.log("get login");
+    res.status(200).json(req.user);
 })
 
 
@@ -18,11 +18,14 @@ router.post( '/', passport.authenticate([ 'patient-local', 'doctor-local' ], {
     async (req, res) => {
         console.log(req.user.id);
         if (req.user.role === 'doctor') {
-            console.log("doctorrrrrrr")
-            return res.redirect("doctor-home/" + req.user.id);
+            console.log(req.user)
+            res.status(200).json(req.user)
+            // return res.redirect("doctor-home/" + req.user.id);
+            // res.redirect('/doctor-home/'+req.user);
         }else {
-            console.log("patientttttttt")
-            return res.redirect("patient-home/" + req.user.id);
+            console.log(req.user)
+            res.status(200).json(req.user)
+            // return res.redirect("patient-home/" + req.user.id);
         }
             
     }

@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp() {
+export default function SignUp(props) {
   const classes = useStyles();
 
   const [patient,setPatient] = useState({
@@ -60,10 +60,12 @@ export default function SignUp() {
   const createPatient = (evt) =>{
     evt.preventDefault();
     console.log(patient)
-    axios.post('http://localhost:5000/patient-register',patient).then(()=>{
-        console.log("req sent")
+    axios.post('http://localhost:5000/patient-register',patient).then((response)=>{
+        console.log(response)
+        props.history.push('/login')
       }).catch((error)=>{
           console.log(error);
+          props.history.push('/register-patient')
       })
   }
 

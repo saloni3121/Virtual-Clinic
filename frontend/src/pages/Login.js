@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login() {
+export default function Login(props) {
   const classes = useStyles();
   
   const [user,setUser]= useState({
@@ -58,13 +58,28 @@ export default function Login() {
 
   const handleSubmit = (evt)=>{
     evt.preventDefault();
-    axios.post("http://localhost:5000/login",user).then(()=>{
-        console.log("req sent");
-        console.log(user)
+    axios.post("http://localhost:5000/login",user).then((response)=>{
+        console.log(response.data);
+        const currentRole = response.data.role;
+        props.history.push(`${currentRole}-home/${response.data._id}`)
+        // console.log(user)
     }).catch((error)=>{
         console.log(error);
     })
   }
+
+  // useEffect(()=>{
+  //    axios.get(`http://localhost:5000/doctor-home`)
+  //      .then(res => {
+  //        const user = res.data;
+  //        console.log(user);
+  //        setUser(user);
+  //      })
+  //   //  fetch('http://localhost:5000/login',)
+  //   //      .then(response => response.json())
+  //   //      .then(data => history.push('/someRoute'))
+  //   //      .catch(err => history.push('/login'));
+  // })
 
   return (
     <Container component="main" maxWidth="xs">
