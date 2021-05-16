@@ -20,8 +20,8 @@ var LocalStrategy = passportLocal.Strategy;
 const app = express();
 
 app.use(cors());
-app.use(bodyParser.json({limit:"50mb",extended : true}));
-app.use(bodyParser.urlencoded({limit:"50mb",extended : true}));
+app.use(express.json({limit:"50mb",extended : true}));
+app.use(express.urlencoded({limit:"50mb",extended : true}));
 
 
 const PORT = process.env.PORT || 5000;
@@ -69,7 +69,7 @@ passport.use('doctor-local',new LocalStrategy({
   passwordField : "password"
 },
   (email,password,done) =>{
-    Doctor.findOne({email:email}).then((user)=>{
+    Doctor.findOne({email:email}).then((user)=> {
       if(!user){
         return done(null,false, {message:"Email address not found"})
       }

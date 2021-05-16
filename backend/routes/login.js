@@ -11,6 +11,7 @@ router.get("/",(req,res)=>{
     res.status(200).send("login");
 })
 
+
 router.post( '/', passport.authenticate([ 'patient-local', 'doctor-local' ], {
         failureRedirect : 'http://localhost:5000/login'
     }),
