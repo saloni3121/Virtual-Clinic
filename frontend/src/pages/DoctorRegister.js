@@ -11,8 +11,12 @@ import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormLabel from '@material-ui/core/FormLabel';
 import Container from '@material-ui/core/Container';
-import axios from "../Axios"
+import axios from "../Axios";
+import validator from 'validator';
 
 function Copyright() {
   return (
@@ -45,6 +49,25 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  aligncenter:{
+    display:'flex',
+    justifyContent:' center',
+    alignContent: 'center',
+    alignItems: 'center',
+    marginTop: '5px',
+    marginBottom: '10px',
+  },
+  gendergroup:{
+    display: 'flex',
+    float: 'right',
+    marginLeft: '30px'
+  },
+  genderlabel:{
+    display:'flex',
+    float:'left',
+    marginTop: '2px',
+    marginLeft: '15px'
+  },
 }));
 
 export default function SignUp(props) {
@@ -55,18 +78,67 @@ export default function SignUp(props) {
     lastName: '',
     email:'',
     password: '',
+    dob:new Date(),
+    clinicContact: '',
+    gender: '',
+    specialisation:'',
+    image: '',
     });
+    
+    console.log(doctor.image)
+    const [errorMessagePassword, setErrorMessagePassword] = useState('');
+
+    const validate = (value) => {
+      if (validator.isStrongPassword(value, {
+        minLength: 8, minLowercase: 1,
+        minUppercase: 1, minNumbers: 1, minSymbols: 1
+      })) {
+        setErrorMessagePassword('Password is strong')
+      } else {
+        setErrorMessagePassword('Is Not Strong Password')
+      }
+    }
+
+    const handleChange = (e)=>{
+      setDoctor({...doctor, [e.target.name]: e.target.value});
+    }
+
+
+    const handleImg = (event)=>{
+      // console.log(event.target.value);
+      // console.log(URL.createObjectURL(event.target.files[0]));
+      var file = event.target.files[0];
+      const reader = new FileReader(file);
+      reader.readAsDataURL(file)
+      
+      reader.onload = () => {
+        setDoctor({...doctor,image: reader.result});
+        console.log(reader.result)
+        // setDoctor({...doctor,image: event.target.value});
+    
+      }
+    }
+
 
   const createDoctor= (evt) =>{
     evt.preventDefault();
     console.log(doctor)
-    axios.post('http://localhost:5000/doctor-register',doctor).then((response)=>{
-      console.log(response)
+    axios.post('http://localhost:5000/register-doctor',doctor).then((req,response)=>{
+      // console.log(response);
+      // console.log(req.file);
       props.history.push('/login')
       }).catch((error)=>{
           console.log(error);
           props.history.push('/register-doctor')
       })
+    // const data = new FormData();
+    // data.append('file', doctor.image);
+    // data.append("doctor",doctor)
+    // axios.post('http://localhost:5000/register-doctor', data)
+    //   .then((res) => {
+    //     console.log(res)
+    //   });
+
   }
 
   return (
@@ -79,7 +151,7 @@ export default function SignUp(props) {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate  onSubmit={createDoctor}>
+        <form className={classes.form} noValidate  encType='multipart/form-data' onSubmit={createDoctor}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -92,11 +164,7 @@ export default function SignUp(props) {
                 label="First Name"
                 autoFocus
                 value={doctor.firstName}
-                onChange={(event)=>{
-                    setDoctor({
-                        ...doctor, firstName: event.target.value
-                    })
-                }}
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -109,11 +177,7 @@ export default function SignUp(props) {
                 name="lastName"
                 autoComplete="lname"
                 value={doctor.lastName}
-                onChange={(event)=>{
-                    setDoctor({
-                        ...doctor, lastName: event.target.value
-                    })
-                }}
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -126,11 +190,7 @@ export default function SignUp(props) {
                 name="email"
                 autoComplete="email"
                 value={doctor.email}
-                onChange={(event)=>{
-                    setDoctor({
-                        ...doctor, email: event.target.value
-                    })
-                }}
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -144,17 +204,77 @@ export default function SignUp(props) {
                 id="password"
                 autoComplete="current-password"
                 value={doctor.password}
-                onChange={(event)=>{
-                    setDoctor({
-                        ...doctor, password: event.target.value
-                    })
-                }}
+                onChange={handleChange}
               />
+            </Grid>
+            <h5>{errorMessagePassword}</h5>
+            <Grid item xs ={12} sm={6}>
+            <TextField
+              variant="outlined"
+              id="date"
+              label="Date of Birth"
+              type="date"
+              name ="dob"
+              value={doctor.dob}
+              className={classes.textField}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              onChange={(evt)=> setDoctor({...doctor,dob: evt.target.value})}
+            />
+            </Grid>
+            <Grid item xs ={12} sm={6}>
+            <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="clinicContact"
+                label="Clinic Contact"
+                id="clinicContact"
+                autoComplete="clinicContact"
+                value={doctor.clinicContact}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid className={classes.aligncenter}>
+            <FormLabel className={classes.genderlabel} component="legend" >Gender :</FormLabel>
+            <RadioGroup row className={classes.gendergroup} aria-label="gender" name="gender" value={doctor.gender} onChange={(e)=> {setDoctor({...doctor, gender: e.currentTarget.value})}}>
+              <FormControlLabel value="female" control={<Radio/>} label="Female" />
+              <FormControlLabel value="male" control={<Radio/>} label="Male" />
+              <FormControlLabel value="other" control={<Radio/>} label="Other" />
+            </RadioGroup >
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="specialisation"
+                label="Your specialisation"
+                name="specialisation"
+                autoComplete="specialisation"
+                value={doctor.specialisation}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid container justify="flex-end">
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              type="file"
+              id="image"
+              accept="image/*"
+              name="image"
+              autoComplete="image"
+              // value={doctor.image}
+              onChange={handleImg}
+            />
             </Grid>
             <Grid item xs={12}>
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
+                label="I want to receive updates via email."
               />
             </Grid>
           </Grid>
@@ -167,7 +287,7 @@ export default function SignUp(props) {
           >
             Sign Up
           </Button>
-          <Grid container justify="flex-end">
+          <Grid container justify="center">
             <Grid item>
               <Link href="#" variant="body2">
                 Already have an account? Sign in

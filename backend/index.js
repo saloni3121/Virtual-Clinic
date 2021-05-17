@@ -30,8 +30,8 @@ const CONNECTION_URL = "mongodb+srv://admin:shourya1234@cluster0.rhgoj.mongodb.n
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/patient-register',patientRoute);
-app.use('/doctor-register',doctorRoute);
+app.use('/register-patient',patientRoute);
+app.use('/register-doctor',doctorRoute);
 app.use('/login',loginRoute);
 app.use('/book-appointment',createAppointmentRoute)
 app.use("/doctor-home",doctorHomeRoute)

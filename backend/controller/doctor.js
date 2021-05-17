@@ -1,5 +1,8 @@
 import Doctor from '../models/doctor.js';
 import bcrypt from 'bcrypt';
+import cloud from 'cloudinary';
+import multer from 'multer';
+import cloudinary from '../middleware/cloudinary.config.js'
 
 export const getDoctor = async (req,res) =>{
     const allDoctors = await Doctor.find()
@@ -11,7 +14,9 @@ export const getDoctor = async (req,res) =>{
     }
 }
 
-export const createDoctor = async (req,res) =>{
+
+
+export const createDoctor =  (req,res) =>{
     Doctor.findOne({email:req.body.email},(doc,err,done)=>{
         if(doc){
             return done(null,false,{message: "Email already registered"})
@@ -20,13 +25,18 @@ export const createDoctor = async (req,res) =>{
     const salt = bcrypt.genSaltSync();
     const hash = bcrypt.hashSync(req.body.password, salt);
     let fullName = req.body.firstName + " " + req.body.lastName;
-    const doctor = {...req.body,"password": hash,"role": "doctor", "fullName": fullName,};
-    const newDoctor = new Doctor(doctor);
-    try{
-        await Doctor.create(newDoctor);
-        res.status(201).json(newDoctor);
-    }
-    catch(error){
-        res.status(409).json({message: error.message})
-    }
+    // console.log(req.body);
+
+    cloudinary.uploader.upload(req.body.image, (error,result)=>{
+        const doctor = {...req.body,"password": hash,"role": "doctor", "fullName": fullName,"image":result.url};
+        const newDoctor = new Doctor(doctor);
+        try{
+            Doctor.create(newDoctor);
+            console.log(newDoctor)
+            res.status(201).json(newDoctor);
+        }
+        catch(error){
+            res.status(409).json({message: error.message})
+        }
+    })
 }

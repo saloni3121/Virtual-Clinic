@@ -1,7 +1,11 @@
 import Patient from '../models/patient.js';
 import bcrypt from 'bcrypt';
+import cloud from 'cloudinary';
+import multer from 'multer';
 
 
+
+const cloudinary = cloud.v2;
 // const jsonParser = bodyParser.json();
 // const urlencodedParser = bodyParser.urlencoded({ extended: true });
 
@@ -18,7 +22,8 @@ export const getPatient = async (req,res) =>{
 export const createPatient = async (req,res) =>{
     Patient.findOne({email:req.body.email},(patient,done)=>{
         if(patient){
-            return done(null,false,{message: "Email already registered"})
+            // return res.status(409).json({message: "Email already registered"})
+            return done(null,false,{message:" Email already registered"})
         }
     })
     const saltRounds =10
