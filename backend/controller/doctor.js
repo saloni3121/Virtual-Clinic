@@ -2,11 +2,14 @@ import Doctor from '../models/doctor.js';
 import bcrypt from 'bcrypt';
 import cloud from 'cloudinary';
 import multer from 'multer';
-import cloudinary from '../middleware/cloudinary.config.js'
+import cloudinary from '../middleware/cloudinary.config.js';
+import lodash from 'lodash';
 
 export const getDoctor = async (req,res) =>{
-    const allDoctors = await Doctor.find()
+    const allDoctors = await Doctor.find({})
     try{
+        // console.log(typeof(allDoctors))
+        console.log(allDoctors)
         res.status(200).json(allDoctors);
     }
     catch(error){

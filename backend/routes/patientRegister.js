@@ -8,6 +8,7 @@ const router = express.Router();
 const jsonParser = bodyParser.json();
 const urlencodedParser = bodyParser.urlencoded({ extended: true });
 
+// router.get("/patient/:id",urlencodedParser,findPatient)
 
 router.get("/",urlencodedParser, getPatient)
 router.post('/',jsonParser,createPatient);

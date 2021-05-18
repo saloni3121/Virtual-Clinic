@@ -16,7 +16,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
 import Container from '@material-ui/core/Container';
 import axios from "../Axios";
-import validator from 'validator';
+import {validatePassword, validateEmail} from '../helper/validate.js'
 
 function Copyright() {
   return (
@@ -86,27 +86,12 @@ export default function SignUp(props) {
     });
     
     console.log(doctor.image)
-    const [errorMessagePassword, setErrorMessagePassword] = useState('');
-
-    const validate = (value) => {
-      if (validator.isStrongPassword(value, {
-        minLength: 8, minLowercase: 1,
-        minUppercase: 1, minNumbers: 1, minSymbols: 1
-      })) {
-        setErrorMessagePassword('Password is strong')
-      } else {
-        setErrorMessagePassword('Is Not Strong Password')
-      }
-    }
 
     const handleChange = (e)=>{
       setDoctor({...doctor, [e.target.name]: e.target.value});
     }
 
-
     const handleImg = (event)=>{
-      // console.log(event.target.value);
-      // console.log(URL.createObjectURL(event.target.files[0]));
       var file = event.target.files[0];
       const reader = new FileReader(file);
       reader.readAsDataURL(file)
@@ -119,25 +104,22 @@ export default function SignUp(props) {
       }
     }
 
+    const [emailError, setEmailError] = useState('')
+
+    // let errorEmail='';
+    // let errorPassword='';
 
   const createDoctor= (evt) =>{
     evt.preventDefault();
     console.log(doctor)
     axios.post('http://localhost:5000/register-doctor',doctor).then((req,response)=>{
-      // console.log(response);
-      // console.log(req.file);
+
       props.history.push('/login')
       }).catch((error)=>{
           console.log(error);
+          setEmailError('Email already exists')
           props.history.push('/register-doctor')
       })
-    // const data = new FormData();
-    // data.append('file', doctor.image);
-    // data.append("doctor",doctor)
-    // axios.post('http://localhost:5000/register-doctor', data)
-    //   .then((res) => {
-    //     console.log(res)
-    //   });
 
   }
 
@@ -190,8 +172,11 @@ export default function SignUp(props) {
                 name="email"
                 autoComplete="email"
                 value={doctor.email}
-                onChange={handleChange}
+                onChange={(e)=>{handleChange(e);
+                  window.errorEmail = (validateEmail(e.target.value));
+                }}
               />
+              <h5>{(emailError)? emailError: window.errorEmail}</h5>
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -204,10 +189,15 @@ export default function SignUp(props) {
                 id="password"
                 autoComplete="current-password"
                 value={doctor.password}
-                onChange={handleChange}
+                onChange={e =>{
+                  handleChange(e) ;
+                  window.errorPassword = validatePassword(e.target.value);
+                }
+              }
               />
+              <h5>{window.errorPassword}</h5>
             </Grid>
-            <h5>{errorMessagePassword}</h5>
+            
             <Grid item xs ={12} sm={6}>
             <TextField
               variant="outlined"

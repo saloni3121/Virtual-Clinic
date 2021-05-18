@@ -74,39 +74,17 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp(props) {
   const classes = useStyles();
   
-  // // const [validPassword, setValidPassword] = useState(true);
-  // const [errorMessagePassword, setErrorMessagePassword] = useState('');
-
-
-  // const validate = (value) => {
-  //   if (validator.isStrongPassword(value, {
-  //     minLength: 8, minLowercase: 1,
-  //     minUppercase: 1, minNumbers: 1, minSymbols: 1
-  //   })) {
-  //     setErrorMessagePassword('Password is strong')
-  //   } else {
-  //     setErrorMessagePassword('Is Not Strong Password')
-  //   }
-  // }
-
   const [emailError, setEmailError] = useState('')
  
-  let errorEmail='';
-  let errorPassword='';
-  // const validateEmail = (email) => {
-  
-  //   if (validator.isEmail(email)) {
-  //     setEmailError('Valid Email :)')
-  //   } else {
-  //     setEmailError('Enter valid Email!')
-  //   }
-  // }
+  // let errorEmail='';
+  // let errorPassword='';
+
   const [patient,setPatient] = useState({
     firstName: '',
     lastName: '',
     email:'',
     password: '',
-    dob: '',
+    dob: new Date(),
     phoneNumber: '',
     gender: '',
     });
@@ -127,18 +105,6 @@ export default function SignUp(props) {
 
       })
   }
-
-// npm install validator
-
-
-//   const handleChange = async (evt)=>{
-//         console.log("in handle change");
-//         evt.preventDefault();
-//         await setPatient({
-//             [evt.target.name]: evt.target.value
-//         })
-//         console.log(patient)
-//   }
 
     return (
     <Container component="main" maxWidth="xs">
@@ -190,34 +156,32 @@ export default function SignUp(props) {
                 autoComplete="email"
                 value={patient.email}
                 onChange={e => 
-                          {
-                            handleChange(e) ; 
-                            errorEmail = (validateEmail(e.target.value));
-                            console.log(errorEmail);
-                          }
+                          	{
+                            	handleChange(e) ; 
+                            	window.errorEmail = (validateEmail(e.target.value));
+                          	}
                         }
               />
-              <h5>{(emailError)? emailError: errorEmail}</h5>
+              <h5>{(emailError)? emailError: window.errorEmail}</h5>
             </Grid>
             <Grid item xs={12}>
               <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                value={patient.password}
-                onChange={e =>{
-                            handleChange(e) ; 
-                            errorPassword = validatePassword(e.target.value);
-                            console.log(errorPassword);
-                          }
+					variant="outlined"
+					required
+					fullWidth
+					name="password"
+					label="Password"
+					type="password"
+					id="password"
+					autoComplete="current-password"
+					value={patient.password}
+					onChange={e =>{
+                            	handleChange(e) ;
+                            	window.errorPassword = validatePassword(e.target.value);
+                          	}
                         }
               />
-              <h5>{errorPassword}</h5>
+              <h5>{window.errorPassword}</h5>
             </Grid>
             <Grid item xs ={12} sm={6}>
             <TextField
@@ -230,7 +194,7 @@ export default function SignUp(props) {
               InputLabelProps={{
                 shrink: true,
               }}
-              onChange={handleChange}
+              onChange={(evt)=> setPatient({...patient,dob: evt.target.value})}
             />
             </Grid>
             <Grid item xs ={12} sm={6}>
@@ -249,7 +213,7 @@ export default function SignUp(props) {
             </Grid>
             <Grid className={classes.aligncenter}>
             <FormLabel className={classes.genderlabel} component="legend" >Gender</FormLabel>
-            <RadioGroup row className={classes.gendergroup} aria-label="gender" name="gender1" value={patient.gender} onChange={handleChange}>
+            <RadioGroup row className={classes.gendergroup} aria-label="gender" name="gender1" value={patient.gender} onChange={(e)=> setPatient({...patient, gender: e.currentTarget.value})}>
               <FormControlLabel value="female" control={<Radio />} label="Female" />
               <FormControlLabel value="male" control={<Radio />} label="Male" />
               <FormControlLabel value="other" control={<Radio />} label="Other" />
@@ -273,7 +237,7 @@ export default function SignUp(props) {
           </Button>
           <Grid container justify="center">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/login" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>

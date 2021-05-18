@@ -39,3 +39,15 @@ export const createPatient = async (req,res) =>{
         res.status(409).json({message: error.message})
     }
 }
+
+export const findPatient = async (req,res)=>{
+    Patient.findById(req.params.id,(err,foundPatient)=>{
+        if(err){
+            console.log(err);
+            res.status(409).json({message:"Patient not found"})
+        }else{
+            // console.log(foundPatient)
+            res.status(200).json(foundPatient)
+        }
+    })
+}

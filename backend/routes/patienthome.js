@@ -1,10 +1,11 @@
 import express from 'express';
-import bodyParser from 'body-parser';
-
+// import bodyParser, { urlencoded } from 'body-parser';
+import Patient from '../models/patient.js'
+import {findPatient} from '../controller/patient.js'
 const router = express.Router();
 
-router.get("/:id", (req,res)=>{
-    res.status(200).json(req.params.id);
-})
+const urlencodedParser = express.urlencoded({ extended: true });
+
+router.get("/:id",urlencodedParser,findPatient)
 
 export default router;
