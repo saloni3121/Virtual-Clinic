@@ -3,13 +3,14 @@ import bcrypt from 'bcrypt';
 import cloud from 'cloudinary';
 import multer from 'multer';
 import cloudinary from '../middleware/cloudinary.config.js';
+import Appointment from '../models/appointment.js'
 import lodash from 'lodash';
 
 export const getDoctor = async (req,res) =>{
     const allDoctors = await Doctor.find({})
     try{
         // console.log(typeof(allDoctors))
-        console.log(allDoctors)
+        // console.log(allDoctors)
         res.status(200).json(allDoctors);
     }
     catch(error){
@@ -43,3 +44,39 @@ export const createDoctor =  (req,res) =>{
         }
     })
 }
+
+// export const findDoctor = async (req,res)=>{
+//     await Doctor.findById(req.params.id).populate("appointments").exec(async function(err,foundDoctor){
+//         if(err){
+//             console.log(err);
+//             res.status(409).json({message:"Doctor not found"})
+//         }else{
+//             // console.log(foundPatient)
+//             res.status(200).json(foundDoctor)
+//         }
+//     })
+// }
+
+// export const findDoctor = async (req,res)=>{
+//     await Doctor.findById(req.params.id, (err,foundDoctor) => {
+//         if(err){
+//             console.log(err);
+//             res.status(409).json({message:"Doctor not found"})
+//         }else{
+//             res.status(200).json(foundDoctor)
+//         }
+//     })
+// }
+
+export const findDoctor = async( req,res)=>{
+    Doctor.findById(req.params.id).populate("appointments").exec((err,foundDoctor)=>{
+        if(err){
+            console.log(err);
+            res.status(409).json({message: err})
+        }else{
+            console.log(foundDoctor)
+            res.status(200).json(foundDoctor)
+        }
+    })
+}
+

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import appointment from '../models/appointment.js';
 
 const doctorSchema = new mongoose.Schema({
     firstName: {
@@ -24,7 +25,7 @@ const doctorSchema = new mongoose.Schema({
     specialisation: String,
     appointments : [{
         type: mongoose.Schema.Types.ObjectId,
-        ref :"Appointment"
+        ref :"appointment"
     }],
     image: String
 })

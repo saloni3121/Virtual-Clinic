@@ -34,7 +34,7 @@ export const createPatient = async (req,res) =>{
     try{
         await Patient.create(newPatient);
         res.status(201).json(newPatient);
-    }
+    }  
     catch(error){
         res.status(409).json({message: error.message})
     }

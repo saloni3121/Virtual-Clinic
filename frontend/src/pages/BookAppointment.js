@@ -1,5 +1,6 @@
 import React,{useEffect, useState} from 'react';
 import axios from 'axios';
+
 // import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,38 +11,45 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 // import Box from '@material-ui/core/Box';
 // import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-// import Typography from '@material-ui/core/Typography';
+import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import Container from '@material-ui/core/Container';
-import lodash from 'lodash';
+import moment from 'moment'
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 function BookAppointment(props) {
 
     const[data, setData] = useState('');
+    const [allDoctors, setAllDoctors] = useState([]);
 
-    const [allDoctors, setAllDoctors] = useState();
+    const patientId = props.match.params.id;
 
     const [appointment,setAppointment] = useState({
-        doctorName: '',
-        patientName: '',
-        date: '',
-        startTime: '',
+      doctorName: '',
+      patientName: `${data.firstName} ${data.lastName}`,
+      date: new Date(),
+      startTime: new Date(),
 
-    });
-    const patientId = props.match.params.id;
-    const handleChange = (e)=>{
-        setAppointment({...appointment, [e.target.name]: e.target.value});
-      }
+  });
+
+  const bookAppointment =(e)=>{
+    e.preventDefault();
+    axios.post(`http://localhost:5000/book-appointment/${patientId}`,appointment).then((res)=>{
+      props.history.push('/patient-home/'+ patientId);
+      alert("appointment booked");
+    }).catch((err)=>{
+      console.log(err)
+      props.history.push(`patient-home/${patientId}/book-appointment`)
+    })
+  }
 
     useEffect(()=>{
 
         async function getDoctors(){
             await axios.get("http://localhost:5000/register-doctor").then((res)=>{
                 const response = res.data;
-                console.log(response)
-                // const array = lodash.values(response);
-                // console.log(typeof(array))
                 setAllDoctors(response);
             })
         }
@@ -50,19 +58,14 @@ function BookAppointment(props) {
             await axios.get(`http://localhost:5000/patient-home/${patientId}`).then ((res)=>{
                 const patient = res.data;
                 setData(patient);
+                // setAppointment({...appointment,patientName: res.data.firstName + res.data.lastName})
+                // console.log(patient)
             })
         }
         makeRequest();
         getDoctors();
-        // console.log(Object.entries(allDoctors));
-        // allDoctors.forEach((doctor) => {
-        //     console.log(doctor);
-        //   });
-    },[]);
 
-    // console.log(Object.entries(allDoctors));
-   
-
+    },[allDoctors]);
 
     const useStyles = makeStyles((theme) => ({
         paper: {
@@ -87,25 +90,28 @@ function BookAppointment(props) {
         }
       }));
       
+      console.log(appointment);
+
     const classes = useStyles();
+    const yesterday = moment().subtract(1, 'day');
+    const disablePastDt = current => {
+        return current.isAfter(yesterday);
+    }
+    // console.log(allDoctors);s
     return (
-        <div>
-            <h1>Book an Appointment</h1>
-            {/* <h2>Patient's name {data.firstName}</h2> */}
+    
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
             <div className={classes.paper}>
-        {/* <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
+    
         <Typography component="h1" variant="h5">
-          Sign up
-        </Typography> */}
-        <form className={classes.form} noValidate>
+          Book an Appointment
+        </Typography> 
+        <form className={classes.form} noValidate onSubmit={bookAppointment}>
           <Grid container spacing={2}>
             <Grid item xs={12} >
               <TextField
-                autoComplete="doctorName"
+                autoComplete="patientName"
                 name="patientName"
                 variant="outlined"
                 value={`${data.firstName} ${data.lastName}`}
@@ -114,63 +120,80 @@ function BookAppointment(props) {
                 id="patientName"
                 label="Patient's Name"
                 autoFocus
-                onChange={handleChange}
+                onBeforeInput =  {(e)=> 
+                  setAppointment({...appointment, patientName: e.target.value})}
+                onChange={(e)=> {
+                  setAppointment({...appointment, patientName: e.target.value});
+                }}
               />
             </Grid>
           {/* <Grid container spacing={2}> */}
             <Grid item xs={12} >
-              {/* <TextField
-                autoComplete="doctorName"
-                name="doctorName"
-                variant="outlined"
-                value={appointment.doctorName}
-                required
-                fullWidth
+        
+              <TextField
                 id="doctorName"
-                label="Doctor's Name"
-                autoFocus
-                onChange={handleChange}
-              /> */}
-            {/* <TextField
-                id="standard-select-currency"
                 select
                 label="Select"
-                // value={currency}
-                onChange={handleChange}
-                helperText="Please select your currency"
-                >
-                {allDoctors.forEach((option) => (
-                    <MenuItem key={option.fullName} value={option.fullName}>
-                    {option.label}
-                    </MenuItem>
+                value={appointment.doctorName}
+                onChange={(e)=> {
+                  setAppointment({...appointment, doctorName: e.target.value});
+                  console.log(e.target.value)
+                }}
+                helperText="Select the doctor to consult"
+                variant="outlined"
+              >
+                {allDoctors.map((doc) => (
+                  <MenuItem key={doc._id} value={doc.fullName}>
+                    {doc.fullName}
+                  </MenuItem>
                 ))}
-            </TextField> */}
+              </TextField>
             </Grid>
             
             <Grid item xs ={12} sm={6}>
-            <TextField
+            {/* <TextField
               variant="outlined"
               id="date"
-              label="Date"
+              label="Date for appointment"
               type="date"
               name ="date"
               value={appointment.date}
-              className={classes.textField}
+              
+              // className={classes.textField}
               InputLabelProps={{
                 shrink: true,
               }}
-              onChange={(evt)=> setAppointment({...appointment,date: evt.target.value})}
-            />
+              onChange={(evt)=> {
+                setAppointment({...appointment, date: evt.target.value})
+                console.log(evt.target.value)
+              }}
+              max={moment().format("YYYY-MM-DD")}
+            /> */}
+             <DatePicker
+                selected={appointment.date}
+                onChange={(date)=> {
+                  setAppointment({...appointment, date: date})
+                  // console.log(evt.target.value)
+                }}
+                // className="form-control"
+                name="date"
+                placeholder="Date of Birth"
+                minDate={new Date()}
+              />
             </Grid>
             <Grid item xs={12} sm={6}>
                 <TextField
-                    id="time"
+                    id="startTime"
                     label="Time of appointment"
                     type="time"
                     variant="outlined"
-                    defaultValue="07:30"
+                    defaultValue="09:00"
+                    value={appointment.startTime}
                     className={classes.fullsize}
-                    onChange={handleChange}
+                    onChange={
+                      (e)=> {setAppointment({...appointment, startTime: e.target.value})
+                      console.log(e.target.value)
+                    }}
                     InputLabelProps={{
                     shrink: true,
                     }}
@@ -231,8 +254,8 @@ function BookAppointment(props) {
         <Copyright />
       </Box> */}
     </Container>
-        </div>
     )
 }
 
 export default BookAppointment
+

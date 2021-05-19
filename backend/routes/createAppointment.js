@@ -1,7 +1,7 @@
 // import Appointment from '../models/appointment.js';
 import express from 'express';
 import bodyParser from 'body-parser';
-
+import Appointment from '../models/appointment.js'
 import {createAppointment} from '../controller/appointment.js';
 
 const router = express.Router();
@@ -9,8 +9,20 @@ const router = express.Router();
 const jsonParser = bodyParser.json();
 const urlencodedParser = bodyParser.urlencoded({ extended: true });
 
-router.get("/:id",urlencodedParser,(req,res)=>{
-    res.status(200).send("book an appointment form")
+// router.get("/:id",urlencodedParser,(req,res)=>{
+//     res.status(200).send("book an appointment form")
+// })
+
+router.get('/:id',async (req,res) =>{
+    const allAppointments = await Appointment.find()
+    try{
+        // console.log(typeof(allDoctors))
+        // console.log(allDoctors)
+        res.status(200).json(allAppointments);
+    }
+    catch(error){
+        res.status(404).json({message: error.message})
+    }
 })
 
 router.post("/:id",jsonParser,createAppointment)

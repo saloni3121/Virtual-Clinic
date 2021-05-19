@@ -15,6 +15,8 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
 import Container from '@material-ui/core/Container';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import axios from "../Axios";
 import {validatePassword, validateEmail} from '../helper/validate.js'
 
@@ -98,7 +100,6 @@ export default function SignUp(props) {
       
       reader.onload = () => {
         setDoctor({...doctor,image: reader.result});
-        console.log(reader.result)
         // setDoctor({...doctor,image: event.target.value});
     
       }
@@ -199,7 +200,7 @@ export default function SignUp(props) {
             </Grid>
             
             <Grid item xs ={12} sm={6}>
-            <TextField
+            {/* <TextField
               variant="outlined"
               id="date"
               label="Date of Birth"
@@ -211,7 +212,18 @@ export default function SignUp(props) {
                 shrink: true,
               }}
               onChange={(evt)=> setDoctor({...doctor,dob: evt.target.value})}
-            />
+            /> */}
+              <DatePicker
+                selected={doctor.dob}
+                onChange={(date)=> {
+                  setDoctor({...doctor, dob: date})
+                  // console.log(evt.target.value)
+                }}
+                // className="form-control"
+                name="dob"
+                placeholder="Date of Birth"
+                maxDate={new Date()}
+              />
             </Grid>
             <Grid item xs ={12} sm={6}>
             <TextField
