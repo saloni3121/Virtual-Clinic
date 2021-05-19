@@ -1,8 +1,8 @@
 import mongoose from 'mongoose'
 
 const appointmentSchema = new mongoose.Schema({
-    startTime:Date,
-    endTime: Date,
+    startDate:Date,
+    endDate: Date,
     doctorName: String,
     patientName: String,
     meetingLink: String,

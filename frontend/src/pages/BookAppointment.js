@@ -30,7 +30,7 @@ function BookAppointment(props) {
       doctorName: '',
       patientName: `${data.firstName} ${data.lastName}`,
       date: new Date(),
-      startTime: new Date(),
+      startDate: new Date(),
 
   });
 
@@ -183,15 +183,15 @@ function BookAppointment(props) {
             </Grid>
             <Grid item xs={12} sm={6}>
                 <TextField
-                    id="startTime"
+                    id="startDate"
                     label="Time of appointment"
                     type="time"
                     variant="outlined"
                     defaultValue="09:00"
-                    value={appointment.startTime}
+                    value={appointment.startDate}
                     className={classes.fullsize}
                     onChange={
-                      (e)=> {setAppointment({...appointment, startTime: e.target.value})
+                      (e)=> {setAppointment({...appointment, startDate: e.target.value})
                       console.log(e.target.value)
                     }}
                     InputLabelProps={{
