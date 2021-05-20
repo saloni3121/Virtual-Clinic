@@ -29,7 +29,6 @@ export class DoctorHome extends React.PureComponent {
     componentDidMount() {
       axios.get(`http://localhost:5000/doctor-home/${this.props.id}`)
         .then(res => {
-          console.log(res.data.appointments)
           const appointments = res.data.appointments;
           this.setState({apps: appointments});
         })
@@ -46,7 +45,7 @@ export class DoctorHome extends React.PureComponent {
                 }
       })
 
-        console.log(data)
+   
         
         return (
           <Paper>

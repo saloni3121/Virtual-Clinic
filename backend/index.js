@@ -34,7 +34,7 @@ app.use(passport.session());
 app.use('/register-patient',patientRegisterRoute);
 app.use('/register-doctor',doctorRegisterRoute);
 app.use('/doctor',doctorRoute)
-app.use('/login',loginRoute);
+app.use('/',loginRoute);
 app.use('/book-appointment',createAppointmentRoute)
 app.use("/doctor-home",doctorHomeRoute)
 app.use("/patient",patientRoute)

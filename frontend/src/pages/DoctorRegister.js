@@ -6,12 +6,24 @@ import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
+import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+// import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Radio from '@material-ui/core/Radio';
+import clsx from 'clsx';
+// import FilledInput from '@material-ui/core/FilledInput';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
+// import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+// import TextField from '@material-ui/core/TextField';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
 import Container from '@material-ui/core/Container';
@@ -103,9 +115,16 @@ export default function SignUp(props) {
 
     const [emailError, setEmailError] = useState('')
 
+    const [showPassword,setShowPassword] = useState(false)
+    const handleClickShowPassword = () => {
+      setShowPassword(!showPassword);
+    };
+    const handleMouseDownPassword = (event) => {
+      event.preventDefault();
+    };
+
   const createDoctor= (evt) =>{
     evt.preventDefault();
-    console.log(doctor)
     axios.post('http://localhost:5000/register-doctor',doctor).then((req,response)=>{
 
       props.history.push('/login')
@@ -174,22 +193,36 @@ export default function SignUp(props) {
               <h5>{(emailError)? emailError: window.errorEmail}</h5>
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
+            <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-password"
+                type={showPassword ? 'text' : 'password'}
                 value={doctor.password}
-                onChange={e =>{
-                  handleChange(e) ;
-                  window.errorPassword = validatePassword(e.target.value);
+                onChange={(evt)=>{
+                  setDoctor({
+                      ...doctor, password: evt.target.value
+                  })
+              }}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
                 }
-              }
+                labelWidth={120}
               />
+            </FormControl>
+
+
+
+
               <h5>{window.errorPassword}</h5>
             </Grid>
             

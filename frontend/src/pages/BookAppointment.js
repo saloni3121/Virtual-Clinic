@@ -81,7 +81,7 @@ function BookAppointment(props) {
         }
       }));
       
-      console.log(appointment);
+      
 
     const classes = useStyles();
     
@@ -124,7 +124,6 @@ function BookAppointment(props) {
                 value={appointment.doctorName}
                 onChange={(e)=> {
                   setAppointment({...appointment, doctorName: e.target.value});
-                  console.log(e.target.value)
                 }}
                 helperText="Select the doctor to consult"
                 variant="outlined"
@@ -160,7 +159,6 @@ function BookAppointment(props) {
                     className={classes.fullsize}
                     onChange={
                       (e)=> {setAppointment({...appointment, startDate: e.target.value})
-                      console.log(e.target.value)
                     }}
                     InputLabelProps={{
                     shrink: true,

@@ -38,11 +38,15 @@ export const createPatient = async (req,res) =>{
 }
 
 export const findPatient = async (req,res)=>{
-    Patient.findById(req.params.id,(err,foundPatient)=>{
+    Patient.findById(req.params.id).populate("appointments").exec((err,foundPatient)=>{
         if(err){
             console.log(err);
             res.status(409).json({message:"Patient not found"})
         }else{
+            foundPatient.appointments.sort(function(a,b){
+                var dateA = new Date(a.date), dateB = new Date(b.date);
+                return dateB - dateA;
+            })
             res.status(200).json(foundPatient)
         }
     })

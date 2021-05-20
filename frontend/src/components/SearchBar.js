@@ -57,7 +57,6 @@ const [allDoctors, setAllDoctors] = useState([]);
             await axios.get("http://localhost:5000/doctor").then((res)=>{
                 const response = res.data;
                 setAllDoctors(response);
-                console.log(response)
             })
         }
     

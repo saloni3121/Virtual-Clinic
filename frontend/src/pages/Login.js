@@ -2,12 +2,23 @@ import React,{useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
+import IconButton from '@material-ui/core/IconButton';
+import Input from '@material-ui/core/Input';
+import clsx from 'clsx';
+// import FilledInput from '@material-ui/core/FilledInput';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
+// import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import TextField from '@material-ui/core/TextField';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -56,11 +67,12 @@ export default function Login(props) {
     password: '',
 })
 
+  const [showPassword,setShowPassword] = useState(false)
+
   const handleSubmit = (evt)=>{
     evt.preventDefault();
     axios.post("http://localhost:5000/login",user).then((response)=>{
       if(response.data){
-        console.log(response.data);
         const currentRole = response.data.role;
         props.history.push(`${currentRole}-home/${response.data._id}`)
       }else{
@@ -73,6 +85,14 @@ export default function Login(props) {
         alert("invalid email or password")
     })
   }
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
 
   return (
     <Container component="main" maxWidth="xs">
@@ -102,14 +122,40 @@ export default function Login(props) {
                 })
             }}
           />
-          <TextField
+          <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
+          <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+          <OutlinedInput
+            id="outlined-adornment-password"
+            type={showPassword ? 'text' : 'password'}
+            value={user.password}
+            onChange={(evt)=>{
+              setUser({
+                  ...user, password: evt.target.value
+              })
+          }}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            }
+            labelWidth={120}
+          />
+        </FormControl>
+          {/* <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
             name="password"
             label="Password"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             id="password"
             autoComplete="current-password"
             value={user.password}
@@ -118,7 +164,7 @@ export default function Login(props) {
                     ...user, password: evt.target.value
                 })
             }}
-          />
+          /> */}
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
@@ -134,13 +180,13 @@ export default function Login(props) {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
+              <Link href= "/register-patient" variant="body2">
+              Register as patient
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
+              <Link href="/register-doctor" variant="body2">
+                {"Register as doctor"}
               </Link>
             </Grid>
           </Grid>

@@ -21,7 +21,7 @@ const patientSchema = new mongoose.Schema({
     role: String,
     appointments : [{
         type: mongoose.Schema.Types.ObjectId,
-        ref :"Appointment"
+        ref :"appointment"
     }]
 });
 

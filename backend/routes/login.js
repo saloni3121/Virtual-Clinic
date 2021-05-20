@@ -4,12 +4,16 @@ import passport from 'passport';
 
 const router = express.Router();
 
-router.get("/",(req,res)=>{
-    res.status(200).json(req.user);
-})
+
+router.get("/logout", function (req, res) {
+    req.logout();
+    res.status(200).json({message: "Success"})
+    // res.redirect('/login');
+
+  });
 
 
-router.post( '/', passport.authenticate([ 'patient-local', 'doctor-local' ], {
+router.post( '/login', passport.authenticate([ 'patient-local', 'doctor-local' ], {
         failureRedirect : 'http://localhost:5000/login'
     }),
     async (req, res) => {
