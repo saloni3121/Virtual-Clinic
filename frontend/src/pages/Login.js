@@ -59,27 +59,20 @@ export default function Login(props) {
   const handleSubmit = (evt)=>{
     evt.preventDefault();
     axios.post("http://localhost:5000/login",user).then((response)=>{
+      if(response.data){
         console.log(response.data);
         const currentRole = response.data.role;
         props.history.push(`${currentRole}-home/${response.data._id}`)
-        // console.log(user)
+      }else{
+        props.history.push("/login")
+        alert("invalid email or password")
+      }
     }).catch((error)=>{
         console.log(error);
+        props.history.push("/login")
+        alert("invalid email or password")
     })
   }
-
-  // useEffect(()=>{
-  //    axios.get(`http://localhost:5000/doctor-home`)
-  //      .then(res => {
-  //        const user = res.data;
-  //        console.log(user);
-  //        setUser(user);
-  //      })
-  //   //  fetch('http://localhost:5000/login',)
-  //   //      .then(response => response.json())
-  //   //      .then(data => history.push('/someRoute'))
-  //   //      .catch(err => history.push('/login'));
-  // })
 
   return (
     <Container component="main" maxWidth="xs">

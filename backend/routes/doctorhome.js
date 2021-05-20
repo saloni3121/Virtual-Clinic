@@ -1,6 +1,4 @@
 import express from 'express';
-// import bodyParser, { urlencoded } from 'body-parser';
-// import Doctot from '../models/doctor.js'
 import {findDoctor} from '../controller/doctor.js'
 const router = express.Router();
 

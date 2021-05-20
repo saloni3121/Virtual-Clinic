@@ -86,8 +86,6 @@ export default function SignUp(props) {
     specialisation:'',
     image: '',
     });
-    
-    console.log(doctor.image)
 
     const handleChange = (e)=>{
       setDoctor({...doctor, [e.target.name]: e.target.value});
@@ -100,15 +98,10 @@ export default function SignUp(props) {
       
       reader.onload = () => {
         setDoctor({...doctor,image: reader.result});
-        // setDoctor({...doctor,image: event.target.value});
-    
       }
     }
 
     const [emailError, setEmailError] = useState('')
-
-    // let errorEmail='';
-    // let errorPassword='';
 
   const createDoctor= (evt) =>{
     evt.preventDefault();
@@ -120,6 +113,7 @@ export default function SignUp(props) {
           console.log(error);
           setEmailError('Email already exists')
           props.history.push('/register-doctor')
+          alert("error")
       })
 
   }
@@ -200,26 +194,14 @@ export default function SignUp(props) {
             </Grid>
             
             <Grid item xs ={12} sm={6}>
-            {/* <TextField
-              variant="outlined"
-              id="date"
-              label="Date of Birth"
-              type="date"
-              name ="dob"
-              value={doctor.dob}
-              className={classes.textField}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={(evt)=> setDoctor({...doctor,dob: evt.target.value})}
-            /> */}
+
               <DatePicker
                 selected={doctor.dob}
                 onChange={(date)=> {
                   setDoctor({...doctor, dob: date})
-                  // console.log(evt.target.value)
+                  
                 }}
-                // className="form-control"
+                className="form-control"
                 name="dob"
                 placeholder="Date of Birth"
                 maxDate={new Date()}
@@ -269,7 +251,6 @@ export default function SignUp(props) {
               accept="image/*"
               name="image"
               autoComplete="image"
-              // value={doctor.image}
               onChange={handleImg}
             />
             </Grid>

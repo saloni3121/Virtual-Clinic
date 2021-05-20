@@ -9,18 +9,14 @@ function convertUTCDateToLocalDate(date) {
 
 export const createAppointment = (req,res) =>{
     let appointment = req.body
-    console.log(req.body.date)
     let date = req.body.date.toString()
-    console.log(date)
     let year = parseInt(date.slice(0,4))
     let month = parseInt(date.slice(5,7))-1
     let day = parseInt(date.slice(8,10))
     
     let startDate = new Date(year,month,day,parseInt(req.body.startDate.slice(0,2)),parseInt(req.body.startDate.slice(-2)))
-    console.log(startDate)
     startDate = convertUTCDateToLocalDate(startDate)
     let endDate = new Date(startDate.getTime() + 30*60000)
-    console.log(endDate)
 
     Patient.findById(req.params.id,(err,foundPatient)=>{
         if(err){
@@ -45,7 +41,6 @@ export const createAppointment = (req,res) =>{
                     appointment = {...appointment, "startDate": startDate,"endDate":endDate}
                     const newAppointment = new Appointment(appointment);
                     try{
-                        console.log(appointment)
                         Appointment.create(newAppointment);
                         foundPatient.appointments.push(newAppointment)
                         foundDoctor.appointments.push(newAppointment);
@@ -62,5 +57,3 @@ export const createAppointment = (req,res) =>{
         }
     })
 }
-
-// export default createAppointment;

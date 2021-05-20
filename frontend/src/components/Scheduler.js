@@ -18,6 +18,7 @@ export class DoctorHome extends React.PureComponent {
 
         this.state = {
             data: [],
+            apps: [],
             currentDate: new Date(),
         };
         this.currentDateChange = (currentDate) => { this.setState({ currentDate }); };
@@ -26,33 +27,26 @@ export class DoctorHome extends React.PureComponent {
 
     
     componentDidMount() {
-        axios.get(`http://localhost:5000/doctor-home/${this.props.id}`)
-          .then(res => {
-            console.log(res.data.appointments)
-            const appointments = res.data.appointments;
-            this.setState({data: appointments});
-          })
-      }
-    
-    render() {
+      axios.get(`http://localhost:5000/doctor-home/${this.props.id}`)
+        .then(res => {
+          console.log(res.data.appointments)
+          const appointments = res.data.appointments;
+          this.setState({apps: appointments});
+        })
+    }
+
+    render(){
+      const {currentDate} = this.state;
+      const istTime = date => new Date(date).toLocaleString('en-US', {timeZone: 'UTC'});
         
-        const { data, currentDate } = this.state;
+      const data = this.state.apps.map(function(row){
+          return {title: row.patientName,
+                  startDate: istTime(row.startDate),
+                  endDate: istTime(row.endDate)
+                }
+      })
+
         console.log(data)
-        // function convert(array){
-        //     let newArray
-        //     array.map((app)=> {
-        //         let obj = {
-        //             startDate: app.startDate,
-        //             endDate: app.endDate,
-        //             title: app.patientName,
-        //             id: app.id
-        //         }
-        //         newArray.push(obj)
-        //     })
-        //     console.log(newArray);
-        //     return newArray;
-        // }
-        // let arr = convert(data);
         
         return (
           <Paper>
@@ -65,8 +59,8 @@ export class DoctorHome extends React.PureComponent {
                 onCurrentDateChange={this.currentDateChange}
               />
               <WeekView
-                startDayHour={1}
-                endDayHour={23}
+                startDayHour={9}
+                endDayHour={18}
               />
               <Toolbar />
               <DateNavigator />

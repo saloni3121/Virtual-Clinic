@@ -4,12 +4,13 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import passport from 'passport';
 import passportLocal from 'passport-local'
-import patientRoute from './routes/patientRegister.js';
-import doctorRoute from './routes/doctorRegister.js';
+import patientRegisterRoute from './routes/patientRegister.js';
+import doctorRegisterRoute from './routes/doctorRegister.js';
+import doctorRoute from './routes/doctor.js'
 import loginRoute from './routes/login.js';
 import createAppointmentRoute from './routes/createAppointment.js';
 import doctorHomeRoute from './routes/doctorhome.js';
-import patientHomeRoute from './routes/patienthome.js';
+import patientRoute from './routes/patient.js';
 import Patient from "./models/patient.js";
 import Doctor from "./models/doctor.js";
 import expressSession from 'express-session';
@@ -30,12 +31,13 @@ const CONNECTION_URL = "mongodb+srv://admin:shourya1234@cluster0.rhgoj.mongodb.n
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/register-patient',patientRoute);
-app.use('/register-doctor',doctorRoute);
+app.use('/register-patient',patientRegisterRoute);
+app.use('/register-doctor',doctorRegisterRoute);
+app.use('/doctor',doctorRoute)
 app.use('/login',loginRoute);
 app.use('/book-appointment',createAppointmentRoute)
 app.use("/doctor-home",doctorHomeRoute)
-app.use("/patient-home",patientHomeRoute)
+app.use("/patient",patientRoute)
 
 app.use(express({
     secret: "Rusty is the best and cutest dog in the world",

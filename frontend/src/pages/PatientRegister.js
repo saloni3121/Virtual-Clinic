@@ -16,7 +16,7 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormLabel from '@material-ui/core/FormLabel';
 import axios from '../Axios.js';
-// import validator from 'validator';
+
 import {validatePassword, validateEmail} from '../helper/validate.js'
 
 function Copyright() {
@@ -75,9 +75,6 @@ export default function SignUp(props) {
   const classes = useStyles();
   
   const [emailError, setEmailError] = useState('')
- 
-  // let errorEmail='';
-  // let errorPassword='';
 
   const [patient,setPatient] = useState({
     firstName: '',

@@ -1,15 +1,13 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import {getPatient, createPatient} from '../controller/patient.js';
+import {getAllDoctors} from '../controller/doctor.js';
 
 
 const router = express.Router();
 
-const jsonParser = express.json();
+// const jsonParser = express.json();
 const urlencodedParser = express.urlencoded({ extended: true });
 
-router.get("/",urlencodedParser, getPatient)
-router.post('/',jsonParser,createPatient);
-
+router.get('/',urlencodedParser,getAllDoctors);
 
 export default router;

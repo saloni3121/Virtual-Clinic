@@ -22,7 +22,7 @@ function App() {
           <Route exact path = "/register-doctor"  render = {(routeProps) => <DoctorRegister  {...routeProps}/>}/>
           <Route exact path = "/doctor-home/:id" render = {(routeProps) => <DoctorHome  {...routeProps}/>} />
           <Route exact path = "/patient-home/:id" render = {(routeProps) => <PatientHome {...routeProps}/>}/>
-          <Route exact path = "/patient-home/:id/book-appointment" render={(routeProps) => <BookAppointment {...routeProps}/>} />
+          <Route exact path = "/book-appointment/:id" render={(routeProps) => <BookAppointment {...routeProps}/>} />
         </Switch>
     </div>
     </Router>

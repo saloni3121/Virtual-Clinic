@@ -16,10 +16,8 @@ export function validatePassword(value){
 }
 
 export function validateEmail(value){
-    // const [emailError, setEmailError] = useState('')
     let error
     if (validator.isEmail(value)) {
-        // setEmailError('Valid Email :)')
         error = 'Valid Email :)'
     } else {
         error = 'Enter valid Email!'

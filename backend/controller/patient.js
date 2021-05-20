@@ -6,8 +6,6 @@ import multer from 'multer';
 
 
 const cloudinary = cloud.v2;
-// const jsonParser = bodyParser.json();
-// const urlencodedParser = bodyParser.urlencoded({ extended: true });
 
 export const getPatient = async (req,res) =>{
     const allPatients = await Patient.find()
@@ -22,7 +20,6 @@ export const getPatient = async (req,res) =>{
 export const createPatient = async (req,res) =>{
     Patient.findOne({email:req.body.email},(patient,done)=>{
         if(patient){
-            // return res.status(409).json({message: "Email already registered"})
             return done(null,false,{message:" Email already registered"})
         }
     })
@@ -46,7 +43,6 @@ export const findPatient = async (req,res)=>{
             console.log(err);
             res.status(409).json({message:"Patient not found"})
         }else{
-            // console.log(foundPatient)
             res.status(200).json(foundPatient)
         }
     })

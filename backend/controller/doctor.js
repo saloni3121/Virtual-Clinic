@@ -6,19 +6,15 @@ import cloudinary from '../middleware/cloudinary.config.js';
 import Appointment from '../models/appointment.js'
 import lodash from 'lodash';
 
-export const getDoctor = async (req,res) =>{
+export const getAllDoctors = async (req,res) =>{
     const allDoctors = await Doctor.find({})
     try{
-        // console.log(typeof(allDoctors))
-        // console.log(allDoctors)
         res.status(200).json(allDoctors);
     }
     catch(error){
         res.status(404).json({message: error.message})
     }
 }
-
-
 
 export const createDoctor =  (req,res) =>{
     Doctor.findOne({email:req.body.email},(doc,err,done)=>{
@@ -29,44 +25,29 @@ export const createDoctor =  (req,res) =>{
     const salt = bcrypt.genSaltSync();
     const hash = bcrypt.hashSync(req.body.password, salt);
     let fullName = req.body.firstName + " " + req.body.lastName;
-    // console.log(req.body);
+    if(req.body.image){
 
-    cloudinary.uploader.upload(req.body.image, (error,result)=>{
-        const doctor = {...req.body,"password": hash,"role": "doctor", "fullName": fullName,"image":result.url};
-        const newDoctor = new Doctor(doctor);
+        cloudinary.uploader.upload(req.body.image, (error,result)=>{
+            const doctor = {...req.body,"password": hash,"role": "doctor", "fullName": fullName,"image":result.url};
+            const newDoctor = new Doctor(doctor);
+            try{
+                Doctor.create(newDoctor);
+                res.status(201).json(newDoctor);
+            }
+            catch(error){
+                res.status(409).json({message: error.message})
+            }
+        })
+    }else{
         try{
             Doctor.create(newDoctor);
-            console.log(newDoctor)
             res.status(201).json(newDoctor);
         }
         catch(error){
             res.status(409).json({message: error.message})
         }
-    })
+    }
 }
-
-// export const findDoctor = async (req,res)=>{
-//     await Doctor.findById(req.params.id).populate("appointments").exec(async function(err,foundDoctor){
-//         if(err){
-//             console.log(err);
-//             res.status(409).json({message:"Doctor not found"})
-//         }else{
-//             // console.log(foundPatient)
-//             res.status(200).json(foundDoctor)
-//         }
-//     })
-// }
-
-// export const findDoctor = async (req,res)=>{
-//     await Doctor.findById(req.params.id, (err,foundDoctor) => {
-//         if(err){
-//             console.log(err);
-//             res.status(409).json({message:"Doctor not found"})
-//         }else{
-//             res.status(200).json(foundDoctor)
-//         }
-//     })
-// }
 
 export const findDoctor = async( req,res)=>{
     Doctor.findById(req.params.id).populate("appointments").exec((err,foundDoctor)=>{
@@ -74,7 +55,6 @@ export const findDoctor = async( req,res)=>{
             console.log(err);
             res.status(409).json({message: err})
         }else{
-            console.log(foundDoctor)
             res.status(200).json(foundDoctor)
         }
     })
