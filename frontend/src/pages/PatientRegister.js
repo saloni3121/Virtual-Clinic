@@ -7,6 +7,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
+import Alert from '@material-ui/lab/Alert';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import clsx from 'clsx';
@@ -48,11 +49,20 @@ function Copyright() {
 }
 
 const useStyles = makeStyles((theme) => ({
+  radio:{
+    '&$checked':{
+      color: '#3f51b5'
+    }
+  },
+  checked: {},
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(4),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+  },
+  warning:{
+    marginTop: '15px',
   },
   avatar: {
     margin: theme.spacing(1),
@@ -81,8 +91,15 @@ const useStyles = makeStyles((theme) => ({
   genderlabel:{
     display:'flex',
     float:'left',
-    marginTop: '2px',
-    marginLeft: '15px'
+    marginTop: '0px',
+    marginLeft: '10px'
+  },
+  alert:{
+    width: '400px',
+    marginTop: '10px',
+  },
+  fullsizepass:{
+    width: '395px',
   },
 }));
 
@@ -130,12 +147,10 @@ export default function SignUp(props) {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h3">
           Sign up
         </Typography>
+        {emailError && <Alert className={classes.alert} severity="error">{emailError}</Alert>}
         <form className={classes.form} noValidate onSubmit={createPatient}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -182,16 +197,17 @@ export default function SignUp(props) {
                           	}
                         }
               />
-            {(emailError)? <CAlert color="danger"> {emailError} </CAlert>: <CAlert color="danger"> {window.errorEmail} </CAlert>}
+           {window.errorEmail && (window.errorEmail==="Enter valid Email!"? <Alert className={classes.warning} severity="warning">{window.errorEmail}</Alert> : <Alert className={classes.warning} severity="success">{window.errorEmail}</Alert>) }
             </Grid>
             <Grid item xs={12}>
-            <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
+            <FormControl className={classes.fullsizepass} variant="outlined">
               <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
               <OutlinedInput
                 id="outlined-adornment-password"
                 type={showPassword ? 'text' : 'password'}
                 value={patient.password}
                 onChange={(evt)=>{
+                  window.errorPassword = (validatePassword(evt.target.value));
                   setPatient({
                       ...patient, password: evt.target.value
                   })
@@ -211,7 +227,7 @@ export default function SignUp(props) {
                 labelWidth={120}
               />
             </FormControl>
-              <h5>{window.errorPassword}</h5>
+            {window.errorPassword && (window.errorPassword==="Password is weak"? <Alert className={classes.warning} severity="warning">{window.errorPassword}</Alert> : <Alert className={classes.warning} severity="success">{window.errorPassword}</Alert>) }
             </Grid>
             <Grid item xs ={12} sm={6}>
             <TextField
@@ -232,7 +248,6 @@ export default function SignUp(props) {
               variant="outlined"
               required
               fullWidth
-              type="number"
               id="phoneNumber"
               label="Phone Number"
               name="phoneNumber"
@@ -242,18 +257,12 @@ export default function SignUp(props) {
             />
             </Grid>
             <Grid className={classes.aligncenter}>
-            <FormLabel className={classes.genderlabel} component="legend" >Gender</FormLabel>
+            <FormLabel className={classes.genderlabel} component="legend" >Gender:</FormLabel>
             <RadioGroup row className={classes.gendergroup} aria-label="gender" name="gender1" value={patient.gender} onChange={(e)=> setPatient({...patient, gender: e.currentTarget.value})}>
-              <FormControlLabel value="female" control={<Radio />} label="Female" />
-              <FormControlLabel value="male" control={<Radio />} label="Male" />
-              <FormControlLabel value="other" control={<Radio />} label="Other" />
+            <FormControlLabel className={{root: classes.formControlLabelRoot, label: classes.formControlLabel}} value="female" control={<Radio classes={{root: classes.radio, checked: classes.checked}} />} label="Female" />
+            <FormControlLabel className={{root: classes.formControlLabelRoot, label: classes.formControlLabel}} value="male" control={<Radio classes={{root: classes.radio, checked: classes.checked}} />} label="Male" />
+            <FormControlLabel className={{root: classes.formControlLabelRoot, label: classes.formControlLabel}} value="other" control={<Radio classes={{root: classes.radio, checked: classes.checked}} />} label="Other" />
             </RadioGroup >
-            </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive updates via email."
-              />
             </Grid>
           </Grid>
           <Button
@@ -274,9 +283,6 @@ export default function SignUp(props) {
           </Grid>
         </form>
       </div>
-      <Box mt={5}>
-        <Copyright />
-      </Box>
     </Container>
   );
 }

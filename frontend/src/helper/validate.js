@@ -9,7 +9,7 @@ export function validatePassword(value){
     })) {
         errorPassword = 'Password is strong'
     } else {
-        errorPassword = 'Is Not Strong Password'
+        errorPassword = 'Password is weak'
     }
 
     return errorPassword

@@ -9,6 +9,7 @@ import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
+import Alert from '@material-ui/lab/Alert';
 // import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -46,15 +47,21 @@ function Copyright() {
 }
 
 const useStyles = makeStyles((theme) => ({
+  radio:{
+    '&$checked':{
+      color: '#3f51b5'
+    }
+  },
+  checked: {},
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(4),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: '#3f51b5',
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -63,6 +70,10 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  alert:{
+    width: '400px',
+    marginTop: '10px',
+  },
   aligncenter:{
     display:'flex',
     justifyContent:' center',
@@ -70,17 +81,37 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     marginTop: '5px',
     marginBottom: '10px',
+    marginLeft: '-5px',
   },
   gendergroup:{
     display: 'flex',
     float: 'right',
     marginLeft: '30px'
   },
+  clearance:{
+    marginBottom: '200px',
+  },
   genderlabel:{
     display:'flex',
     float:'left',
-    marginTop: '2px',
+    marginTop: '0px',
     marginLeft: '15px'
+  },
+  fullsizepass:{
+    width: '395px',
+    // marginTop: '-18px',
+  },
+  shiftup:{
+    marginTop: '0px',
+    width: '190px',
+  },
+  warning:{
+    marginTop: '15px',
+  },
+  upload:{
+    marginTop: '2px',
+    marginLeft: '10px',
+    marginBottom: '0px',
   },
 }));
 
@@ -132,7 +163,6 @@ export default function SignUp(props) {
           console.log(error);
           setEmailError('Email already exists')
           props.history.push('/register-doctor')
-          alert("error")
       })
 
   }
@@ -141,12 +171,11 @@ export default function SignUp(props) {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h3" className={classes.textdeco}>
           Sign up
         </Typography>
+        {emailError && <Alert className={classes.alert} severity="error">{emailError}</Alert>}
+        
         <form className={classes.form} noValidate  encType='multipart/form-data' onSubmit={createDoctor}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -190,16 +219,20 @@ export default function SignUp(props) {
                   window.errorEmail = (validateEmail(e.target.value));
                 }}
               />
-              <h5>{(emailError)? emailError: window.errorEmail}</h5>
+              {window.errorEmail && (window.errorEmail==="Enter valid Email!"? <Alert className={classes.warning} severity="warning">{window.errorEmail}</Alert> : <Alert className={classes.warning} severity="success">{window.errorEmail}</Alert>) }
+              
             </Grid>
             <Grid item xs={12}>
-            <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+            <FormControl className={classes.fullsizepass} variant="outlined">
+              <InputLabel htmlFor="outlined">Password</InputLabel>
               <OutlinedInput
+              fullWidth
                 id="outlined-adornment-password"
                 type={showPassword ? 'text' : 'password'}
                 value={doctor.password}
+                
                 onChange={(evt)=>{
+                  window.errorPassword = (validatePassword(evt.target.value));
                   setDoctor({
                       ...doctor, password: evt.target.value
                   })
@@ -216,19 +249,16 @@ export default function SignUp(props) {
                     </IconButton>
                   </InputAdornment>
                 }
-                labelWidth={120}
+                labelWidth={160}
               />
             </FormControl>
-
-
-
-
-              <h5>{window.errorPassword}</h5>
+            {window.errorPassword && (window.errorPassword==="Password is weak"? <Alert className={classes.warning} severity="warning">{window.errorPassword}</Alert> : <Alert className={classes.warning} severity="success">{window.errorPassword}</Alert>) }
             </Grid>
             
             <Grid item xs ={12} sm={6}>
-
+{/* 
               <DatePicker
+                variant="outlined"
                 selected={doctor.dob}
                 onChange={(date)=> {
                   setDoctor({...doctor, dob: date})
@@ -238,10 +268,31 @@ export default function SignUp(props) {
                 name="dob"
                 placeholder="Date of Birth"
                 maxDate={new Date()}
+              /> */}
+              <TextField
+                id="date"
+                label="Date of Birth"
+                type="date"
+                variant="outlined"
+                value={doctor.dob}
+                name="dob"
+                className={classes.shiftup}
+                inputProps={{
+                  max: "2001-12-31"
+                }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                onChange={(evt)=> {
+                  setDoctor({...doctor, dob: evt.target.value})
+                  
+                }}
               />
+
             </Grid>
             <Grid item xs ={12} sm={6}>
             <TextField
+                className={classes.shiftup}
                 variant="outlined"
                 required
                 fullWidth
@@ -253,14 +304,7 @@ export default function SignUp(props) {
                 onChange={handleChange}
               />
             </Grid>
-            <Grid className={classes.aligncenter}>
-            <FormLabel className={classes.genderlabel} component="legend" >Gender :</FormLabel>
-            <RadioGroup row className={classes.gendergroup} aria-label="gender" name="gender" value={doctor.gender} onChange={(e)=> {setDoctor({...doctor, gender: e.currentTarget.value})}}>
-              <FormControlLabel value="female" control={<Radio/>} label="Female" />
-              <FormControlLabel value="male" control={<Radio/>} label="Male" />
-              <FormControlLabel value="other" control={<Radio/>} label="Other" />
-            </RadioGroup >
-            </Grid>
+            
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
@@ -274,7 +318,8 @@ export default function SignUp(props) {
                 onChange={handleChange}
               />
             </Grid>
-            <Grid container justify="flex-end">
+            <p className={classes.upload}>Upload Profile Picture</p>
+            <Grid item xs ={12}>
             <TextField
               variant="outlined"
               required
@@ -287,11 +332,13 @@ export default function SignUp(props) {
               onChange={handleImg}
             />
             </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive updates via email."
-              />
+            <Grid className={classes.aligncenter}>
+            <FormLabel className={classes.genderlabel} component="legend" >Gender :</FormLabel>
+            <RadioGroup row className={classes.gendergroup} aria-label="gender" name="gender" value={doctor.gender} onChange={(e)=> {setDoctor({...doctor, gender: e.currentTarget.value})}}>
+              <FormControlLabel className={{root: classes.formControlLabelRoot, label: classes.formControlLabel}} value="female" control={<Radio classes={{root: classes.radio, checked: classes.checked}} />} label="Female" />
+              <FormControlLabel className={{root: classes.formControlLabelRoot, label: classes.formControlLabel}} value="male" control={<Radio classes={{root: classes.radio, checked: classes.checked}} />} label="Male" />
+              <FormControlLabel className={{root: classes.formControlLabelRoot, label: classes.formControlLabel}} value="other" control={<Radio classes={{root: classes.radio, checked: classes.checked}} />} label="Other" />
+            </RadioGroup >
             </Grid>
           </Grid>
           <Button
@@ -312,9 +359,6 @@ export default function SignUp(props) {
           </Grid>
         </form>
       </div>
-      <Box mt={5}>
-        <Copyright />
-      </Box>
     </Container>
   );
 }

@@ -17,7 +17,7 @@ function App() {
           {/* <Route to ='/'>
             <SearchBar/>
           </Route> */}
-          <Route exact path = "/home" render={(routeProps)=>< Home {...routeProps}/>} />
+          <Route exact path = "/" render={(routeProps)=>< Home {...routeProps}/>} />
           <Route exact path = "/login" render={(routeProps)=><Login {...routeProps}/>} />
           <Route exact path = "/register-patient"  render = {(routeProps) => <PatientRegister  {...routeProps}/>}/>
           <Route exact path = "/register-doctor"  render = {(routeProps) => <DoctorRegister  {...routeProps}/>}/>

@@ -54,6 +54,15 @@ const useStyles = makeStyles((theme) => ({
     width: '90%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
+  aligncenter:{
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignContent: 'center',
+  },
+  fullsizepass:{
+    width: '355px'
+  },
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
@@ -101,7 +110,7 @@ export default function Login(props) {
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h4">
           Sign in
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
@@ -122,9 +131,10 @@ export default function Login(props) {
                 })
             }}
           />
-          <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
+          <FormControl className={classes.fullsizepass} variant="outlined">
           <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
           <OutlinedInput
+            fullWidth
             id="outlined-adornment-password"
             type={showPassword ? 'text' : 'password'}
             value={user.password}
@@ -178,13 +188,13 @@ export default function Login(props) {
           >
             Sign In
           </Button>
-          <Grid container>
+          <Grid container className={classes.aligncenter}>
             <Grid item xs>
               <Link href= "/register-patient" variant="body2">
               Register as patient
               </Link>
             </Grid>
-            <Grid item>
+            <Grid item xs>
               <Link href="/register-doctor" variant="body2">
                 {"Register as doctor"}
               </Link>

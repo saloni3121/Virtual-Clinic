@@ -18,9 +18,9 @@ export const getPatient = async (req,res) =>{
 }
 
 export const createPatient = async (req,res) =>{
-    Patient.findOne({email:req.body.email},(patient,done)=>{
+    Patient.findOne({email:req.body.email},(patient,err,done)=>{
         if(patient){
-            return done(null,false,{message:" Email already registered"})
+            return done(null,false,{message:"Email already registered"})
         }
     })
     const saltRounds =10
