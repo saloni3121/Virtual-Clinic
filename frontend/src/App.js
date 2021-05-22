@@ -7,6 +7,7 @@ import DoctorHome from './pages/DoctorHome';
 import PatientHome from './pages/PatientHome';
 import BookAppointment from './pages/BookAppointment';
 import SearchBar from './components/SearchBar';
+import Home from './pages/Home';
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
           {/* <Route to ='/'>
             <SearchBar/>
           </Route> */}
-          <Route exact path = "/home" render={(routeProps)=>< SearchBar {...routeProps}/>} />
+          <Route exact path = "/home" render={(routeProps)=>< Home {...routeProps}/>} />
           <Route exact path = "/login" render={(routeProps)=><Login {...routeProps}/>} />
           <Route exact path = "/register-patient"  render = {(routeProps) => <PatientRegister  {...routeProps}/>}/>
           <Route exact path = "/register-doctor"  render = {(routeProps) => <DoctorRegister  {...routeProps}/>}/>
