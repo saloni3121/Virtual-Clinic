@@ -1,5 +1,6 @@
-import Appointment from '../models/appointment.js';
+// import Appointment from '../models/appointment.js';
 import Patient from '../models/patient.js';
+import Appointment from '../models/appointment.js';
 import Doctor from '../models/doctor.js';
 
 function convertUTCDateToLocalDate(date) {
@@ -57,3 +58,17 @@ export const createAppointment = (req,res) =>{
         }
     })
 }
+
+
+
+export const findAppointment = async( req,res)=>{
+    Appointment.findById(req.params.id,(err,foundDoctor)=>{
+        if(err){
+            console.log(err);
+            res.status(409).json({message: err})
+        }else{
+            res.status(200).json(foundDoctor)
+        }
+    })
+}
+

@@ -6,7 +6,7 @@ import passport from 'passport';
 import passportLocal from 'passport-local'
 import patientRegisterRoute from './routes/patientRegister.js';
 import doctorRegisterRoute from './routes/doctorRegister.js';
-import doctorRoute from './routes/doctor.js'
+import doctorRoute from './routes/doctor.js'  
 import loginRoute from './routes/login.js';
 import createAppointmentRoute from './routes/createAppointment.js';
 import doctorHomeRoute from './routes/doctorhome.js';
@@ -15,11 +15,22 @@ import Patient from "./models/patient.js";
 import Doctor from "./models/doctor.js";
 import expressSession from 'express-session';
 import bcrypt from 'bcrypt';
+import http from 'http'
+import {Server} from 'socket.io'
+import appointment from "./routes/appointment.js";
 
 var LocalStrategy = passportLocal.Strategy;
 
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: '*',
+  }
+});
+// const io = Server.listen(server);
 
+// console.log(io)
 app.use(cors());
 app.use(express.json({limit:"50mb",extended : true}));
 app.use(express.urlencoded({limit:"50mb",extended : true}));
@@ -38,6 +49,7 @@ app.use('/',loginRoute);
 app.use('/book-appointment',createAppointmentRoute)
 app.use("/doctor-home",doctorHomeRoute)
 app.use("/patient",patientRoute)
+app.use("/meeting",appointment)
 
 app.use(express({
     secret: "Rusty is the best and cutest dog in the world",
@@ -107,15 +119,36 @@ passport.deserializeUser((login, done) => {
   }
 });
 
-
-
 app.get("/", (req,res)=>{
     res.send("hello");
 })
+
+let users = {};
+
+io.sockets.on('connection', socket => {
+    if (!users[socket.id]) {
+        users[socket.id] = socket.id;
+    }
+    socket.emit("yourID", socket.id);
+    io.sockets.emit("allUsers", users);
+    socket.on('disconnect', () => {
+      console.log("disconnecting..."+users[socket.id])
+        delete users[socket.id];
+    })
+
+    socket.on("callUser", (data) => {
+        console.log("call user")
+        io.to(data.userToCall).emit('hey', {signal: data.signalData, from: data.from});
+    })
+
+    socket.on("acceptCall", (data) => {
+        io.to(data.to).emit('callAccepted', data.signal);
+    })
+});
 
 
 mongoose.connect(CONNECTION_URL,{
     useNewUrlParser : true,
     useUnifiedTopology : true
-}).then(()=>app.listen(PORT, ()=> console.log(`Connection to mongoDB is established and is now listening on port : ${PORT}`)
+}).then(()=>server.listen(PORT, ()=> console.log(`Connection to mongoDB is established and is now listening on port : ${PORT}`)
 )).catch((err)=> console.log(err.message));

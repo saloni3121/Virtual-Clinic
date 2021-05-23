@@ -23,6 +23,8 @@ function PatientHome(props) {
 
     const patientId = props.match.params.id
     useEffect(()=>{
+
+
          function makeRequest() {
             axios.get(`http://localhost:5000/patient/${patientId}`).then ((res)=>{
                 const response = res.data;

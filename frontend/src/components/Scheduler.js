@@ -10,6 +10,7 @@ import {
   TodayButton,
 } from '@devexpress/dx-react-scheduler-material-ui';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export class DoctorHome extends React.PureComponent {
 
@@ -29,6 +30,7 @@ export class DoctorHome extends React.PureComponent {
     componentDidMount() {
       axios.get(`http://localhost:5000/doctor-home/${this.props.id}`)
         .then(res => {
+          console.log(res.data.appointments)
           const appointments = res.data.appointments;
           this.setState({apps: appointments});
         })
@@ -41,18 +43,22 @@ export class DoctorHome extends React.PureComponent {
       const data = this.state.apps.map(function(row){
           return {title: row.patientName,
                   startDate: istTime(row.startDate),
-                  endDate: istTime(row.endDate)
+                  endDate: istTime(row.endDate),
+                  location:row._id,
                 }
       })
 
-   
+   console.log(data)
         
         return (
           <Paper>
+            {/* <button onClick ={()=> console.log(data.id)}> */}
             <Scheduler
               data={data}
               height={660}
             >
+              
+             
               <ViewState
                 currentDate={currentDate}
                 onCurrentDateChange={this.currentDateChange}
@@ -64,8 +70,13 @@ export class DoctorHome extends React.PureComponent {
               <Toolbar />
               <DateNavigator />
               <TodayButton />
+              <Link to= {`/meeting/${data.id}`}>
               <Appointments />
+              </Link>
             </Scheduler>
+            {/* </button> */}
+            
+        
           </Paper>
         );
       }

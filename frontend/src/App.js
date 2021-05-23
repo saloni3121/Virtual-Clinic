@@ -7,6 +7,7 @@ import DoctorHome from './pages/DoctorHome';
 import PatientHome from './pages/PatientHome';
 import BookAppointment from './pages/BookAppointment';
 import SearchBar from './components/SearchBar';
+import Meeting from './pages/Meeting'
 import Home from './pages/Home';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Route exact path = "/doctor-home/:id" render = {(routeProps) => <DoctorHome  {...routeProps}/>} />
           <Route exact path = "/patient-home/:id" render = {(routeProps) => <PatientHome {...routeProps}/>}/>
           <Route exact path = "/book-appointment/:id" render={(routeProps) => <BookAppointment {...routeProps}/>} />
+          <Route exact path = "/meeting/:id" render ={(routeProps) => <Meeting {...routeProps} />}/>
         </Switch>
     </div>
     </Router>
