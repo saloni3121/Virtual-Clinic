@@ -8,7 +8,7 @@ import SearchIcon from '@material-ui/icons/Search';
 // import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import axios from 'axios';
 import '../App.css'
-import { Button, Typography } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme) => ({

@@ -62,12 +62,12 @@ export const createAppointment = (req,res) =>{
 
 
 export const findAppointment = async( req,res)=>{
-    Appointment.findById(req.params.id,(err,foundDoctor)=>{
+    Appointment.findById(req.params.id,(err,foundAppointment)=>{
         if(err){
             console.log(err);
             res.status(409).json({message: err})
         }else{
-            res.status(200).json(foundDoctor)
+            res.status(200).json(foundAppointment)
         }
     })
 }

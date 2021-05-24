@@ -1,166 +1,152 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useRef, useEffect } from "react";
 import io from "socket.io-client";
-import Peer from "simple-peer";
-import styled from "styled-components";
-import axios from 'axios';
 
+const Meeting = (props) => {
+    const userVideo = useRef();
+    const partnerVideo = useRef();
+    const peerRef = useRef();
+    const socketRef = useRef();
+    const otherUser = useRef();
+    const userStream = useRef();
 
-const Container = styled.div`
-  height: 100vh;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-`;
+    useEffect(() => {
+        navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(stream => {
+            userVideo.current.srcObject = stream;
+            userStream.current = stream;
 
-const Row = styled.div`
-  display: flex;
-  width: 100%;
-`;
+            socketRef.current = io.connect("http://localhost:5000/");
+            socketRef.current.emit("join room", props.match.params.id);
+            
+            socketRef.current.on('other user', userID => {
+                console.log(userID)
+                callUser(userID);
+                otherUser.current = userID;
+            });
 
-const Video = styled.video`
-  border: 1px solid blue;
-  width: 50%;
-  height: 50%;
-`;
+            socketRef.current.on("user joined", userID => {
+                otherUser.current = userID;
+            });
 
-function Meeting( props) {
-  const [yourID, setYourID] = useState("");
-  const [users, setUsers] = useState({});
-  const [stream, setStream] = useState();
-  const [receivingCall, setReceivingCall] = useState(false);
-  const [caller, setCaller] = useState("");
-  const [callerSignal, setCallerSignal] = useState();
-  const [callAccepted, setCallAccepted] = useState(false);
-  const [appointment,setAppointment] = useState('')
+            socketRef.current.on("offer", handleRecieveCall);
 
-  const userVideo = useRef();
-  const partnerVideo = useRef();
-  const socket = useRef();
+            socketRef.current.on("answer", handleAnswer);
 
-//   const socket = io();
+            socketRef.current.on("ice-candidate", handleNewICECandidateMsg);
+        });
 
-  useEffect(() => {
+    }, []);
 
-    axios.get('http://localhost:5000/meeting/'+props.match.params.id).then((res)=>{
-      console.log(res.data);
-      setAppointment(res.data)
-    }).catch((err)=>{
-      console.log(err)
-    })
-    socket.current = io.connect('http://localhost:5000/', {reconnect: true});
-    navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(stream => {
-      setStream(stream);
-      if (userVideo.current) {
-        userVideo.current.srcObject = stream;
-      }
-    })
+    function callUser(userID) {
+        peerRef.current = createPeer(userID);
+        userStream.current.getTracks().forEach(track => peerRef.current.addTrack(track, userStream.current));
+    }
 
-    socket.current.on("yourID", (id) => {
-      console.log(id)
-      setYourID(id);
-    })
-    socket.current.on("allUsers", (users) => {
-      setUsers(users);
-    })
+    function createPeer(userID) {
+      console.log("peer created ///// by saloni")
+        const peer = new RTCPeerConnection({
+            iceServers: [
+                {
+                    urls: "stun:stun.stunprotocol.org"
+                },
+                {
+                    urls: 'turn:numb.viagenie.ca',
+                    credential: 'muazkh',
+                    username: 'webrtc@live.com'
+                },
+            ]
+        });
 
-    socket.current.on("hey", (data) => {
-      setReceivingCall(true);
-      setCaller(data.from);
-      setCallerSignal(data.signal);
-    })
-  }, []);
+        peer.onicecandidate = handleICECandidateEvent;
+        peer.ontrack = handleTrackEvent;
+        peer.onnegotiationneeded = () => handleNegotiationNeededEvent(userID);
 
-  function callPeer(id) {
-      console.log(id)
-    const peer = new Peer({
-      initiator: true,
-      trickle: false,
-      stream: stream,
-    });
+        return peer;
+    }
 
-    peer.on("signal", data => {
-      console.log(yourID)
-      socket.current.emit("callUser", { userToCall: id, signalData: data, from: yourID })
-    })
+    function handleNegotiationNeededEvent(userID) {
+        peerRef.current.createOffer().then(offer => {
+            console.log("offer made by saloni")
+            return peerRef.current.setLocalDescription(offer);
+        }).then(() => {
+            const payload = {
+                target: userID,
+                caller: socketRef.current.id,
+                sdp: peerRef.current.localDescription
+            };
+            console.log(" data is sent by saloni ")
+            socketRef.current.emit("offer", payload);
+        }).catch(e => console.log(e));
+    }
 
-    peer.on("stream", stream => {
-      if (partnerVideo.current) {
-        partnerVideo.current.srcObject = stream;
-      }
-    });
+    function handleRecieveCall(incoming) {
+        peerRef.current = createPeer();
+        const desc = new RTCSessionDescription(incoming.sdp);
+        console.log("shourya recevied salonis offer")
+        peerRef.current.setRemoteDescription(desc).then(() => {
+            userStream.current.getTracks().forEach(track => peerRef.current.addTrack(track, userStream.current));
+        }).then(() => {
+          console.log("creating answer   ///shourya")
+            return peerRef.current.createAnswer();
+        }).then(answer => {
+            return peerRef.current.setLocalDescription(answer);
+        }).then(() => {
+            const payload = {
+                target: incoming.caller,
+                caller: socketRef.current.id,
+                sdp: peerRef.current.localDescription
+            }
+            console.log("answer sent back to saloni")
+            socketRef.current.emit("answer", payload);
+        })
+        console.log(peerRef.current)
+    }
 
-    socket.current.on("callAccepted", signal => {
-      setCallAccepted(true);
-      peer.signal(signal);
-    })
+    function handleAnswer(message) {
+      // console.log(message.sdp)
+        const desc = new RTCSessionDescription(message.sdp);
+        // console.log(desc)
+        peerRef.current.setRemoteDescription(desc).catch(e => console.log(e));
+        console.log("saloni recieved answer by shourya") 
+        console.log( peerRef.current)
+    }
 
-  }
+    function handleICECandidateEvent(e) {
+        if (e.candidate) {
+            const payload = {
+                target: otherUser.current,
+                candidate: e.candidate,
+            }
+            socketRef.current.emit("ice-candidate", payload);
+        }
+    }
 
-  function acceptCall() {
-    setCallAccepted(true);
-    const peer = new Peer({
-      initiator: false,
-      trickle: false,
-      stream: stream,
-    });
-    peer.on("signal", data => {
-      socket.current.emit("acceptCall", { signal: data, to: caller })
-    })
+    function handleNewICECandidateMsg(incoming) {
 
-    peer.on("stream", stream => {
-      partnerVideo.current.srcObject = stream;
-    });
+        const candidate = new RTCIceCandidate(incoming);
+        peerRef.current.addIceCandidate(candidate)
+            .catch(e => console.log(e));
+    }
 
-    peer.signal(callerSignal);
-  }
+    function handleTrackEvent(e) {
+        partnerVideo.current.srcObject = e.streams[0];
+    };
 
-  let UserVideo;
-  if (stream) {
-    UserVideo = (
-      <Video playsInline muted ref={userVideo} autoPlay />
+    const disconnect = ()=>{
+        props.history.goBack();
+    }
+
+    const handleMute =()=>{
+      
+    }
+
+    return (
+        <div>
+            <button onClick={disconnect}>Disconnect</button>
+            <button onClick={handleMute}>Mute</button>
+            <video autoPlay muted ref={userVideo} />
+            <video autoPlay ref={partnerVideo} />
+        </div>
     );
-  }
-
-  let PartnerVideo;
-  if (callAccepted) {
-    PartnerVideo = (
-      <Video playsInline ref={partnerVideo} autoPlay />
-    );
-  }
-
-  let incomingCall;
-  if (receivingCall) {
-    incomingCall = (
-      <div>
-        <h1>{caller} is calling you</h1>
-        <button onClick={acceptCall}>Accept</button>
-      </div>
-    )
-  }
-  console.log(users)
-  return (
-    <Container>
-      <Row>
-        {UserVideo}
-        {PartnerVideo}
-      </Row>
-      <Row>
-        {Object.keys(users).map(key => {
-          if (key === yourID) {
-            return null;
-          }
-          return (
-              <>
-            <button onClick={() => callPeer(key)}>Call {key}</button>
-            </>
-          );
-        })}
-      </Row>
-      <Row>
-        {incomingCall}
-      </Row>
-    </Container>
-  );
-}
+};
 
 export default Meeting;

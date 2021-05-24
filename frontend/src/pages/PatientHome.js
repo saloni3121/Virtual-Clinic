@@ -3,17 +3,17 @@ import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import {
-    CBadge,
+    // CBadge,
     CCard,
     CCardBody,
-    CCardFooter,
+    // CCardFooter,
     CCardHeader,
     CCol,
-    CRow,
-    CCollapse,
-    CFade,
-    CSwitch,
-    CLink
+    // CRow,
+    // CCollapse,
+    // CFade,
+    // CSwitch,
+    // CLink
   } from  '@coreui/react'
 
 function PatientHome(props) {

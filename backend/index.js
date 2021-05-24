@@ -123,28 +123,41 @@ app.get("/", (req,res)=>{
     res.send("hello");
 })
 
-let users = {};
+const rooms = {};
 
-io.sockets.on('connection', socket => {
-    if (!users[socket.id]) {
-        users[socket.id] = socket.id;
-    }
-    socket.emit("yourID", socket.id);
-    io.sockets.emit("allUsers", users);
-    socket.on('disconnect', () => {
-      console.log("disconnecting..."+users[socket.id])
-        delete users[socket.id];
-    })
+io.on("connection", socket => {
+  // console.log("connection")
+    socket.on("join room", roomID => {
+      
+        if (rooms[roomID]) {
+            rooms[roomID].push(socket.id);
+        } else {
+            rooms[roomID] = [socket.id];
+        }
+        // const otherUser = rooms[roomID]
+        const otherUser = rooms[roomID].filter(id => id !== socket.id);
+        // console.log(otherUser)
+        if (otherUser) {
+            socket.emit("other user", otherUser);
+            socket.to(otherUser).emit("user joined", socket.id);
+        }
+    });
 
-    socket.on("callUser", (data) => {
-        console.log("call user")
-        io.to(data.userToCall).emit('hey', {signal: data.signalData, from: data.from});
-    })
+    socket.on("offer", payload => {
+      console.log(payload);
+        io.to(payload.target).emit("offer", payload);
+    });
 
-    socket.on("acceptCall", (data) => {
-        io.to(data.to).emit('callAccepted', data.signal);
-    })
+    socket.on("answer", payload => {
+      console.log(payload);
+        io.to(payload.target).emit("answer", payload);
+    });
+
+    socket.on("ice-candidate", incoming => {
+        io.to(incoming.target).emit("ice-candidate", incoming.candidate);
+    });
 });
+
 
 
 mongoose.connect(CONNECTION_URL,{
