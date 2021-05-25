@@ -49,7 +49,7 @@ import {validatePassword, validateEmail} from '../helper/validate.js'
 const useStyles = makeStyles((theme) => ({
   radio:{
     '&$checked':{
-      color: '#3f51b5'
+      color: '#22577A'
     }
   },
   checked: {},
@@ -352,7 +352,7 @@ export default function SignUp(props) {
           </Button>
           <Grid container justify="center">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="#" variant="body2" color="inherit">
                 Already have an account? Sign in
               </Link>
             </Grid>

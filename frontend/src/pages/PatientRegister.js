@@ -49,7 +49,7 @@ import {validatePassword, validateEmail} from '../helper/validate.js'
 const useStyles = makeStyles((theme) => ({
   radio:{
     '&$checked':{
-      color: '#3f51b5'
+      color: '#22577A'
     }
   },
   checked: {},

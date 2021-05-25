@@ -4,42 +4,67 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
   title: {
-    // flexGrow: 1,
+    flexGrow: 1,
     cursor: 'pointer',
-    // marginLeft: '-150px',
+    marginLeft: '-950px',
+    // right: '1050px'
   },
   navlink:{
       marginRight: '10px',
-      textDecoration: 'none'
+      textDecoration: 'none',
+      color: '#fff',
+      textUnderlineOffset: 'none'
   },
   bg:{
       backgroundColor: '#22577A',
   },
   allnav:{
-      marginLeft: '835px',
+      // // marginLeft: '835px',
+      // // position: 'absolute',
+      // right: '150px',
+      float: 'right',
   }
 }));
 
-export default function ButtonAppBar() {
+export default function ButtonAppBar(props) {
+  console.log(props)
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
       <AppBar className={classes.bg}position="static">
         <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-            Clinic Name
-          </Typography>
+          <Typography variant= "h6">Clinic Name</Typography>
+          <Typography variant="h6" className={classes.title}></Typography>
           <Typography className = {classes.allnav}>
-            <Button href= "" className={classes.navlink}  color="inherit">Precaution</Button>
-            <Button href= "" className={classes.navlink}  color="inherit">Our Specialists</Button>
+            
+            {props.loggedIn? 
+            <>
+                {props.isPatient?
+                <>
+                  <Link to ={`/history/${props.id}`}><Button className={classes.navlink}  color="inherit">Recent Appointments</Button></Link>
+                  <Button onClick={props.logout} className={classes.navlink}  color="inherit">Logout</Button>
+                </>:
+                <>
+                  <Button href= "" className={classes.navlink}  color="inherit">Schedule</Button>
+                  <Button href= "" className={classes.navlink}  color="inherit">Account</Button>
+                  <Button onClick={props.logout} className={classes.navlink}  color="inherit">Logout</Button>
+                </>
+                }
+            </> :
+            <>
+            <Button href= "#precaution" className={classes.navlink}  color="inherit">Precaution</Button>
+            <Button href= "#doctorCaro" className={classes.navlink}  color="inherit">Our Specialists</Button>
             <Button href= "/login" className={classes.navlink}  color="inherit">Login</Button>
+            </>
+            }
           </Typography>
           
         </Toolbar>

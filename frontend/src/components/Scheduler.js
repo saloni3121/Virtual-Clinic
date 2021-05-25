@@ -11,15 +11,15 @@ import {
   Appointments,
   TodayButton,
   ViewSwitcher,
-  DragDropProvider,
+  // DragDropProvider,
   AppointmentTooltip,
 } from '@devexpress/dx-react-scheduler-material-ui';
 import axios from 'axios';
 import classNames from 'clsx';
-import IconButton from '@material-ui/core/IconButton';
-import MoreIcon from '@material-ui/icons/MoreVert';
+// import IconButton from '@material-ui/core/IconButton';
+// import MoreIcon from '@material-ui/icons/MoreVert';
 import Grid from '@material-ui/core/Grid';
-import Room from '@material-ui/icons/Room';
+// import Room from '@material-ui/icons/Room';
 import { withStyles } from "@material-ui/core/styles";
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';

@@ -7,10 +7,11 @@ import Card2 from '../components/Card2'
 import DoctorCarousel from '../components/DoctorCarousel.js';
 
 
-function Home() {
+function Home(props) {
+    console.log(props)
     return (
         <div>
-            <Navbar/>
+            <Navbar loggedIn={false} />
             <SearchBar/>
             <Card1/>
             <Card2/>

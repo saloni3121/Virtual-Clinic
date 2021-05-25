@@ -162,7 +162,7 @@ function Card2() {
                 </CardActionArea>
             </Card>
         </div>
-        <div className={classes.precaution}>
+        <div id ="precaution" className={classes.precaution}>
             <Typography variant="h4" style={{color: '#000'}} component="p" className={classes.title}>
                         Precautions to take care during covid
             </Typography>

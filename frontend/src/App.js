@@ -6,10 +6,12 @@ import DoctorRegister from './pages/DoctorRegister';
 import DoctorHome from './pages/DoctorHome';
 import PatientHome from './pages/PatientHome';
 import BookAppointment from './pages/BookAppointment';
+import EditAppointment from './pages/editAppointment';
 import SearchBar from './components/SearchBar';
 import Meeting from './pages/Meeting'
 import Home from './pages/Home';
 import Carousel from './components/DoctorCarousel'
+import PatientHistory from './components/PatientHistory';
 
 function App() {
   return (
@@ -23,7 +25,9 @@ function App() {
           <Route exact path = "/register-doctor"  render = {(routeProps) => <DoctorRegister  {...routeProps}/>}/>
           <Route exact path = "/doctor-home/:id" render = {(routeProps) => <DoctorHome  {...routeProps}/>} />
           <Route exact path = "/patient-home/:id" render = {(routeProps) => <PatientHome {...routeProps}/>}/>
+          <Route exact path = "/history/:id" render = {(routeProps) => <PatientHistory {...routeProps}/>}/>
           <Route exact path = "/book-appointment/:id" render={(routeProps) => <BookAppointment {...routeProps}/>} />
+          <Route exact path = "/edit-appointment/:id" render={(routeProps) => <EditAppointment {...routeProps}/>} />
           <Route exact path = "/meeting/:id" render ={(routeProps) => <Meeting {...routeProps} />}/>
         </Switch>
     </div>

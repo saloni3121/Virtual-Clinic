@@ -6,58 +6,52 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
+// import MenuItem from '@material-ui/core/MenuItem';
 import Container from '@material-ui/core/Container';
 // import moment from 'moment'
 // import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-function BookAppointment(props) {
-
+function EditAppointment(props) {
     const[data, setData] = useState('');
-    const [allDoctors, setAllDoctors] = useState([]);
+    // const [allDoctors, setAllDoctors] = useState([]);
 
-    const patientId = props.match.params.id;
+    const appointmentId = props.match.params.id;
 
     const [appointment,setAppointment] = useState({
-      doctorName: '',
+      doctorName: `${data.doctorName}`,
       patientName: `${data.firstName} ${data.lastName}`,
       date: new Date(),
       startDate: new Date(),
 
   });
 
-  const bookAppointment =(e)=>{
+  const editAppointment =(e)=>{
     e.preventDefault();
-    axios.post(`http://localhost:5000/book-appointment/${patientId}`,appointment).then((res)=>{
-      props.history.push('/patient-home/'+ patientId);
-      alert("appointment booked");
-      window.location.reload(false);
+    axios.put(`http://localhost:5000/edit-appointment/${appointmentId}`,appointment).then((res)=>{
+        console.log(res.data)
+        props.history.goBack();
+        alert("appointment changed");
     }).catch((err)=>{
-      console.log(err)
-      props.history.push(`/book-appointment/${patientId}`)
-      alert("some error occured")
+        console.log(err)
+        props.history.push(`/edit-appointment/${appointmentId}`)
+        alert("some error occured")
     })
   }
 
     useEffect(()=>{
-
-        async function getDoctors(){
-            await axios.get("http://localhost:5000/doctor").then((res)=>{
+        async function getAppointment(){
+            console.log(appointmentId)
+            await axios.get(`http://localhost:5000/meeting/${appointmentId}`).then((res)=>{
                 const response = res.data;
-                setAllDoctors(response);
+                setAppointment(response);
+                console.log(response)
+                setData(response)
             })
         }
 
-        async function makeRequest() {
-            await axios.get(`http://localhost:5000/patient/${patientId}`).then ((res)=>{
-                const patient = res.data;
-                setData(patient);
-            })
-        }
-        makeRequest();
-        getDoctors();
-    },[allDoctors]);
+        getAppointment();
+    },[]);
 
     const useStyles = makeStyles((theme) => ({
         paper: {
@@ -91,7 +85,6 @@ function BookAppointment(props) {
       
 
     const classes = useStyles();
-    // console.log(new Date())
     
     return (
     
@@ -100,17 +93,18 @@ function BookAppointment(props) {
             <div className={classes.paper}>
     
         <Typography component="h1" variant="h5" color="textSecondary">
-          Book an Appointment
+          Edit Appointment
         </Typography> 
-        <form className={classes.form} noValidate onSubmit={bookAppointment}>
+        <form className={classes.form} noValidate onSubmit={editAppointment}>
           <Grid container spacing={2}>
             <Grid item xs={12} >
               <TextField
                 autoComplete="patientName"
                 name="patientName"
                 variant="outlined"
-                value={`${data.firstName} ${data.lastName}`}
-                required
+                disabled
+                value={`${appointment.patientName}`}
+                // required
                 fullWidth
                 id="patientName"
                 label="Patient's Name"
@@ -127,21 +121,22 @@ function BookAppointment(props) {
         
               <TextField
                 id="doctorName"
-                select
+                // select
                 className={classes.docfield}
-                label="Select a specialist to consult"
-                value={appointment.doctorName}
+                label="Doctor's Name"
+                value={`${appointment.doctorName}`}
+                disabled
                 onChange={(e)=> {
                   setAppointment({...appointment, doctorName: e.target.value});
                 }}
                 // helperText="Select a specialist to consult"
                 variant="outlined"
               >
-                {allDoctors.map((doc) => (
+                {/* {allDoctors.map((doc) => (
                   <MenuItem key={doc._id} value={doc.fullName}>
                     {doc.fullName}
                   </MenuItem>
-                ))}
+                ))} */}
               </TextField>
             </Grid>
             
@@ -154,7 +149,10 @@ function BookAppointment(props) {
                 value={appointment.date}
                 name="dob"
                 className={classes.datefield}
-                inputProps={{ min: "25-05-2021"}}
+                minDate={new Date()}
+                inputProps={{
+                  min: new Date()
+                }}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -193,7 +191,7 @@ function BookAppointment(props) {
             style={{backgroundColor: '#22577A', color: '#FFFFFF'}}
             className={classes.submit}
           >
-            Book an Appointment
+            Edit Appointment
           </Button>
         </form>
       </div>
@@ -201,5 +199,5 @@ function BookAppointment(props) {
     )
 }
 
-export default BookAppointment
+export default EditAppointment
 

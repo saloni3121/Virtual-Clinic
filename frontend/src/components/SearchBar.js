@@ -1,6 +1,7 @@
 import React,{useState, useEffect} from 'react';
 // import { fade, makeStyles } from '@material-ui/core/styles';
 import {useAutocomplete} from '@material-ui/lab';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import InputBase from '@material-ui/core/InputBase';
@@ -40,8 +41,8 @@ const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
       backgroundColor: '#fff',
-    //   marginLeft: '200px',
-    //   width: '100%',
+      marginLeft: '200px',
+      width: '100%',
     },
     search: {
       position: 'relative',
@@ -50,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
       '&:hover': {
         backgroundColor: 'b2b2b2',
       },
-      width: '800px',
+      width: '200px',
       padding: '8px',
       [theme.breakpoints.up('sm')]: {
         marginLeft: '400px',
@@ -92,7 +93,11 @@ const useStyles = makeStyles((theme) => ({
       color: '#000',
     },
     center:{
-      marginTop: '20px'
+      marginTop: '20px',
+      // display: 'flex',
+      // justifyContent: 'center',
+      // alignItems: 'center',
+      // alignContent: 'center',
     },
     listbox: {
       width: 511,
@@ -121,7 +126,7 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-function SearchBar() {
+function SearchBar(props) {
    
 const [allDoctors, setAllDoctors] = useState([]);
 
@@ -154,7 +159,7 @@ const [allDoctors, setAllDoctors] = useState([]);
     });
 
     return (
-        <div>
+        <div className={classes.central}>
         {/* <div {...getRootProps()}>
           <label className={classes.label} {...getInputLabelProps()}>
            Search for doctors
@@ -176,7 +181,9 @@ const [allDoctors, setAllDoctors] = useState([]);
                         inputProps={{ 'aria-label': 'search' }}
                         />
                     </div>
+                    <Link to = {`/book-appointment/${props.id}`} >
                     <Button  style={{backgroundColor: '#22577A', color: '#FFFFFF'}} variant="contained"  className={classes.bookbutton}> Book an Appointment</Button>
+                    </Link>
         </Toolbar>
         {groupedOptions.length > 0 ? (
           <ul className={classes.listbox} {...getListboxProps()}>

@@ -194,12 +194,12 @@ export default function Login(props) {
           </Button>
           <Grid container className={classes.aligncenter}>
             <Grid item xs>
-              <Link href= "/register-patient" variant="body2">
+              <Link href= "/register-patient" variant="body2" color="inherit">
               Register as patient
               </Link>
             </Grid>
             <Grid item xs>
-              <Link href="/register-doctor" variant="body2">
+              <Link href="/register-doctor" variant="body2" color="inherit">
                 {"Register as doctor"}
               </Link>
             </Grid>

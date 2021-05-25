@@ -8,7 +8,7 @@ const router = express.Router();
 const jsonParser = bodyParser.json();
 const urlencodedParser = bodyParser.urlencoded({ extended: true });
 
-router.get('/:id',async (req,res) =>{
+router.get('/',async (req,res) =>{
     const allAppointments = await Appointment.find()
     try{
         res.status(200).json(allAppointments);

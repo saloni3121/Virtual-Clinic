@@ -49,7 +49,7 @@ app.use('/',loginRoute);
 app.use('/book-appointment',createAppointmentRoute)
 app.use("/doctor-home",doctorHomeRoute)
 app.use("/patient",patientRoute)
-app.use("/meeting",appointment)
+app.use("/",appointment)
 
 app.use(express({
     secret: "Rusty is the best and cutest dog in the world",
