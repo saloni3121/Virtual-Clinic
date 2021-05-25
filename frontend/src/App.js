@@ -9,15 +9,14 @@ import BookAppointment from './pages/BookAppointment';
 import SearchBar from './components/SearchBar';
 import Meeting from './pages/Meeting'
 import Home from './pages/Home';
+import Carousel from './components/DoctorCarousel'
 
 function App() {
   return (
     <Router>
       <div className="App">
         <Switch>
-          {/* <Route to ='/'>
-            <SearchBar/>
-          </Route> */}
+          {/* <Route exact path = "/" render={(routeProps)=>< Carousel {...routeProps}/>} />  */}
           <Route exact path = "/" render={(routeProps)=>< Home {...routeProps}/>} />
           <Route exact path = "/login" render={(routeProps)=><Login {...routeProps}/>} />
           <Route exact path = "/register-patient"  render = {(routeProps) => <PatientRegister  {...routeProps}/>}/>

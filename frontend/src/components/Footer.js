@@ -7,10 +7,10 @@ import Link from '@material-ui/core/Link';
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
+    <Typography variant="body2" style={{color:'#fff'}} align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+        Clinic Name
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -20,7 +20,7 @@ function Copyright() {
 
 const useStyles = makeStyles((theme) => ({
   footer: {
-    backgroundColor: '#b2b2b2',
+    backgroundColor: '#000',
     padding: theme.spacing(3, 0),
   },
 }));

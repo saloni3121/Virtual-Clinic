@@ -1,20 +1,50 @@
 import React,{useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
+import Carousel from "react-elastic-carousel";
 import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import { makeStyles } from '@material-ui/core/styles';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
-import {
-    // CBadge,
-    CCard,
-    CCardBody,
-    // CCardFooter,
-    CCardHeader,
-    CCol,
-    // CRow,
-    // CCollapse,
-    // CFade,
-    // CSwitch,
-    // CLink
-  } from  '@coreui/react'
+
+
+  const breakPoints = [
+    { width: 1, itemsToShow: 1 },
+    { width: 550, itemsToShow: 2 },
+    { width: 768, itemsToShow: 3 },
+    { width: 1200, itemsToShow: 4 },
+  ];
+
+
+  const useStyles = makeStyles({
+    root: {
+      width: '320px',
+      display: 'inline-block',
+      marginRight: '20px',
+      border: '1px solid #000'
+    },
+    bullet: {
+      display: 'inline-block',
+      margin: '0 2px',
+      transform: 'scale(0.8)',
+    },
+    title: {
+      fontSize: 14,
+    },
+    pos: {
+      marginBottom: 12,
+    },
+    contain:{
+        marginTop: '100px',
+        marginRight: '20px',
+        marginLeft: '20px'
+    },
+    aligncenter:{
+        marginLeft: '120px'
+    },
+  });
 
 function PatientHome(props) {
 
@@ -41,8 +71,13 @@ function PatientHome(props) {
         })
     }
 
-    let id = data._id
+    let id = data._id;
 
+     
+
+    //   const classes = useStyles();
+        const classes = useStyles();
+        const bull = <span className={classes.bullet}>•</span>;
     return (
         <div>
             <h1>Patient Home</h1>
@@ -53,21 +88,36 @@ function PatientHome(props) {
                     Book an appointment 
                 </Button>
             </Link>
-            <div>
+            <div className={classes.contain}>
+            <Carousel  breakPoints={breakPoints}>
                 {appointments.map((app)=> (
-                    <CCol xs="12" sm="6" md="4">
-                    <CCard color="gradient-secondary">
-                      <CCardHeader>
+                    
+                <Card className={classes.root}>
+                    <CardContent>
+                        <Typography className={classes.title} color="textSecondary" gutterBottom>
                         {app.doctorName}
-                      </CCardHeader>
-                      <CCardBody>
-                        {app.date}
-                        {app.startDate}
-                        {app.endDate}
-                      </CCardBody>
-                    </CCard>
-                  </CCol>
+                        </Typography>
+                        <Typography variant="h5" component="h2">
+                        {app.date}{bull}nev{bull}o{bull}lent
+                        </Typography>
+                        <Typography className={classes.pos} color="textSecondary">
+                        adjective
+                        </Typography>
+                        <Typography variant="body2" component="p">
+                        well meaning and kindly.
+                        <br />
+                        {'"a benevolent smile"'}
+                        </Typography>
+                    </CardContent>
+                    <CardActions>
+                        <Link>
+                        <Button className ={classes.aligncenter}size="small">Learn More</Button>
+                        </Link>
+                    </CardActions>
+                </Card>
+               
                 ))}
+                  </Carousel>
             </div>
         </div>
     )

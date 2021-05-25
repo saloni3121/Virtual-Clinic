@@ -52,12 +52,16 @@ function Card2() {
 
     return (
         <>
+        <Typography variant="h4" style={{color: '#000'}} component="p" className={classes.title}>
+                        Our Services
+            </Typography>
         <div className={classes.container}>
+        
             <Card className={classes.root}>
                 <CardActionArea>
                     <CardMedia
                     className={classes.media}
-                    image="https://source.unsplash.com/random"
+                    image="https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1035&q=80"
                     title="Contemplative Reptile"
                     />
                     <CardContent>
@@ -74,7 +78,7 @@ function Card2() {
                 <CardActionArea>
                     <CardMedia
                     className={classes.media}
-                    image="https://source.unsplash.com/random"
+                    image="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1952&q=80"
                     title="Contemplative Reptile"
                     />
                     <CardContent>
@@ -91,7 +95,7 @@ function Card2() {
                 <CardActionArea>
                     <CardMedia
                     className={classes.media}
-                    image="https://source.unsplash.com/random"
+                    image="https://images.unsplash.com/photo-1555708982-8645ec9ce3cc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1789&q=80"
                     title="Contemplative Reptile"
                     />
                     <CardContent>
@@ -110,7 +114,7 @@ function Card2() {
                 <CardActionArea>
                     <CardMedia
                     className={classes.media}
-                    image="https://source.unsplash.com/random"
+                    image="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
                     title="Contemplative Reptile"
                     />
                     <CardContent>
@@ -127,7 +131,7 @@ function Card2() {
                 <CardActionArea>
                     <CardMedia
                     className={classes.media}
-                    image="https://source.unsplash.com/random"
+                    image="https://images.unsplash.com/photo-1599045118108-bf9954418b76?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80"
                     title="Contemplative Reptile"
                     />
                     <CardContent>
@@ -144,7 +148,7 @@ function Card2() {
                 <CardActionArea>
                     <CardMedia
                     className={classes.media}
-                    image="https://source.unsplash.com/random"
+                    image="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
                     title="Contemplative Reptile"
                     />
                     <CardContent>
@@ -159,7 +163,7 @@ function Card2() {
             </Card>
         </div>
         <div className={classes.precaution}>
-            <Typography variant="h4" color="textSecondary" component="p" className={classes.title}>
+            <Typography variant="h4" style={{color: '#000'}} component="p" className={classes.title}>
                         Precautions to take care during covid
             </Typography>
             <ReactPlayer className= {classes.video} url="https://www.youtube.com/watch?v=IT7ghcGy6r0"/>

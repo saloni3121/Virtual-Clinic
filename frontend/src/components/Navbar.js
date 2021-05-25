@@ -19,10 +19,10 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: 'none'
   },
   bg:{
-      backgroundColor: '#000',
+      backgroundColor: '#22577A',
   },
   allnav:{
-      marginLeft: '860px',
+      marginLeft: '835px',
   }
 }));
 
@@ -37,11 +37,9 @@ export default function ButtonAppBar() {
             Clinic Name
           </Typography>
           <Typography className = {classes.allnav}>
-            <Button className={classes.navlink} color="inherit">About</Button>
-            <Button className={classes.navlink}  color="inherit">Services</Button>
-            <Button className={classes.navlink}  color="inherit">Specialists</Button>
-            <Button className={classes.navlink}  color="inherit">Precaution</Button>
-            <Button className={classes.navlink}  color="inherit">Login</Button>
+            <Button href= "" className={classes.navlink}  color="inherit">Precaution</Button>
+            <Button href= "" className={classes.navlink}  color="inherit">Our Specialists</Button>
+            <Button href= "/login" className={classes.navlink}  color="inherit">Login</Button>
           </Typography>
           
         </Toolbar>

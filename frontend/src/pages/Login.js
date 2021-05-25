@@ -31,7 +31,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+        Clinic Name
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: '#22577A',
   },
   form: {
     width: '90%', // Fix IE 11 issue.
@@ -62,6 +62,9 @@ const useStyles = makeStyles((theme) => ({
   },
   fullsizepass:{
     width: '355px'
+  },
+  topmargin:{
+    marginTop: '10px',
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -110,7 +113,7 @@ export default function Login(props) {
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h4">
+        <Typography component="h1" variant="h4" color="textSecondary">
           Sign in
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
@@ -176,6 +179,7 @@ export default function Login(props) {
             }}
           /> */}
           <FormControlLabel
+          className={classes.topmargin}
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           />
@@ -183,7 +187,7 @@ export default function Login(props) {
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
+            style={{backgroundColor: '#22577A', color: '#FFFFFF'}}
             className={classes.submit}
           >
             Sign In

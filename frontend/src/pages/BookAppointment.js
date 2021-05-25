@@ -73,6 +73,12 @@ function BookAppointment(props) {
           width: '100%', // Fix IE 11 issue.
           marginTop: theme.spacing(3),
         },
+        datefield:{
+          width: '180px'
+        },
+        docfield:{
+          width: '395px',
+        },
         submit: {
           margin: theme.spacing(3, 0, 2),
         },
@@ -91,7 +97,7 @@ function BookAppointment(props) {
                 <CssBaseline />
             <div className={classes.paper}>
     
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h5" color="textSecondary">
           Book an Appointment
         </Typography> 
         <form className={classes.form} noValidate onSubmit={bookAppointment}>
@@ -120,12 +126,13 @@ function BookAppointment(props) {
               <TextField
                 id="doctorName"
                 select
-                label="Select"
+                className={classes.docfield}
+                label="Select a specialist to consult"
                 value={appointment.doctorName}
                 onChange={(e)=> {
                   setAppointment({...appointment, doctorName: e.target.value});
                 }}
-                helperText="Select the doctor to consult"
+                // helperText="Select a specialist to consult"
                 variant="outlined"
               >
                 {allDoctors.map((doc) => (
@@ -137,15 +144,25 @@ function BookAppointment(props) {
             </Grid>
             
             <Grid item xs ={12} sm={6}>
-             <DatePicker
-                selected={appointment.date}
-                onChange={(date)=> {
-                  setAppointment({...appointment, date: date})
-                }}
-                className="form-control"
-                name="date"
-                placeholder="Date of Birth"
+            <TextField
+                id="date"
+                label="Date of appointment"
+                type="date"
+                variant="outlined"
+                value={appointment.date}
+                name="dob"
+                className={classes.datefield}
                 minDate={new Date()}
+                inputProps={{
+                  max: "2001-12-31"
+                }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                onChange={(evt)=> {
+                  setAppointment({...appointment, date: evt.target.value})
+                  
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -174,6 +191,7 @@ function BookAppointment(props) {
             fullWidth
             variant="contained"
             color="primary"
+            style={{backgroundColor: '#22577A', color: '#FFFFFF'}}
             className={classes.submit}
           >
             Book an Appointment

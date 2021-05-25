@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     search: {
       position: 'relative',
       borderRadius: theme.shape.borderRadius,
-      backgroundColor: '#000',
+      backgroundColor: '#EAE7D6',
       '&:hover': {
         backgroundColor: 'b2b2b2',
       },
@@ -58,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
       },
     },
     bookbutton:{
+      color: '#22577A',
       padding: theme.spacing(0.6, 2),
       position: 'relative',
       marginLeft: '20px',
@@ -85,10 +86,10 @@ const useStyles = makeStyles((theme) => ({
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      color:'#fec724',
+      color:'#000',
     },
     inputRoot: {
-      color: '#fec724',
+      color: '#000',
     },
     center:{
       marginTop: '20px'
@@ -175,7 +176,7 @@ const [allDoctors, setAllDoctors] = useState([]);
                         inputProps={{ 'aria-label': 'search' }}
                         />
                     </div>
-                    <Button variant="contained" color="primary" className={classes.bookbutton}> Book an Appointment</Button>
+                    <Button  style={{backgroundColor: '#22577A', color: '#FFFFFF'}} variant="contained"  className={classes.bookbutton}> Book an Appointment</Button>
         </Toolbar>
         {groupedOptions.length > 0 ? (
           <ul className={classes.listbox} {...getListboxProps()}>

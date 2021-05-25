@@ -145,8 +145,8 @@ export default function SignUp(props) {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Typography component="h1" variant="h3">
-          Sign up
+        <Typography component="h1" variant="h4" color="textSecondary" >
+          Sign up as Patient
         </Typography>
         {emailError && <Alert className={classes.alert} severity="error">{emailError}</Alert>}
         <form className={classes.form} noValidate onSubmit={createPatient}>
@@ -267,14 +267,14 @@ export default function SignUp(props) {
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
+            style={{backgroundColor: '#22577A', color: '#FFFFFF'}}
             className={classes.submit}
           >
             Sign Up
           </Button>
           <Grid container justify="center">
             <Grid item>
-              <Link href="/login" variant="body2">
+              <Link href="/login" variant="body2" color="inherit">
                 Already have an account? Sign in
               </Link>
             </Grid>

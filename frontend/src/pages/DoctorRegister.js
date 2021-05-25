@@ -171,8 +171,8 @@ export default function SignUp(props) {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Typography component="h1" variant="h3" className={classes.textdeco}>
-          Sign up
+        <Typography component="h1" variant="h4" color="textSecondary" className={classes.textdeco}>
+          Sign up as Specialist
         </Typography>
         {emailError && <Alert className={classes.alert} severity="error">{emailError}</Alert>}
         
@@ -345,7 +345,7 @@ export default function SignUp(props) {
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
+            style={{backgroundColor: '#22577A', color: '#FFFFFF'}}
             className={classes.submit}
           >
             Sign Up

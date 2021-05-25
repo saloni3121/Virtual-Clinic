@@ -135,16 +135,23 @@ const Meeting = (props) => {
         props.history.goBack();
     }
 
-    const handleMute =()=>{
-      
-    }
+    // // const muteUnmute =()=>{
+    // //   const stream = navigator.mediaDevices.getUserMedia({
+    // //     audio: true,
+    // //     video: false
+    // //     })
+    // //     .catch(error => {
+    // //     console.log('error: ', error)
+    // //     });
+    // //     stream.getTracks()[0].enabled = !muted;
+    // // }
 
     return (
         <div>
             <button onClick={disconnect}>Disconnect</button>
-            <button onClick={handleMute}>Mute</button>
+            {/* <button onClick={muteUnmute}>Mute</button> */}
             <video autoPlay muted ref={userVideo} />
-            <video autoPlay ref={partnerVideo} />
+            <video autoPlay muted ref={partnerVideo} />
         </div>
     );
 };

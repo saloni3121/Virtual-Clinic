@@ -44,7 +44,8 @@ export default function MainFeaturedPost(props) {
   // const { post } = props;
 
   return (
-    <Paper className={classes.mainFeaturedPost} style={{ backgroundImage: `url(https://source.unsplash.com/random)` }}>
+    <>
+    <Paper className={classes.mainFeaturedPost} style={{ backgroundImage: `url(https://images.unsplash.com/photo-1530026186672-2cd00ffc50fe?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80)` }}>
       {/* Increase the priority of the hero background image */}
       {/* {<img style={{ display: 'none' }} src="https://source.unsplash.com/random" alt="som" />} */}
       <div className={classes.overlay} />
@@ -61,12 +62,14 @@ export default function MainFeaturedPost(props) {
               some random link
             </Link> */}
             
-            <Button variant="contained" color="primary">Sign up for free now</Button>
+            <Button href="/register-patient" variant="contained"style={{backgroundColor: '#22577A', color: '#fff'}}>Sign up for free now</Button>
 
           </div>
         </Grid>
       </Grid>
     </Paper>
+    
+    </>
   );
 }
 
