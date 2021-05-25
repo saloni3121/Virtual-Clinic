@@ -7,10 +7,10 @@ import DoctorHome from './pages/DoctorHome';
 import PatientHome from './pages/PatientHome';
 import BookAppointment from './pages/BookAppointment';
 import EditAppointment from './pages/editAppointment';
-import SearchBar from './components/SearchBar';
+// import SearchBar from './components/SearchBar';
 import Meeting from './pages/Meeting'
 import Home from './pages/Home';
-import Carousel from './components/DoctorCarousel'
+// import Carousel from './components/DoctorCarousel'
 import PatientHistory from './components/PatientHistory';
 
 function App() {

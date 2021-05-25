@@ -32,15 +32,6 @@ const style = ({ palette }) => ({
   textCenter: {
     textAlign: 'center',
   },
-  // firstRoom: {
-  //   background: 'url(https://js.devexpress.com/Demos/DXHotels/Content/Pictures/Lobby-4.jpg)',
-  // },
-  // secondRoom: {
-  //   background: 'url(https://js.devexpress.com/Demos/DXHotels/Content/Pictures/MeetingRoom-4.jpg)',
-  // },
-  // thirdRoom: {
-  //   background: 'url(https://js.devexpress.com/Demos/DXHotels/Content/Pictures/MeetingRoom-0.jpg)',
-  // },
   header: {
     height: '0px',
     // backgroundSize: 'cover',

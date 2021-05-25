@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from 'react';
-import { Link } from 'react-router-dom';
-import Carousel from "react-elastic-carousel";
+// import { Link } from 'react-router-dom';
+// import Carousel from "react-elastic-carousel";
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import { makeStyles } from '@material-ui/core/styles';
@@ -18,12 +18,12 @@ import DoctorCarousel from '../components/DoctorCarousel';
 import Footer from '../components/Footer';
 
 
-  const breakPoints = [
-    { width: 1, itemsToShow: 1 },
-    { width: 550, itemsToShow: 2 },
-    { width: 768, itemsToShow: 3 },
-    { width: 1200, itemsToShow: 4 },
-  ];
+  // const breakPoints = [
+  //   { width: 1, itemsToShow: 1 },
+  //   { width: 550, itemsToShow: 2 },
+  //   { width: 768, itemsToShow: 3 },
+  //   { width: 1200, itemsToShow: 4 },
+  // ];
 
 
   const useStyles = makeStyles((theme)=> ({
@@ -91,10 +91,6 @@ function PatientHome(props) {
         })
     }
 
-    const compareDates = (date)=>{
-        return new Date(date)<=new Date()
-    }
-
     let id = data._id;
     let images= [
         "https://images.unsplash.com/photo-1585842378054-ee2e52f94ba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1189&q=80",
@@ -139,7 +135,7 @@ function PatientHome(props) {
                           {app.doctorName}
                         </Typography>
                         <Typography variant="h6" color="textSecondary" component="p">
-                            {new Date(app.date).toLocaleDateString(undefined, {day:'2-digit'}) + '-' + new Date(app.date).toLocaleDateString(undefined, {month:'short'}) + '-' + new Date(app.date).toLocaleDateString(undefined, {year:'numeric'})} {bull} {app.date.toString().slice(11,16)}
+                            {new Date(app.startDate).toLocaleDateString(undefined, {day:'2-digit'}) + '-' + new Date(app.startDate).toLocaleDateString(undefined, {month:'short'}) + '-' + new Date(app.startDate).toLocaleDateString(undefined, {year:'numeric'})} {bull} {app.startDate.toString().slice(11,16)}
                         </Typography>
                         <Button 
                             variant="contained" 

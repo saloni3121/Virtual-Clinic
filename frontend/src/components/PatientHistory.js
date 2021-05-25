@@ -6,7 +6,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+// import Paper from '@material-ui/core/Paper';
 import axios from 'axios';
 
 const StyledTableCell = withStyles((theme) => ({
@@ -44,7 +44,7 @@ function PatientHistory(props) {
 
     const classes = useStyles();
     console.log(props)
-    const[data, setData] = useState('');
+    // const[data, setData] = useState('');
     const[appointments, setAppointments] = useState([]);
     const patientId = props.match.params.id
     useEffect(()=>{
@@ -53,12 +53,12 @@ function PatientHistory(props) {
          function makeRequest() {
             axios.get(`http://localhost:5000/patient/${patientId}`).then ((res)=>{
                 const response = res.data;
-                setData(response);
+                // setData(response);
                 setAppointments(response.appointments)
             })
         }
     makeRequest();
-    },[]);
+    });
 
     console.log(appointments)
     return (
