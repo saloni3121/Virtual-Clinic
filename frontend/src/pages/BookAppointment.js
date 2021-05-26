@@ -11,8 +11,13 @@ import Container from '@material-ui/core/Container';
 // import moment from 'moment'
 // import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import dotenv from 'dotenv';
+
+import ReactFilestack from 'react-filestack'
 
 function BookAppointment(props) {
+
+  dotenv.config();
 
     const[data, setData] = useState('');
     const [allDoctors, setAllDoctors] = useState([]);
@@ -24,15 +29,15 @@ function BookAppointment(props) {
       patientName: `${data.firstName} ${data.lastName}`,
       date: new Date(),
       startDate: new Date(),
-
+      url: '',
   });
 
   
   const handleFile = (event)=>{
     var file = event.target.files[0];
       const reader = new FileReader(file);
-      reader.readAsDataURL(file)
-      // console.log(file)
+      // reader.readAsDataURL(file)
+      console.log(file)
       reader.onload = () => {
         setAppointment({...appointment,file: reader.result});
       }
@@ -40,11 +45,12 @@ function BookAppointment(props) {
 
   const bookAppointment =(e)=>{
     e.preventDefault();
-    console.log(appointment.file)
+    console.log(appointment);
     axios.post(`http://localhost:5000/book-appointment/${patientId}`,appointment).then((res)=>{
       props.history.push('/patient-home/'+ patientId);
       alert("appointment booked");
       window.location.reload(false);
+      console.log(appointment);
     }).catch((err)=>{
       console.log(err)
       props.history.push(`/book-appointment/${patientId}`)
@@ -197,7 +203,7 @@ function BookAppointment(props) {
                 />
             </Grid>
             <Grid item xs ={12}>
-            <TextField
+            {/* <TextField
               variant="outlined"
               required
               fullWidth
@@ -207,6 +213,13 @@ function BookAppointment(props) {
               name="file"
               autoComplete="file"
               onChange={handleFile}
+            /> */}
+            <ReactFilestack 
+              apikey="As9Na4GuRDGAeFOcRfEgqz"
+              mode={'pick'}
+              onSuccess={({ filesUploaded }) => setAppointment({...appointment, url: filesUploaded[0].url })}
+              onError={(e) => console.log(e)}
+              buttonText={'Pick File'}
             />
             </Grid>
           </Grid>

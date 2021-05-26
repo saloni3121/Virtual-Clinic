@@ -260,10 +260,12 @@ function SearchBar(props) {
 // if(userid === "undefined"){
 //   id = false
 // }
+console.log(props);
 const [allDoctors, setAllDoctors] = useState([]);
 let [filteredDoctors, setFilteredDoctors] = useState([]);
 const [openFilterDialouge, setOpenFilterDialouge] = useState(false)
-  let [filterChosen, setFilterChosen] = useState([]);
+let [filterChosen, setFilterChosen] = useState([]);
+const [displayText, setDisplayText] = useState(false)
   
     useEffect(()=>{
 
@@ -284,6 +286,11 @@ const [openFilterDialouge, setOpenFilterDialouge] = useState(false)
     
     },[filterChosen]);
 
+
+    const handleBookAppButton = () =>{
+      setDisplayText(true)
+      alert("Log in to continue")
+    }
 
     const handleFilter =()=>{
       setOpenFilterDialouge(!openFilterDialouge);
@@ -361,10 +368,19 @@ const [openFilterDialouge, setOpenFilterDialouge] = useState(false)
                           
                     {/* </div */}
                     
-                  
+                  {props.isLoggedIn?
+                  <>
                     <Link to = {`/book-appointment/${props.id}`} >
                       <Button  style={{backgroundColor: '#22577A', color: '#FFFFFF'}} variant="contained"  className={classes.bookbutton}> Book an Appointment</Button>
                     </Link>
+                  </>:
+                  <>
+                    <Link >
+                      <Button  style={{backgroundColor: '#22577A', color: '#FFFFFF'}}  onClick={handleBookAppButton} variant="contained" className={classes.bookbutton}> Book an Appointment</Button>
+                    </Link>
+                  </>
+                  }
+                  
                     
                    
                     

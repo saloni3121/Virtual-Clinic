@@ -19,8 +19,8 @@ function App() {
     <Router>
       <div className="App">
         <Switch>
-          {/* <Route exact path = "/" render={(routeProps)=>< Carousel {...routeProps}/>} />  */}
-          <Route exact path = "/" render={(routeProps)=>< Home {...routeProps}/>} />
+          <Route exact path = "/" render={(routeProps)=>< Prescription {...routeProps}/>} /> 
+          {/* <Route exact path = "/" render={(routeProps)=>< Home {...routeProps}/>} /> */}
           <Route exact path = "/login" render={(routeProps)=><Login {...routeProps}/>} />
           <Route exact path = "/register-patient"  render = {(routeProps) => <PatientRegister  {...routeProps}/>}/>
           <Route exact path = "/register-doctor"  render = {(routeProps) => <DoctorRegister  {...routeProps}/>}/>

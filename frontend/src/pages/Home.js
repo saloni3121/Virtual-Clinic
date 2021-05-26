@@ -12,7 +12,7 @@ function Home(props) {
     return (
         <div>
             <Navbar loggedIn={false} />
-            <SearchBar {...props}/>
+            <SearchBar loggedIn={false}/>
             <Card1/>
             <Card2/>
             <DoctorCarousel/>

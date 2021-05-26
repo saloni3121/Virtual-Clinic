@@ -79,6 +79,9 @@ const Content = withStyles(style, { name: 'Content' })(({
         <Link to= {`/meeting/${appointmentData.location}`}>
         <Button className={classes.joinbutton} variant="contained" color="primary" >Join the meeting</Button>
         </Link>
+        <a href= {`${appointmentData.reportLink}`}>
+        <Button className={classes.joinbutton} variant="contained" color="primary" >view reports</Button>
+        </a>
       </Grid>
       <Grid item xs={10}>
         {/* <span>{appointmentData.location}</span> */}
@@ -115,6 +118,7 @@ export class DoctorHome extends React.PureComponent {
         .then(res => {
           console.log(res.data.appointments)
           const appointments = res.data.appointments;
+          console.log(appointments)
           this.setState({apps: appointments});
         })
     }
@@ -124,10 +128,14 @@ export class DoctorHome extends React.PureComponent {
       const istTime = date => new Date(date).toLocaleString('en-US', {timeZone: 'UTC'});
         
       const data = this.state.apps.map(function(row){
-          return {title: row.patientName,
+          return {
+
+                  title: row.patientName,
                   startDate: istTime(row.startDate),
                   endDate: istTime(row.endDate),
-                  location:row._id,
+                  location: row._id,
+                  reportLink: row.url
+
                 }
       })
 
@@ -148,8 +156,8 @@ export class DoctorHome extends React.PureComponent {
               />
               
               <WeekView
-                startDayHour={9}
-                endDayHour={18}
+                startDayHour={1}
+                endDayHour={24}
               />
               <MonthView />
               <DayView/>

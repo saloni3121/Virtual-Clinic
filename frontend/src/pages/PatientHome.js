@@ -112,7 +112,7 @@ function PatientHome(props) {
         <div>
             <Navbar loggedIn={true} logout={logout} isPatient={true} id={props.match.params.id}/>
             <h2>Hello,  {data.firstName} {data.lastName} ! </h2>
-            <SearchBar id ={id}/>
+            <SearchBar id ={id} isLoggedIn ={true}/>
             <div className={classes.contain}>
             {/* <Carousel  breakPoints={breakPoints}> */}
             <Typography variant="h4" style={{color: '#000', marginBottom: '20px'}} component="p">

@@ -32,8 +32,8 @@ const io = new Server(server, {
 
 // console.log(io)
 app.use(cors());
-app.use(express.json({limit:"50mb",extended : true}));
-app.use(express.urlencoded({limit:"50mb",extended : true}));
+app.use(express.json());
+app.use(express.urlencoded({extended : true}));
 
 
 const PORT = process.env.PORT || 5000;
@@ -56,7 +56,6 @@ app.use(express({
     resave: false,
     saveUninitialized: false
 }));
-
 
 passport.use('patient-local', new LocalStrategy({
   usernameField: "email",
