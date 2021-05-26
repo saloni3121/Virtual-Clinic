@@ -7,8 +7,9 @@ const router = express.Router();
 const jsonParser = express.json();
 const urlencodedParser = express.urlencoded({ extended: true });
 
-
 router.get('/meeting/:id', urlencodedParser ,findAppointment)
 router.put('/edit-appointment/:id',urlencodedParser ,editAppointment)
 router.delete('/delete/:id', deleteAppointment)
+
+
 export default router;

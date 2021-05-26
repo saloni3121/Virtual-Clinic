@@ -4,9 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-// import Link from '@material-ui/core/Link';
 import { Button } from '@material-ui/core';
-// import { ThemeProvider } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   mainFeaturedPost: {
@@ -41,13 +39,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MainFeaturedPost(props) {
   const classes = useStyles();
-  // const { post } = props;
 
   return (
     <>
     <Paper className={classes.mainFeaturedPost} style={{ backgroundImage: `url(https://images.unsplash.com/photo-1530026186672-2cd00ffc50fe?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80)` }}>
-      {/* Increase the priority of the hero background image */}
-      {/* {<img style={{ display: 'none' }} src="https://source.unsplash.com/random" alt="som" />} */}
       <div className={classes.overlay} />
       <Grid container>
         <Grid item md={6}>
@@ -58,10 +53,6 @@ export default function MainFeaturedPost(props) {
             <Typography variant="h6" color="inherit" paragraph>
               Personalized care technology leads to better outcome by allowing all community caregivers to collaborate through one common virtual care platform.
             </Typography>
-            {/* <Link variant="subtitle1" href="#">
-              some random link
-            </Link> */}
-            
             <Button href="/register-patient" variant="contained"style={{backgroundColor: '#22577A', color: '#fff'}}>Sign up for free now</Button>
 
           </div>

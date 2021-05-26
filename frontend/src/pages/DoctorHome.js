@@ -8,7 +8,7 @@ function DoctorHome(props) {
 
     async function logout(){
         await axios.get("http://localhost:5000/logout").then((res)=>{
-            props.history.push('/login')
+            props.history.push('/')
         }).catch((err)=>{
             console.log(err);
         })

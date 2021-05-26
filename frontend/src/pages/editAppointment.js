@@ -51,7 +51,7 @@ function EditAppointment(props) {
         }
 
         getAppointment();
-    },[]);
+    },[appointmentId]);
 
     const useStyles = makeStyles((theme) => ({
         paper: {
@@ -129,14 +129,10 @@ function EditAppointment(props) {
                 onChange={(e)=> {
                   setAppointment({...appointment, doctorName: e.target.value});
                 }}
-                // helperText="Select a specialist to consult"
+
                 variant="outlined"
               >
-                {/* {allDoctors.map((doc) => (
-                  <MenuItem key={doc._id} value={doc.fullName}>
-                    {doc.fullName}
-                  </MenuItem>
-                ))} */}
+
               </TextField>
             </Grid>
             

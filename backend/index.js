@@ -11,6 +11,7 @@ import loginRoute from './routes/login.js';
 import createAppointmentRoute from './routes/createAppointment.js';
 import doctorHomeRoute from './routes/doctorhome.js';
 import patientRoute from './routes/patient.js';
+import prescriptionRoute from './routes/prescription.js'
 import Patient from "./models/patient.js";
 import Doctor from "./models/doctor.js";
 import expressSession from 'express-session';
@@ -50,6 +51,7 @@ app.use('/book-appointment',createAppointmentRoute)
 app.use("/doctor-home",doctorHomeRoute)
 app.use("/patient",patientRoute)
 app.use("/",appointment)
+app.use("/",prescriptionRoute)
 
 app.use(express({
     secret: "Rusty is the best and cutest dog in the world",
@@ -125,7 +127,6 @@ app.get("/", (req,res)=>{
 const rooms = {};
 
 io.on("connection", socket => {
-  // console.log("connection")
     socket.on("join room", roomID => {
       
         if (rooms[roomID]) {
@@ -133,9 +134,7 @@ io.on("connection", socket => {
         } else {
             rooms[roomID] = [socket.id];
         }
-        // const otherUser = rooms[roomID]
         const otherUser = rooms[roomID].filter(id => id !== socket.id);
-        // console.log(otherUser)
         if (otherUser) {
             socket.emit("other user", otherUser);
             socket.to(otherUser).emit("user joined", socket.id);

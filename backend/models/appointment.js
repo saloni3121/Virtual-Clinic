@@ -8,6 +8,7 @@ const appointmentSchema = new mongoose.Schema({
     meetingLink: String,
     date: Date,
     url: String,
+    prescription: Object
 })
  
 const appointment = mongoose.model('appointment',appointmentSchema);

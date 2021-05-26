@@ -6,6 +6,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
+import Alert from '@material-ui/lab/Alert';
 import Box from '@material-ui/core/Box';
 import IconButton from '@material-ui/core/IconButton';
 // import Input from '@material-ui/core/Input';
@@ -66,6 +67,11 @@ const useStyles = makeStyles((theme) => ({
   topmargin:{
     marginTop: '10px',
   },
+  alert: {
+    width: '390px',
+    marginTop: '-50px',
+    marginBottom: '20px'
+  },
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
@@ -79,6 +85,8 @@ export default function Login(props) {
     password: '',
 })
 
+const [error,setError] = useState('')
+
   const [showPassword,setShowPassword] = useState(false)
 
   const handleSubmit = (evt)=>{
@@ -89,12 +97,11 @@ export default function Login(props) {
         props.history.push(`${currentRole}-home/${response.data._id}`)
       }else{
         props.history.push("/login")
-        alert("invalid email or password")
       }
     }).catch((error)=>{
         console.log(error);
         props.history.push("/login")
-        alert("invalid email or password")
+        setError('Invalid email or password')
     })
   }
 
@@ -110,6 +117,7 @@ export default function Login(props) {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
+      {error && <Alert className={classes.alert} severity="error">{error}</Alert>}
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
@@ -161,23 +169,7 @@ export default function Login(props) {
             labelWidth={120}
           />
         </FormControl>
-          {/* <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type={showPassword ? 'text' : 'password'}
-            id="password"
-            autoComplete="current-password"
-            value={user.password}
-            onChange={(evt)=>{
-                setUser({
-                    ...user, password: evt.target.value
-                })
-            }}
-          /> */}
+
           <FormControlLabel
           className={classes.topmargin}
             control={<Checkbox value="remember" color="primary" />}

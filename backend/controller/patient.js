@@ -1,9 +1,6 @@
 import Patient from '../models/patient.js';
 import bcrypt from 'bcrypt';
 import cloud from 'cloudinary';
-import multer from 'multer';
-
-
 
 const cloudinary = cloud.v2;
 
@@ -38,13 +35,11 @@ export const createPatient = async (req,res) =>{
 }
 
 export const findPatient = async (req,res)=>{
-    console.log(req.params.id)
     Patient.findById(req.params.id).populate("appointments").exec((err,foundPatient)=>{
         if(err){
-            console.log(err);
+            console.error(err);
             res.status(409).json({message:"Patient not found"})
         }else{
-            console.log(foundPatient)
             foundPatient.appointments.sort(function(a,b){
                 var dateA = new Date(a.date), dateB = new Date(b.date);
                 return dateB - dateA;

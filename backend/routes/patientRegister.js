@@ -2,7 +2,6 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import {getPatient, createPatient} from '../controller/patient.js';
 
-
 const router = express.Router();
 
 const jsonParser = express.json();

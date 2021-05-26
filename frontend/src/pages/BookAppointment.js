@@ -8,8 +8,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import Container from '@material-ui/core/Container';
-// import moment from 'moment'
-// import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import dotenv from 'dotenv';
 
@@ -32,16 +30,6 @@ function BookAppointment(props) {
       url: '',
   });
 
-  
-  const handleFile = (event)=>{
-    var file = event.target.files[0];
-      const reader = new FileReader(file);
-      // reader.readAsDataURL(file)
-      console.log(file)
-      reader.onload = () => {
-        setAppointment({...appointment,file: reader.result});
-      }
-  }
 
   const bookAppointment =(e)=>{
     e.preventDefault();
@@ -75,7 +63,7 @@ function BookAppointment(props) {
         }
         makeRequest();
         getDoctors();
-    },[allDoctors]);
+    },[allDoctors, patientId]);
 
     const useStyles = makeStyles((theme) => ({
         paper: {
@@ -152,7 +140,6 @@ function BookAppointment(props) {
                 onChange={(e)=> {
                   setAppointment({...appointment, doctorName: e.target.value});
                 }}
-                // helperText="Select a specialist to consult"
                 variant="outlined"
               >
                 {allDoctors.map((doc) => (
@@ -203,17 +190,7 @@ function BookAppointment(props) {
                 />
             </Grid>
             <Grid item xs ={12}>
-            {/* <TextField
-              variant="outlined"
-              required
-              fullWidth
-              type="file"
-              id="file"
-              accept="*"
-              name="file"
-              autoComplete="file"
-              onChange={handleFile}
-            /> */}
+
             <ReactFilestack 
               apikey="As9Na4GuRDGAeFOcRfEgqz"
               mode={'pick'}

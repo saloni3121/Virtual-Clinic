@@ -50,13 +50,11 @@ export const createDoctor =  (req,res) =>{
 }
 
 export const findDoctor = async( req,res)=>{
-    console.log(req.params.id)
     Doctor.findById(req.params.id).populate("appointments").exec((err,foundDoctor)=>{
         if(err){
-            console.log(err);
+            console.error(err);
             res.status(409).json({message: err})
         }else{
-            console.log(foundDoctor)
             res.status(200).json(foundDoctor)
         }
     })

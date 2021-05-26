@@ -6,7 +6,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-// import Paper from '@material-ui/core/Paper';
 import axios from 'axios';
 
 const StyledTableCell = withStyles((theme) => ({
@@ -43,8 +42,6 @@ function PatientHistory(props) {
       
 
     const classes = useStyles();
-    console.log(props)
-    // const[data, setData] = useState('');
     const[appointments, setAppointments] = useState([]);
     const patientId = props.match.params.id
     useEffect(()=>{
@@ -53,7 +50,6 @@ function PatientHistory(props) {
          function makeRequest() {
             axios.get(`http://localhost:5000/patient/${patientId}`).then ((res)=>{
                 const response = res.data;
-                // setData(response);
                 setAppointments(response.appointments)
             })
         }
@@ -69,22 +65,15 @@ function PatientHistory(props) {
                 <TableRow>
                     <StyledTableCell align="left">Doctor Name</StyledTableCell>
                     <StyledTableCell align="center">Date</StyledTableCell>
-                    {/* <StyledTableCell align="right">Time</StyledTableCell> */}
                     <StyledTableCell align="right">Presciption</StyledTableCell>
-                    {/* <StyledTableCell align="right">Contact</StyledTableCell> */}
                 </TableRow>
                 </TableHead>
                 <TableBody>
                 {appointments.map((app) => (
                     <StyledTableRow key={app._id}>
-                        {/* <StyledTableCell component="th" scope="row">
-                            {app.doctorName}
-                        </StyledTableCell> */}
                         <StyledTableCell align="left">{app.doctorName}</StyledTableCell>
                         <StyledTableCell align="center">{new Date(app.date).toLocaleDateString(undefined, {day:'2-digit'}) + '-' + new Date(app.date).toLocaleDateString(undefined, {month:'short'}) + '-' + new Date(app.date).toLocaleDateString(undefined, {year:'numeric'})} </StyledTableCell>
-                        {/* <StyledTableCell align="right">{app.doctorName}</StyledTableCell> */}
                         <StyledTableCell align="right" >{app.doctorName}</StyledTableCell>
-                        {/* <StyledTableCell align="right">{app.doctorName}</StyledTableCell> */}
                     </StyledTableRow>
                 ))}
                 </TableBody>

@@ -18,13 +18,6 @@ import DoctorCarousel from '../components/DoctorCarousel';
 import Footer from '../components/Footer';
 
 
-  // const breakPoints = [
-  //   { width: 1, itemsToShow: 1 },
-  //   { width: 550, itemsToShow: 2 },
-  //   { width: 768, itemsToShow: 3 },
-  //   { width: 1200, itemsToShow: 4 },
-  // ];
-
 
   const useStyles = makeStyles((theme)=> ({
     root: {
@@ -84,11 +77,11 @@ function PatientHome(props) {
             })
         }
     makeRequest();
-    },[]);
+    },[patientId]);
 
     function logout(){
         axios.get("http://localhost:5000/logout").then((res)=>{
-            props.history.push('/login')
+            props.history.push('/')
         })
     }
 
@@ -142,7 +135,7 @@ function PatientHome(props) {
                             variant="contained" 
                             style={{backgroundColor:"#B0D4B8",marginTop:'10px', marginBottom: '-10px'}} 
                             className={classes.button} 
-                            href={`/edit-appointment/${app._id}`} 
+                            // href={`/edit-appointment/${app._id}`} 
                         >
                             View Prescription
                         </Button>
@@ -180,51 +173,9 @@ function PatientHome(props) {
                     </CardActions>
                   </Card>
                   </>
-                // <Card className={classes.root} key={app._id}>
-                //     <CardContent>
-                //         <Typography className={classes.title} color="textSecondary" gutterBottom>
-                       
-                //         </Typography>
-                //         <Typography variant="h5" component="h2">
-                //         {app.doctorName}
-                //         </Typography>
-                //         <Typography className={classes.pos} color="textSecondary">
-                //         {app.date.toString().slice(0,9)}{bull}{app.date.toString().slice(11,16)}
-                //         </Typography>
-                      
-                //     </CardContent>
-                //     <CardActions>
-                        
-                //         <Button
-                //             variant="contained"
-                //             color="secondary"
-                //             className={classes.button}
-                //             startIcon={<DeleteIcon />}
-                //             onClick={()=> deleteAppointment(app._id)}
-                //         >
-                //             Delete
-                //         </Button>
-                //         <Button 
-                //             style={{marginLeft:"-2px"}} 
-                //             href={`/meeting/${app._id}`} 
-                //             variant="contained" color="primary" 
-                //         >
-                //             Link
-                //         </Button>
-                //         <Button 
-                //             variant="contained" 
-                //             style={{backgroundColor:"#ffc107"}} 
-                //             className={classes.button} 
-                //             startIcon={<EditIcon />} 
-                //             href={`/edit-appointment/${app._id}`} 
-                //         >
-                //             Edit
-                //         </Button>
-                //     </CardActions>
-                // </Card>
-               
+                
                 ))}
-                  {/* </Carousel> */}
+
             </div>
             <DoctorCarousel/>
             <Footer/>

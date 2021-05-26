@@ -1,4 +1,3 @@
-// import Appointment from '../models/appointment.js';
 import Patient from '../models/patient.js';
 import Appointment from '../models/appointment.js';
 import Doctor from '../models/doctor.js';
@@ -8,7 +7,7 @@ import multer from 'multer';
 import cloudinary from '../middleware/cloudinary.config.js';
 import lodash from 'lodash';
 import dotenv from 'dotenv';
-import * as filestack from 'filestack-js';
+import filestack from 'filestack-js';
 
 dotenv.config();
 const client = filestack.init(process.env.api_key);
@@ -72,10 +71,9 @@ export const createAppointment = (req,res) =>{
 
 
 export const findAppointment = async( req,res)=>{
-    console.log("finding appointmnet")
     Appointment.findById(req.params.id,(err,foundAppointment)=>{
         if(err){
-            console.log(err);
+            console.error(err);
             res.status(409).json({message: err})
         }else{
             res.status(200).json(foundAppointment)
@@ -86,7 +84,7 @@ export const findAppointment = async( req,res)=>{
 export const editAppointment = async(req,res)=>{
     Appointment.findById(req.params.id,(err,foundAppointment)=>{
         if(err){
-            console.log(err);
+            console.error(err);
             res.status(409).json({message: err.message})
         }else{
             foundAppointment.patientName =  req.body.patientName
@@ -102,7 +100,6 @@ export const editAppointment = async(req,res)=>{
             foundAppointment.endDate = endDate
             foundAppointment.date = date
             foundAppointment.save()
-            console.log(foundAppointment)
             res.status(200).json(foundAppointment)
         }
     })
@@ -114,6 +111,6 @@ export const deleteAppointment = async (req,res)=>{
         await Appointment.findByIdAndRemove(id).exec();
         res.send("Successfully Deleted")
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }

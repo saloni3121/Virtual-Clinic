@@ -33,18 +33,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 import axios from "../Axios";
 import {validatePassword, validateEmail} from '../helper/validate.js'
 
-// function Copyright() {
-//   return (
-//     <Typography variant="body2" color="textSecondary" align="center">
-//       {'Copyright © '}
-//       <Link color="inherit" href="https://material-ui.com/">
-//         Your Website
-//       </Link>{' '}
-//       {new Date().getFullYear()}
-//       {'.'}
-//     </Typography>
-//   );
-// }
 
 const useStyles = makeStyles((theme) => ({
   radio:{
@@ -256,19 +244,7 @@ export default function SignUp(props) {
             </Grid>
             
             <Grid item xs ={12} sm={6}>
-{/* 
-              <DatePicker
-                variant="outlined"
-                selected={doctor.dob}
-                onChange={(date)=> {
-                  setDoctor({...doctor, dob: date})
-                  
-                }}
-                className="form-control"
-                name="dob"
-                placeholder="Date of Birth"
-                maxDate={new Date()}
-              /> */}
+
               <TextField
                 id="date"
                 label="Date of Birth"

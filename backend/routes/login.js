@@ -8,8 +8,6 @@ const router = express.Router();
 router.get("/logout", function (req, res) {
     req.logout();
     res.status(200).json({message: "Success"})
-    // res.redirect('/login');
-
   });
 
 

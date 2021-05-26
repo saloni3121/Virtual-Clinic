@@ -1,21 +1,22 @@
-import React, {useState} from 'react';
-import Avatar from '@material-ui/core/Avatar';
+import React, {useState, useEffect} from 'react';
+// import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+// import FormControlLabel from '@material-ui/core/FormControlLabel';
+// import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import AddIcon from '@material-ui/icons/Add';
 import Grid from '@material-ui/core/Grid';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Box from '@material-ui/core/Box';
-import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+// import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
+// import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { TextareaAutosize } from '@material-ui/core';
+// import { TextareaAutosize } from '@material-ui/core';
+import axios from 'axios'
 
 function Copyright() {
   return (
@@ -76,57 +77,104 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Prescription() {
+export default function Prescription(props) {
   const classes = useStyles();
 
-  const [fields, setFields] = useState([{ 
-    value: '' ,
-    instruction : ''
-  }]);
+  // const [diagnosis, setDiagnosis] = useState('');
+
+  const [fields, setFields] = useState({ 
+    diagnosis: '',
+    medicine : [{
+      value: '' ,
+      instruction : '',
+    }]
+
+  });
+
+  const [data,setData] = useState('')
+  
+  const appointmentId = props.match.params.id
+  useEffect(() => {
+    async function getAppointment(){
+      console.log(appointmentId)
+      await axios.get(`http://localhost:5000/meeting/${appointmentId}`).then((res)=>{
+          const response = res.data;
+          setData(response)
+      })
+  }
+
+  getAppointment();
+  }, [appointmentId])
 
   function handleChangeValue(i, event) {
-    const values = [...fields];
-    values[i].value = event.target.value;
-    setFields(values);
+    const spread = {...fields};
+    // const values = [...spread, spread[i].value: event.target.value]
+    const values = [...spread.medicine];
+    values[i].value = event.target.value
+    // values[i].medicine.value = event.target.value;
+    setFields({...fields,medicine: values});
   }
   function handleChangeInstruction(i, event) {
-    const instructions = [...fields];
-    instructions[i].instruction = event.target.value;
-    setFields(instructions);
+    const spread = {...fields};
+    // const values = [...spread, spread[i].value: event.target.value]
+    const instructions = [...spread.medicine];
+    instructions[i].instruction = event.target.value
+    // values[i].medicine.value = event.target.value;
+    setFields({...fields,medicine: instructions});
+  }
+
+  function handleDiagnosis(e) { 
+    let diagnosis = {...fields,diagnosis:e.target.value}
+    setFields(diagnosis)
   }
 
   function handleAdd() {
-    const values = [...fields];
+    const spread = {...fields};
+    const values = [...spread.medicine]
     values.push({ value: null });
-    setFields(values);
+    setFields({...fields, medicine : values});
   }
 
   function handleRemove(i) {
-    const values = [...fields];
+    const spread = {...fields};
+    const values = [...spread.medicine]
     values.splice(i, 1);
-    setFields(values);
+    setFields({...fields, medicine: values});
   }
 
-  console.log(fields)
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    console.log('submitted')
+    axios.put(`http://localhost:5000/add-prescription/${appointmentId}`,fields).then((res)=>{
+      if(res){
+        alert('prescription made');
+        props.history.goBack()
+      }
+    }).catch((err)=>{
+      console.log(err);
+      props.history.push(`/prescription/${appointmentId}`)
+    })
+  }
+
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
 
         <Typography component="h1" variant="h5">
-          {/* <LocalHospitalIcon/> */}
           Prescription
-          {/* <LocalHospitalIcon/> */}
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <TextField
                 autoComplete="fname"
                 name="patientName"
                 variant="outlined"
                 required
                 fullWidth
+                // value={data.patientName}
                 id="patientName"
                 label="Patient Name"
                 // autoFocus
@@ -143,55 +191,25 @@ export default function Prescription() {
                 autoComplete="lname"
               />
             </Grid>
-            <Grid item xs={12}sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                type="date"
-                fullWidth
-                id="date"
-                value= {new Date()}
-                // label="Date"
-                name="date"
-                autoComplete="date"
-              />
-            </Grid>
-            <Grid item xs={12}sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                type="text"
-                fullWidth
-                id="gender"
-                label="Gender"
-                // label="Date"
-                name="gender"
-                autoComplete="gender"
-              />
-            </Grid>
-            {/* <Grid item xs={12} sm={6}>
-            <TextareaAutosize 
-                variant="outlined"
-                fullWidth
-                label="Medicines prescribed"
-                aria-label="Medicines prescribed" 
-                rowsMin={4} 
-                placeholder="Diagnosis" 
+
+            <Grid item xs={12}>
+            <TextField
+                    variant="outlined"
+                    fullWidth
+                    id="Diagnosis"
+                    label="Diagnosis"
+                    type="text"
+                    name="diagnosis"
+                    required
+                    multiline
+                    // className={classes.instructionField}
+                    onChange={e => handleDiagnosis(e)}
             />
             </Grid>
-            <Grid item xs={12} sm={6}>
-            <TextareaAutosize 
-                variant="outlined"
-                label="Medicines prescribed"
-                fullWidth
-                aria-label="Medicines prescribed" 
-                rowsMin={4} 
-                placeholder="Medicines prescribed" 
-            />
-            </Grid> */}
+           
            
            <Grid item xs={12}>
-             {fields.map((field, idx) => {
+             {fields.medicine.map((field, idx) => {
             return (
               <div className={classes.eachInput} key={`${field}-${idx}`}>
                 <TextField
@@ -216,9 +234,7 @@ export default function Prescription() {
                     className={classes.instructionField}
                     onChange={e => handleChangeInstruction(idx, e)}
                   />
-                {/* <Grid xs={12} sm={6}>
 
-                </Grid> */}
                 <Button type="button" style={{backgroundColor: '#f50057', color: '#fff'}} className={classes.deleteButton} onClick={() => handleRemove(idx)}>
                   <DeleteIcon fontSize="medium" className={classes.deleteIcon}/>
                 </Button>

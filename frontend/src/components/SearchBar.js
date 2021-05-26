@@ -1,11 +1,11 @@
 import React,{useState, useEffect} from 'react';
-// import { fade, makeStyles } from '@material-ui/core/styles';
 import {useAutocomplete} from '@material-ui/lab';
 import { Link } from 'react-router-dom';
 import FormLabel from '@material-ui/core/FormLabel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
+import Alert from '@material-ui/lab/Alert';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import FormControl from '@material-ui/core/FormControl';
@@ -18,20 +18,9 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import Avatar from '@material-ui/core/Avatar';
 import CardContent from '@material-ui/core/CardContent';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import axios from 'axios';
 import TuneIcon from '@material-ui/icons/Tune';
 import '../App.css'
-// import { Button } from '@material-ui/core';
-
-
-// const breakPoints = [
-//   { width: 1, itemsToShow: 1 },
-//   { width: 550, itemsToShow: 2 },
-//   { width: 768, itemsToShow: 3 },
-//   { width: 1200, itemsToShow: 4 },
-// ];
 
 const useStyles = makeStyles((theme) => ({
     label: {
@@ -44,11 +33,9 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(3),
     },
     inputInput: {
-      // padding: theme.spacing(2, 2, 2, 0),
-      // vertical padding + font size from searchIcon
+
       paddingLeft: `calc(1em + ${theme.spacing(5)}px)`,
       transition: theme.transitions.create('width'),
-      // width: '700px',
       [theme.breakpoints.up('sm')]: {
         width: '700px',
         '&:focus': {
@@ -122,7 +109,6 @@ const useStyles = makeStyles((theme) => ({
       },
     },
     bookbutton:{
-      // color: '#22577A',
       padding: theme.spacing(0.6, 2),
       position: 'relative',
       marginLeft: '20px',
@@ -141,7 +127,6 @@ const useStyles = makeStyles((theme) => ({
       },
     },
     searchIcon: {
-      // padding: theme.spacing(0, 2),
       marginTop: '-8px',
       marginLeft: '15px',
       height: '100%',
@@ -159,16 +144,6 @@ const useStyles = makeStyles((theme) => ({
     },
     filterIcon:{
       marginRight: '10px',
-      // marginTop: '-8px',
-      // marginLeft: '450px',
-      // float: 'right',
-      // height: '100%',
-      // position: 'absolute',
-      // display: 'flex',
-      // alignItems: 'center',
-      // justifyContent: 'center',
-      // color:'#000',
-      // cursor: 'pointer',
     },
     inputRoot: {
       color: '#000',
@@ -181,13 +156,11 @@ const useStyles = makeStyles((theme) => ({
       alignContent: 'center',
     },
     checkboxes:{
-      // position: 'relative',
       left: 0,
       marginLeft: '-50px',
     },
     filterButton:{
       padding: theme.spacing(0.6, 2),
-      // position: 'relative',
       marginRight: '-70px',
       borderRadius: theme.shape.borderRadius,
       color:'#fff',
@@ -255,17 +228,12 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 function SearchBar(props) {
-// let id =true;
-// let userid = props.match.params.id;
-// if(userid === "undefined"){
-//   id = false
-// }
+
 console.log(props);
 const [allDoctors, setAllDoctors] = useState([]);
 let [filteredDoctors, setFilteredDoctors] = useState([]);
 const [openFilterDialouge, setOpenFilterDialouge] = useState(false)
 let [filterChosen, setFilterChosen] = useState([]);
-const [displayText, setDisplayText] = useState(false)
   
     useEffect(()=>{
 
@@ -273,7 +241,6 @@ const [displayText, setDisplayText] = useState(false)
             await axios.get("http://localhost:5000/doctor").then((res)=>{
                 const response = res.data;
                 setAllDoctors(response);
-                // setFilteredDoctors(response);
             })
         }
         
@@ -284,42 +251,23 @@ const [displayText, setDisplayText] = useState(false)
       });
       setFilteredDoctors(doctors);
     
-    },[filterChosen]);
+    },[filterChosen, allDoctors]);
 
 
     const handleBookAppButton = () =>{
-      setDisplayText(true)
-      alert("Log in to continue")
+      props.history.push('/login')
     }
 
     const handleFilter =()=>{
       setOpenFilterDialouge(!openFilterDialouge);
       console.log(openFilterDialouge)
     }
-    // console.log(newallDoctors)
     const classes = useStyles();
     
     const key = 'specialisation';
     const arrayUniqueByKey = [...new Map(allDoctors.map(item =>
       [item[key], item])).values()];
     
-    // const arrayUniqueByKey = unique.sort((a, b) => a.firstname.localeCompare(b.firstname));
-    
-
-    // const filtered = allDoctors.filter(
-    //   function(doc) {
-    //     let arr=[];
-    //     filterChosen.forEach((item)=>{
-    //       if(doc.specialisation === item){
-    //         arr.push(doc);
-    //       }
-    //     })
-    //     return arr;
-    //   }
-    // );
-    
-
-    // console.log(filteredDoctors);
     const {
       getRootProps,
       getInputLabelProps,
@@ -338,20 +286,13 @@ const [displayText, setDisplayText] = useState(false)
       <>
       
         <div className={classes.central}>
-        
-        {/* <div {...getRootProps()}>
-          <label className={classes.label} {...getInputLabelProps()}>
-           Search for doctors
-          </label>
-          <input className={classes.input} {...getInputProps()} />
-        </div> */}
+
         <Toolbar className={classes.center} {...getRootProps()}>
         <Button className={classes.filterButton}style={{backgroundColor: '#22577A', color: '#FFFFFF'}}  onClick={handleFilter}> <TuneIcon className={classes.filterIcon}/> Filter </Button>
           
                     <div className={classes.search} {...getInputLabelProps()}>
                         <div className={classes.searchIcon}>
                             <SearchIcon />
-                            {/* <Button><TuneIcon/></Button> */}
                         </div>
                         <InputBase
                          {...getInputProps()} 
@@ -364,9 +305,6 @@ const [displayText, setDisplayText] = useState(false)
                         />
                         
                     </div>
-                    {/* <div className={classes.filterIcon}> */}
-                          
-                    {/* </div */}
                     
                   {props.isLoggedIn?
                   <>
@@ -394,13 +332,11 @@ const [displayText, setDisplayText] = useState(false)
         ) : null}
         {openFilterDialouge &&
         <>
-          <ul className={classes.listbox2}>
-            {/* <h6>hjkl;</h6> */}
+          <ul className={classes.listbox2}> 
             <FormControl component="fieldset" className={classes.formControl}>
             <FormLabel style={{fontSize: '12px', marginLeft: '-37px', marginBottom: '4px'}} component="legend">Filter by specialisation </FormLabel>
             <FormGroup className={classes.allspec}>
-          {arrayUniqueByKey.sort((a, b) => a.specialisation.localeCompare(b.specialisation)).map((option, index) => (
-            // <li>
+            {arrayUniqueByKey.sort((a, b) => a.specialisation.localeCompare(b.specialisation)).map((option, index) => (
                 <FormControlLabel
                 className={classes.checkboxes}
                 name={option.specialisation}
@@ -417,7 +353,6 @@ const [displayText, setDisplayText] = useState(false)
                     />}
                   label= {option.specialisation}
                 />
-            // </li>
             ))}
             </FormGroup>
             </FormControl>
@@ -434,11 +369,6 @@ const [displayText, setDisplayText] = useState(false)
                         </Avatar>
                       }
                       className={classes.center}
-                      // action={
-                      //   <IconButton aria-label="settings">
-                      //     <MoreVertIcon />
-                      //   </IconButton>
-                      // }
                       title={doc.fullName}
                       subheader={`Specialized in: ${doc.specialisation}`}
                     />

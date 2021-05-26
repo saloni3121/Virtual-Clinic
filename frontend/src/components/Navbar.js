@@ -14,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     cursor: 'pointer',
     marginLeft: '-950px',
-    // right: '1050px'
   },
   navlink:{
       marginRight: '10px',
@@ -26,9 +25,6 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: '#22577A',
   },
   allnav:{
-      // // marginLeft: '835px',
-      // // position: 'absolute',
-      // right: '150px',
       float: 'right',
   }
 }));

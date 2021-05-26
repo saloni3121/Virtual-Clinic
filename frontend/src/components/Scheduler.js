@@ -11,15 +11,11 @@ import {
   Appointments,
   TodayButton,
   ViewSwitcher,
-  // DragDropProvider,
   AppointmentTooltip,
 } from '@devexpress/dx-react-scheduler-material-ui';
 import axios from 'axios';
 import classNames from 'clsx';
-// import IconButton from '@material-ui/core/IconButton';
-// import MoreIcon from '@material-ui/icons/MoreVert';
 import Grid from '@material-ui/core/Grid';
-// import Room from '@material-ui/icons/Room';
 import { withStyles } from "@material-ui/core/styles";
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
@@ -34,7 +30,6 @@ const style = ({ palette }) => ({
   },
   header: {
     height: '0px',
-    // backgroundSize: 'cover',
   },
   joinbutton:{
     width: '200px',
@@ -60,12 +55,6 @@ const Header = withStyles(style, { name: 'Header' })(({
     className={classNames(getClassByLocation(classes, appointmentData.location), classes.header)}
     appointmentData={appointmentData}
   >
-    {/* <IconButton
-      onClick={() => alert(JSON.stringify(appointmentData))}
-      className={classes.commandButton}
-    >
-      <MoreIcon />
-    </IconButton> */}
   </AppointmentTooltip.Header>
 ));
 
@@ -75,16 +64,17 @@ const Content = withStyles(style, { name: 'Content' })(({
   <AppointmentTooltip.Content {...restProps} appointmentData={appointmentData}>
     <Grid container alignItems="center">
       <Grid item xs={2} className={classes.textCenter}>
-        {/* <Room className={classes.icon} /> */}
         <Link to= {`/meeting/${appointmentData.location}`}>
         <Button className={classes.joinbutton} variant="contained" color="primary" >Join the meeting</Button>
         </Link>
         <a href= {`${appointmentData.reportLink}`}>
         <Button className={classes.joinbutton} variant="contained" color="primary" >view reports</Button>
         </a>
+        <Link to= {`/prescription/${appointmentData.location}`}>
+        <Button className={classes.joinbutton} variant="contained" color="primary" >Write a prescription</Button>
+        </Link>
       </Grid>
       <Grid item xs={10}>
-        {/* <span>{appointmentData.location}</span> */}
       </Grid>
     </Grid>
   </AppointmentTooltip.Content>
@@ -143,7 +133,6 @@ export class DoctorHome extends React.PureComponent {
         
         return (
           <Paper>
-            {/* <button onClick ={()=> console.log(data.id)}> */}
             <Scheduler
               data={data}
               height={660}
@@ -166,15 +155,13 @@ export class DoctorHome extends React.PureComponent {
               <DateNavigator />
               <TodayButton />
               <Appointments />
-              {/* <AppointmentTooltip /> */}
               <AppointmentTooltip
-            headerComponent={Header}
-            contentComponent={Content}
-            commandButtonComponent={CommandButton}
-            showCloseButton
-          />
+                headerComponent={Header}
+                contentComponent={Content}
+                commandButtonComponent={CommandButton}
+                showCloseButton
+              />
             </Scheduler>
-            {/* </button> */}
             
         
           </Paper>
