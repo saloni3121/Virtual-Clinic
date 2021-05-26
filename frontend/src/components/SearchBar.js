@@ -2,6 +2,8 @@ import React,{useState, useEffect} from 'react';
 // import { fade, makeStyles } from '@material-ui/core/styles';
 import {useAutocomplete} from '@material-ui/lab';
 import { Link } from 'react-router-dom';
+import FormLabel from '@material-ui/core/FormLabel';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import InputBase from '@material-ui/core/InputBase';
@@ -16,7 +18,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import Avatar from '@material-ui/core/Avatar';
 import CardContent from '@material-ui/core/CardContent';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+// import FormControlLabel from '@material-ui/core/FormControlLabel';
 // import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import axios from 'axios';
 import TuneIcon from '@material-ui/icons/Tune';
@@ -115,7 +117,7 @@ const useStyles = makeStyles((theme) => ({
       width: '200px',
       padding: '8px',
       [theme.breakpoints.up('sm')]: {
-        marginLeft: '400px',
+        marginLeft: '78px',
         width: '500px',
       },
     },
@@ -156,35 +158,55 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: '20px'
     },
     filterIcon:{
-      marginTop: '-8px',
-      marginLeft: '450px',
-      float: 'right',
-      height: '100%',
-      position: 'absolute',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      color:'#000',
-      cursor: 'pointer',
+      marginRight: '10px',
+      // marginTop: '-8px',
+      // marginLeft: '450px',
+      // float: 'right',
+      // height: '100%',
+      // position: 'absolute',
+      // display: 'flex',
+      // alignItems: 'center',
+      // justifyContent: 'center',
+      // color:'#000',
+      // cursor: 'pointer',
     },
     inputRoot: {
       color: '#000',
     },
-    center:{
+    central:{
       marginTop: '20px',
-      // display: 'flex',
-      // justifyContent: 'center',
-      // alignItems: 'center',
-      // alignContent: 'center',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      alignContent: 'center',
     },
     checkboxes:{
-      position: 'relative',
+      // position: 'relative',
       left: 0,
+      marginLeft: '-50px',
+    },
+    filterButton:{
+      padding: theme.spacing(0.6, 2),
+      // position: 'relative',
+      marginRight: '-70px',
+      borderRadius: theme.shape.borderRadius,
+      color:'#fff',
+      fontSize: '13px',
+      '&:hover': {
+        backgroundColor: 'b2b2b2',
+      },
+      width: '100px',
+      [theme.breakpoints.up('sm')]: {
+        marginLeft: theme.spacing(1),
+        width: '120px',
+        height: '48px',
+
+      },
     },
     listbox2: {
       width: 200,
-      marginTop: '-1px',
-      marginLeft: '955px',
+      marginTop: '267px',
+      marginLeft: '-680px',
       padding: 0,
       zIndex: 1,
       position: 'absolute',
@@ -206,8 +228,8 @@ const useStyles = makeStyles((theme) => ({
     },
     listbox: {
       width: 511,
-      marginTop: '-10px',
-      marginLeft: '425px',
+      marginTop: '212px',
+      marginLeft: '-112px',
       padding: 0,
       zIndex: 1,
       position: 'absolute',
@@ -277,17 +299,17 @@ const [openFilterDialouge, setOpenFilterDialouge] = useState(false)
     // const arrayUniqueByKey = unique.sort((a, b) => a.firstname.localeCompare(b.firstname));
     
 
-    const filtered = allDoctors.filter(
-      function(doc) {
-        let arr=[];
-        filterChosen.forEach((item)=>{
-          if(doc.specialisation === item){
-            arr.push(doc);
-          }
-        })
-        return arr;
-      }
-    );
+    // const filtered = allDoctors.filter(
+    //   function(doc) {
+    //     let arr=[];
+    //     filterChosen.forEach((item)=>{
+    //       if(doc.specialisation === item){
+    //         arr.push(doc);
+    //       }
+    //     })
+    //     return arr;
+    //   }
+    // );
     
 
     // console.log(filteredDoctors);
@@ -307,7 +329,9 @@ const [openFilterDialouge, setOpenFilterDialouge] = useState(false)
 
     return (
       <>
+      
         <div className={classes.central}>
+        
         {/* <div {...getRootProps()}>
           <label className={classes.label} {...getInputLabelProps()}>
            Search for doctors
@@ -315,6 +339,8 @@ const [openFilterDialouge, setOpenFilterDialouge] = useState(false)
           <input className={classes.input} {...getInputProps()} />
         </div> */}
         <Toolbar className={classes.center} {...getRootProps()}>
+        <Button className={classes.filterButton}style={{backgroundColor: '#22577A', color: '#FFFFFF'}}  onClick={handleFilter}> <TuneIcon className={classes.filterIcon}/> Filter </Button>
+          
                     <div className={classes.search} {...getInputLabelProps()}>
                         <div className={classes.searchIcon}>
                             <SearchIcon />
@@ -332,7 +358,7 @@ const [openFilterDialouge, setOpenFilterDialouge] = useState(false)
                         
                     </div>
                     {/* <div className={classes.filterIcon}> */}
-                          <Button onClick={handleFilter}><TuneIcon/></Button>
+                          
                     {/* </div */}
                     
                   
@@ -355,23 +381,24 @@ const [openFilterDialouge, setOpenFilterDialouge] = useState(false)
           <ul className={classes.listbox2}>
             {/* <h6>hjkl;</h6> */}
             <FormControl component="fieldset" className={classes.formControl}>
-            <FormGroup>
+            <FormLabel style={{fontSize: '12px', marginLeft: '-37px', marginBottom: '4px'}} component="legend">Filter by specialisation </FormLabel>
+            <FormGroup className={classes.allspec}>
           {arrayUniqueByKey.sort((a, b) => a.specialisation.localeCompare(b.specialisation)).map((option, index) => (
             // <li>
                 <FormControlLabel
                 className={classes.checkboxes}
-              name={option.specialisation}
-              key={index}
-                  control={<Checkbox 
-                    onClick={e => {
-                    if(e.target.checked) {
-                      setFilterChosen(filterChosen => [...filterChosen, e.target.name]);
-                    }else{
-                      setFilterChosen(filterChosen.filter(item => item !== e.target.name));
+                name={option.specialisation}
+                key={index}
+                    control={<Checkbox 
+                      onClick={e => {
+                      if(e.target.checked) {
+                        setFilterChosen(filterChosen => [...filterChosen, e.target.name]);
+                      }else{
+                        setFilterChosen(filterChosen.filter(item => item !== e.target.name));
+                      }
                     }
-                  }
-                  }
-                  />}
+                    }
+                    />}
                   label= {option.specialisation}
                 />
             // </li>

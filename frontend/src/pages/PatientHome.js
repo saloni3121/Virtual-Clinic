@@ -78,6 +78,7 @@ function PatientHome(props) {
          function makeRequest() {
             axios.get(`http://localhost:5000/patient/${patientId}`).then ((res)=>{
                 const response = res.data;
+                console.log(response)
                 setData(response);
                 setAppointments(response.appointments)
             })

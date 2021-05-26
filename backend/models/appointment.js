@@ -7,6 +7,7 @@ const appointmentSchema = new mongoose.Schema({
     patientName: String,
     meetingLink: String,
     date: Date,
+    file: String,
 })
  
 const appointment = mongoose.model('appointment',appointmentSchema);

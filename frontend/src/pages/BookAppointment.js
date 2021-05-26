@@ -27,8 +27,20 @@ function BookAppointment(props) {
 
   });
 
+  
+  const handleFile = (event)=>{
+    var file = event.target.files[0];
+      const reader = new FileReader(file);
+      reader.readAsDataURL(file)
+      // console.log(file)
+      reader.onload = () => {
+        setAppointment({...appointment,file: reader.result});
+      }
+  }
+
   const bookAppointment =(e)=>{
     e.preventDefault();
+    console.log(appointment.file)
     axios.post(`http://localhost:5000/book-appointment/${patientId}`,appointment).then((res)=>{
       props.history.push('/patient-home/'+ patientId);
       alert("appointment booked");
@@ -183,6 +195,19 @@ function BookAppointment(props) {
                     step: 1800, // 5 min
                     }}
                 />
+            </Grid>
+            <Grid item xs ={12}>
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              type="file"
+              id="file"
+              accept="*"
+              name="file"
+              autoComplete="file"
+              onChange={handleFile}
+            />
             </Grid>
           </Grid>
           <Button

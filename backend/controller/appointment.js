@@ -2,10 +2,15 @@
 import Patient from '../models/patient.js';
 import Appointment from '../models/appointment.js';
 import Doctor from '../models/doctor.js';
+import bcrypt from 'bcrypt';
+import cloud from 'cloudinary';
+import multer from 'multer';
+import cloudinary from '../middleware/cloudinary.config.js';
+import lodash from 'lodash';
 
 function convertUTCDateToLocalDate(date) {
     var newDate = new Date(date.getTime() - date.getTimezoneOffset()*60*1000);
-    return newDate;   
+    return newDate;
 }
 
 export const createAppointment = (req,res) =>{
@@ -36,6 +41,29 @@ export const createAppointment = (req,res) =>{
                     console.log("No doctor found");
                     res.status(409).json("Doctor not found")
                 }else{
+                        if(req.body.file){
+
+                            cloudinary.uploader.upload(req.body.file, (error,result)=>{
+                                appointment = {...appointment,"file":result.url};
+                                console.log(error)
+                                // const newDoctor = new Doctor(doctor);
+                                // try{
+                                //     Doctor.create(newDoctor);
+                                //     res.status(201).json(newDoctor);
+                                // }
+                                // catch(error){
+                                //     res.status(409).json({message: error.message})
+                                // }
+                            })}
+                        // }else{
+                        //     try{
+                        //         Doctor.create(newDoctor);
+                        //         res.status(201).json(newDoctor);
+                        //     }
+                        //     catch(error){
+                        //         res.status(409).json({message: error.message})
+                        //     }
+                        // }
                     if(req.body.patientName==='undefined undefined'){
                         appointment = {...appointment,"patientName":`${foundPatient.firstName} ${foundPatient.lastName}`}
                     }

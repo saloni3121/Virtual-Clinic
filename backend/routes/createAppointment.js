@@ -2,11 +2,12 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import Appointment from '../models/appointment.js'
 import {createAppointment} from '../controller/appointment.js';
+import middlewareObj from '../middleware/index.js';
 
 const router = express.Router();
 
-const jsonParser = bodyParser.json();
-const urlencodedParser = bodyParser.urlencoded({ extended: true });
+const jsonParser = express.json();
+const urlencodedParser = express.urlencoded({ extended: true });
 
 router.get('/',async (req,res) =>{
     const allAppointments = await Appointment.find()
