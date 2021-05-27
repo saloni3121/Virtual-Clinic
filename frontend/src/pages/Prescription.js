@@ -100,11 +100,14 @@ export default function Prescription(props) {
       await axios.get(`http://localhost:5000/meeting/${appointmentId}`).then((res)=>{
           const response = res.data;
           setData(response)
+          console.log(response)
+      }).catch((err)=>{
+        console.log(err);
       })
   }
 
   getAppointment();
-  }, [appointmentId])
+  }, [])
 
   function handleChangeValue(i, event) {
     const spread = {...fields};
@@ -156,6 +159,17 @@ export default function Prescription(props) {
     })
   }
 
+  function getAge(dateString) {
+    var today = new Date();
+    var birthDate = new Date(dateString);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    return age;
+}
+
 
   return (
     <Container component="main" maxWidth="xs">
@@ -170,11 +184,12 @@ export default function Prescription(props) {
             <Grid item xs={12}>
               <TextField
                 autoComplete="fname"
-                name="patientName"
+                // name="patientName"
                 variant="outlined"
                 required
                 fullWidth
-                // value={data.patientName}
+                disabled
+                value={`${data.patientName}`}
                 id="patientName"
                 label="Patient Name"
                 // autoFocus
@@ -185,10 +200,25 @@ export default function Prescription(props) {
                 variant="outlined"
                 required
                 fullWidth
+                disabled
+                value={getAge(data.patient.dob)}
                 id="age"
                 label="Age"
                 name="age"
                 autoComplete="lname"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                 variant="outlined"
+                 required
+                 disabled
+                 fullWidth
+                 id="date"
+                 label="Date"
+                 name="date"
+                 value = {new Date(data.date).toLocaleString().slice(0,9)}
+                 autoComplete="date"
               />
             </Grid>
 
@@ -236,7 +266,7 @@ export default function Prescription(props) {
                   />
 
                 <Button type="button" style={{backgroundColor: '#f50057', color: '#fff'}} className={classes.deleteButton} onClick={() => handleRemove(idx)}>
-                  <DeleteIcon fontSize="medium" className={classes.deleteIcon}/>
+                  <DeleteIcon className={classes.deleteIcon}/>
                 </Button>
               </div>
             );

@@ -23,7 +23,7 @@ export const createPatient = async (req,res) =>{
     const saltRounds =10
     const salt = bcrypt.genSaltSync(saltRounds);
     const hash = bcrypt.hashSync(req.body.password, salt);
-    const patient = {...req.body,"password": hash,"role": "patient"};
+    const patient = {...req.body,"password": hash,"role": "patient",fullName: `${req.body.firstName} ${req.body.lastName}`};
     const newPatient = new Patient(patient);
     try{
         await Patient.create(newPatient);

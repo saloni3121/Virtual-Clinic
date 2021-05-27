@@ -10,14 +10,15 @@ import EditAppointment from './pages/editAppointment';
 import Meeting from './pages/Meeting'
 import Home from './pages/Home';
 import PatientHistory from './components/PatientHistory';
-import Prescription from './pages/Prescription'
+import Prescription from './pages/Prescription';
+import DoctorProfile from './components/DoctorProfile';
 
 function App() {
   return (
     <Router>
       <div className="App">
         <Switch>
-          <Route exact path = "/" render={(routeProps)=>< Home {...routeProps}/>} />
+          <Route exact path = "/" render={(routeProps)=>< DoctorProfile {...routeProps}/>} />
           <Route exact path = "/login" render={(routeProps)=><Login {...routeProps}/>} />
           <Route exact path = "/register-patient"  render = {(routeProps) => <PatientRegister  {...routeProps}/>}/>
           <Route exact path = "/register-doctor"  render = {(routeProps) => <DoctorRegister  {...routeProps}/>}/>

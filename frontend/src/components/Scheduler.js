@@ -145,8 +145,8 @@ export class DoctorHome extends React.PureComponent {
               />
               
               <WeekView
-                startDayHour={1}
-                endDayHour={24}
+                startDayHour={10}
+                endDayHour={19}
               />
               <MonthView />
               <DayView/>

@@ -9,6 +9,7 @@ const patientSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    fullName: String,
     email: {
         type: String,
         required: true,

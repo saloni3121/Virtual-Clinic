@@ -49,7 +49,7 @@ export const createAppointment = (req,res) =>{
                     if(req.body.patientName==='undefined undefined'){
                         appointment = {...appointment,"patientName":`${foundPatient.firstName} ${foundPatient.lastName}`}
                     }
-                    appointment = {...appointment, "startDate": startDate,"endDate":endDate}
+                    appointment = {...appointment, "startDate": startDate,"endDate":endDate,"patient":foundPatient,'doctor':foundDoctor}
                     const newAppointment = new Appointment(appointment);
                     try{
                         Appointment.create(newAppointment);
@@ -70,8 +70,18 @@ export const createAppointment = (req,res) =>{
 }
 
 
+// export const findAppointment = async( req,res)=>{
+//     Appointment.findById(req.params.id,(err,foundAppointment)=>{
+//         if(err){
+//             console.error(err);
+//             res.status(409).json({message: err})
+//         }else{
+//             res.status(200).json(foundAppointment)
+//         }
+//     })
+// }
 export const findAppointment = async( req,res)=>{
-    Appointment.findById(req.params.id,(err,foundAppointment)=>{
+    Appointment.findById(req.params.id).populate("patient").populate("doctor").exec((err,foundAppointment)=>{
         if(err){
             console.error(err);
             res.status(409).json({message: err})

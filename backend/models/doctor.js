@@ -27,7 +27,8 @@ const doctorSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref :"appointment"
     }],
-    image: String
+    image: String,
+    Fee:String
 })
  
 const doctor = mongoose.model('doctor',doctorSchema);
