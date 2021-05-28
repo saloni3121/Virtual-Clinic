@@ -5,7 +5,8 @@ import FormLabel from '@material-ui/core/FormLabel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
-import Alert from '@material-ui/lab/Alert';
+// import Alert from '@material-ui/lab/Alert';
+import { ClickAwayListener } from '@material-ui/core';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import FormControl from '@material-ui/core/FormControl';
@@ -229,7 +230,6 @@ const useStyles = makeStyles((theme) => ({
 
 function SearchBar(props) {
 
-console.log(props);
 const [allDoctors, setAllDoctors] = useState([]);
 let [filteredDoctors, setFilteredDoctors] = useState([]);
 const [openFilterDialouge, setOpenFilterDialouge] = useState(false)
@@ -247,7 +247,8 @@ let [filterChosen, setFilterChosen] = useState([]);
       getDoctors();
 
       const doctors = allDoctors.filter(doctor => {
-        if (filterChosen.includes(doctor.specialisation)) return true;
+        return (filterChosen.includes(doctor.specialisation)) 
+          // return true;
       });
       setFilteredDoctors(doctors);
     
@@ -260,7 +261,6 @@ let [filterChosen, setFilterChosen] = useState([]);
 
     const handleFilter =()=>{
       setOpenFilterDialouge(!openFilterDialouge);
-      console.log(openFilterDialouge)
     }
     const classes = useStyles();
     
@@ -280,7 +280,10 @@ let [filterChosen, setFilterChosen] = useState([]);
       options: allDoctors,
       getOptionLabel: (option) => option.fullName,
     });
-    console.log(filterChosen)
+
+    const handleClickAway =()=>{
+      setOpenFilterDialouge(false)
+    }
 
     return (
       <>
@@ -344,6 +347,7 @@ let [filterChosen, setFilterChosen] = useState([]);
         ) : null}
         {openFilterDialouge &&
         <>
+        <ClickAwayListener onClickAway={handleClickAway}>
           <ul className={classes.listbox2}> 
             <FormControl component="fieldset" className={classes.formControl}>
             <FormLabel style={{fontSize: '12px', marginLeft: '-37px', marginBottom: '4px'}} component="legend">Filter by specialisation </FormLabel>
@@ -369,6 +373,7 @@ let [filterChosen, setFilterChosen] = useState([]);
             </FormGroup>
             </FormControl>
           </ul>
+          </ClickAwayListener>
         </>}
       </div>
       <div className={classes.allcards}>
