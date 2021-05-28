@@ -201,7 +201,7 @@ export default function Prescription(props) {
                 required
                 fullWidth
                 disabled
-                value={getAge(data.patient.dob)}
+                // value={getAge(data.patient.dob)}
                 id="age"
                 label="Age"
                 name="age"

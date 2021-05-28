@@ -12,6 +12,7 @@ import Home from './pages/Home';
 import PatientHistory from './components/PatientHistory';
 import Prescription from './pages/Prescription';
 import DoctorProfile from './components/DoctorProfile';
+import PrescriptionCard from './components/PrescriptionCard';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route exact path = "/" render={(routeProps)=>< Home {...routeProps}/>} />
           <Route exact path = "/login" render={(routeProps)=><Login {...routeProps}/>} />
           <Route exact path = "/register-patient"  render = {(routeProps) => <PatientRegister  {...routeProps}/>}/>
+          <Route exact path = "/view-prescription/:id"  render = {(routeProps) => <PrescriptionCard  {...routeProps}/>}/>
           <Route exact path = "/register-doctor"  render = {(routeProps) => <DoctorRegister  {...routeProps}/>}/>
           <Route exact path = "/doctor-home/:id" render = {(routeProps) => <DoctorHome  {...routeProps}/>} />
           <Route exact path = "/doctor-profile/:id" render = {(routeProps) => <DoctorProfile  {...routeProps}/>} />

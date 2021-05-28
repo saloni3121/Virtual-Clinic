@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import Title from './Title';
 import axios from 'axios';
+import { CircularProgress } from '@material-ui/core';
 
 // Generate Order Data
 // function createData(id, date, name, shipTo, paymentMethod, amount) {
@@ -38,16 +39,48 @@ export default function Orders(props) {
 
     const [appointments, setAppointments] = useState([]);
 
+    
+    const [isLoaded, setIsLoaded] = useState(false)
+
     useEffect(() => {
         axios.get(`http://localhost:5000/doctor-home/${props.id}`)
         .then(res => {
-          const appointment = res.data.appointments;
+          
+          setTimeout(()=>{
+            const appointment = res.data.appointments;
           setAppointments(appointment)
+            setIsLoaded(true)
+          },300)
+  
         })
     }, [props.id])
 
+
+  console.log(isLoaded)
+
+  // useEffect(() => {
+  //     axios.get(`http://localhost:5000/meeting/${props.match.params.id}`)
+  //     .then(res => {
+
+  //       setTimeout(()=>{
+  //         const app = res.data;
+  //         // console.log(appointment.doctor.clinicContact)
+  //         setAppointment(app)
+  //         setDoctor(app.doctor)
+  //         setPrescription(app.prescription)
+  //         setMedicines(app.prescription.medicine)
+  //         console.log(medicines)
+  //         setIsLoaded(true)
+  //       },300)
+
+  //     })
+  // }, [])
+
   const classes = useStyles();
   return (
+    <>
+    {isLoaded?
+    <>
     <React.Fragment>
       <Title>Recent Appointments</Title>
       <Table size="small">
@@ -102,5 +135,12 @@ export default function Orders(props) {
         </Links>
       </div> */}
     </React.Fragment>
+    </>:
+    <>
+    <CircularProgress/>
+    </>
+    }
+    </>
+    
   );
 }

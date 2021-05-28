@@ -27,6 +27,7 @@ import { mainListItems} from '../components/ListItems';
 import Chart from '../components/Chart';
 import Deposits from '../components/Deposits';
 import Orders from '../components/Orders';
+import { CircularProgress } from '@material-ui/core';
 // import Scheduler from '../components/Scheduler'
 
 
@@ -136,7 +137,9 @@ function DoctorHome(props) {
         })
     }
 
-    const classes = useStyles();
+  
+
+  const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -148,7 +151,7 @@ function DoctorHome(props) {
 
 
     return (
-        <div>
+      <div>
             {/* <Button variant="contained" color="secondary" onClick={logout}>Logout</Button> */}
             {/* <Navbar loggedIn={true} logout={logout} isPatient={false}/>
             <Scheduler id={props.match.params.id}></Scheduler> */}
@@ -236,6 +239,8 @@ function DoctorHome(props) {
       </main>
     </div>
         </div>
+    
+        
     )
 }
 

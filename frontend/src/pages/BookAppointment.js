@@ -10,8 +10,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Container from '@material-ui/core/Container';
 import 'react-datepicker/dist/react-datepicker.css';
 import dotenv from 'dotenv';
-
 import ReactFilestack from 'react-filestack'
+import { CircularProgress } from '@material-ui/core';
 
 function BookAppointment(props) {
 
@@ -19,6 +19,7 @@ function BookAppointment(props) {
 
     const[data, setData] = useState('');
     const [allDoctors, setAllDoctors] = useState([]);
+    const [isLoaded, setIsLoaded] = useState(false)
 
     const patientId = props.match.params.id;
 
@@ -48,21 +49,25 @@ function BookAppointment(props) {
 
     useEffect(()=>{
 
+      setTimeout(()=>{
         async function getDoctors(){
-            await axios.get("http://localhost:5000/doctor").then((res)=>{
-                const response = res.data;
-                setAllDoctors(response);
-            })
-        }
+          await axios.get("http://localhost:5000/doctor").then((res)=>{
+              const response = res.data;
+              setAllDoctors(response);
+          })
+      }
 
-        async function makeRequest() {
-            await axios.get(`http://localhost:5000/patient/${patientId}`).then ((res)=>{
-                const patient = res.data;
-                setData(patient);
-            })
-        }
-        makeRequest();
-        getDoctors();
+      async function makeRequest() {
+          await axios.get(`http://localhost:5000/patient/${patientId}`).then ((res)=>{
+              const patient = res.data;
+              setData(patient);
+          })
+      }
+      makeRequest();
+      getDoctors();
+      setIsLoaded(true)
+      },300)
+
     },[allDoctors, patientId]);
 
     const useStyles = makeStyles((theme) => ({
@@ -100,7 +105,9 @@ function BookAppointment(props) {
     // console.log(new Date())
     
     return (
-    
+
+          <>
+          {isLoaded ? <>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
             <div className={classes.paper}>
@@ -213,6 +220,12 @@ function BookAppointment(props) {
         </form>
       </div>
     </Container>
+          </>:
+          <>
+          <CircularProgress/>
+          </>}
+        </>
+            
     )
 }
 

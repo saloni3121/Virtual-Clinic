@@ -32,6 +32,7 @@
     "react-dom": "^17.0.2",
     "react-elastic-carousel": "^0.11.5",
     "react-filestack": "^0.9.7",
+    "react-loading": "^2.0.3",
     "react-player": "^2.9.0",
     "react-responsive-animate-navbar": "^1.1.8",
     "react-responsive-carousel": "^3.2.18",

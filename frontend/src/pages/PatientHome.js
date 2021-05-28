@@ -17,7 +17,7 @@ import SearchBar from '../components/SearchBar';
 import DoctorCarousel from '../components/DoctorCarousel';
 import Footer from '../components/Footer';
 import images from '../helper/images'
-
+import { CircularProgress } from '@material-ui/core';
 
 
   const useStyles = makeStyles((theme)=> ({
@@ -58,6 +58,7 @@ function PatientHome(props) {
     console.log(props)
     const[data, setData] = useState('');
     const[appointments, setAppointments] = useState([]);
+    const [isLoaded,setIsLoaded] = useState(false)
 
     const deleteAppointment = (id) =>{
         axios.delete(`http://localhost:5000/delete/${id}`).then(()=>{
@@ -68,16 +69,18 @@ function PatientHome(props) {
     const patientId = props.match.params.id
     useEffect(()=>{
 
-
-         function makeRequest() {
-            axios.get(`http://localhost:5000/patient/${patientId}`).then ((res)=>{
-                const response = res.data;
-                console.log(response)
-                setData(response);
-                setAppointments(response.appointments)
-            })
-        }
-    makeRequest();
+        setTimeout(()=>{
+            function makeRequest() {
+               axios.get(`http://localhost:5000/patient/${patientId}`).then ((res)=>{
+                   const response = res.data;
+                   console.log(response)
+                   setData(response);
+                   setAppointments(response.appointments)
+               })
+            }
+            makeRequest();
+            setIsLoaded(true)
+          },300)
     },[patientId]);
 
     function logout(){
@@ -87,100 +90,100 @@ function PatientHome(props) {
     }
 
     let id = data._id;
-    // let images= [
-    //     "https://images.unsplash.com/photo-1585842378054-ee2e52f94ba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1189&q=80",
-    //     "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
-    //     "https://images.unsplash.com/photo-1591604021695-0c69b7c05981?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1050&q=80",
-    //     "https://images.unsplash.com/photo-1527613426441-4da17471b66d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1035&q=80",
-    //     "https://images.unsplash.com/photo-1579165466949-3180a3d056d5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
-    //     "https://images.unsplash.com/photo-1609831647099-baaadf7dd44d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-    //     "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-    //     "https://images.unsplash.com/photo-1585928642599-31f15a88c002?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80",
-    //     "https://images.unsplash.com/photo-1596942273255-16aa79a98a28?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80"
-    // ]
+
         const classes = useStyles();
         const bull = <span className={classes.bullet}>•</span>;
         const appoint = appointments.slice(0,4);
         let disable = true;
     return (
-        <div>
-            <Navbar loggedIn={true} logout={logout} isPatient={true} id={props.match.params.id}/>
-            <h2>Hello,  {data.firstName} {data.lastName} ! </h2>
-            <SearchBar id ={id} isLoggedIn ={true}/>
-            <div className={classes.contain}>
-            {/* <Carousel  breakPoints={breakPoints}> */}
-            <Typography variant="h4" style={{color: '#000', marginBottom: '20px'}} component="p">
-                Your recent appointments
-            </Typography>
-                {appoint.map((app)=> (
-                    <>
-                    {app.date <= new Date()? disable=true : disable= false}
-                    {/* <h1>{disable}</h1> */}
-                    <Card className={classes.root}>
-                    <CardActionArea>
-                      <CardMedia
-                        component="img"
-                        alt="Contemplative Reptile"
-                        height="140"
-                        image={images[Math.floor(Math.random()*images.length)]}
-                        title="Contemplative Reptile"
-                      />
-                      <CardContent>
-                        <Typography gutterBottom variant="h5" component="h2">
-                          {app.doctorName}
-                        </Typography>
-                        <Typography variant="h6" color="textSecondary" component="p">
-                            {new Date(app.startDate).toLocaleDateString(undefined, {day:'2-digit'}) + '-' + new Date(app.startDate).toLocaleDateString(undefined, {month:'short'}) + '-' + new Date(app.startDate).toLocaleDateString(undefined, {year:'numeric'})} {bull} {app.startDate.toString().slice(11,16)}
-                        </Typography>
-                        <Button 
-                            variant="contained" 
-                            style={{backgroundColor:"#B0D4B8",marginTop:'10px', marginBottom: '-10px'}} 
-                            className={classes.button} 
-                            // href={`/edit-appointment/${app._id}`} 
-                        >
-                            View Prescription
-                        </Button>
-                      </CardContent>
-                    </CardActionArea>
-                    <CardActions>
-                        {/* {app.date <= new Date() ? disabled= true : disabled=false} */}
-                        <Button
-                            variant="contained"
-                            // {app.date<=new Date() && disabled}
-                            color="secondary"
-                            className={classes.button}
-                            startIcon={<DeleteIcon />}
-                            onClick={()=> deleteAppointment(app._id)}
-                            disabled={disable}
-                        >
-                            Delete
-                        </Button>
-                        <Button 
-                            style={{marginLeft:"-2px"}} 
-                            href={`/meeting/${app._id}`} 
-                            variant="contained" color="primary" 
-                        >
-                            Link
-                        </Button>
-                        <Button 
-                            variant="contained" 
-                            style={{backgroundColor:"#ffc107"}} 
-                            className={classes.button} 
-                            startIcon={<EditIcon />} 
-                            href={`/edit-appointment/${app._id}`} 
-                        >
-                            Edit
-                        </Button>
-                    </CardActions>
-                  </Card>
-                  </>
-                
-                ))}
+        <>
+            {isLoaded?
+            <>
+                <div>
+                    <Navbar loggedIn={true} logout={logout} isPatient={true} id={props.match.params.id}/>
+                    <h2>Hello,  {data.firstName} {data.lastName} ! </h2>
+                    <SearchBar id ={id} isLoggedIn ={true}/>
+                    <div className={classes.contain}>
+                    {/* <Carousel  breakPoints={breakPoints}> */}
+                    <Typography variant="h4" style={{color: '#000', marginBottom: '20px'}} component="p">
+                        Your recent appointments
+                    </Typography>
+                        {appoint.map((app)=> (
+                            <>
+                            {app.date <= new Date()? disable=true : disable= false}
+                            {/* <h1>{disable}</h1> */}
+                            <Card className={classes.root}>
+                            <CardActionArea>
+                              <CardMedia
+                                component="img"
+                                alt="Contemplative Reptile"
+                                height="140"
+                                image={images[Math.floor(Math.random()*images.length)]}
+                                title="Contemplative Reptile"
+                              />
+                              <CardContent>
+                                <Typography gutterBottom variant="h5" component="h2">
+                                  {app.doctorName}
+                                </Typography>
+                                <Typography variant="h6" color="textSecondary" component="p">
+                                    {new Date(app.startDate).toLocaleDateString(undefined, {day:'2-digit'}) + '-' + new Date(app.startDate).toLocaleDateString(undefined, {month:'short'}) + '-' + new Date(app.startDate).toLocaleDateString(undefined, {year:'numeric'})} {bull} {app.startDate.toString().slice(11,16)}
+                                </Typography>
+                                <Button 
+                                    variant="contained" 
+                                    style={{backgroundColor:"#B0D4B8",marginTop:'10px', marginBottom: '-10px'}} 
+                                    className={classes.button} 
+                                    href={`/view-prescription/${app._id}`} 
+                                >
+                                    View Prescription
+                                </Button>
+                              </CardContent>
+                            </CardActionArea>
+                            <CardActions>
+                                {/* {app.date <= new Date() ? disabled= true : disabled=false} */}
+                                <Button
+                                    variant="contained"
+                                    // {app.date<=new Date() && disabled}
+                                    color="secondary"
+                                    className={classes.button}
+                                    startIcon={<DeleteIcon />}
+                                    onClick={()=> deleteAppointment(app._id)}
+                                    disabled={disable}
+                                >
+                                    Delete
+                                </Button>
+                                <Button 
+                                    style={{marginLeft:"-2px"}} 
+                                    href={`/meeting/${app._id}`} 
+                                    variant="contained" color="primary" 
+                                >
+                                    Link
+                                </Button>
+                                <Button 
+                                    variant="contained" 
+                                    style={{backgroundColor:"#ffc107"}} 
+                                    className={classes.button} 
+                                    startIcon={<EditIcon />} 
+                                    href={`/edit-appointment/${app._id}`} 
+                                >
+                                    Edit
+                                </Button>
+                            </CardActions>
+                          </Card>
+                          </>
 
-            </div>
-            <DoctorCarousel/>
-            <Footer/>
-        </div>
+                        ))}
+
+                    </div>
+                    <DoctorCarousel/>
+                    <Footer/>
+                </div>
+            </>:
+            <>
+                <CircularProgress/>
+            </>
+            }
+        </>
+        
     )
 }
 
