@@ -1,76 +1,50 @@
-import React from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import SkipNextIcon from '@material-ui/icons/SkipNext';
+import React,{useState, useEffect} from "react";
+import { Button } from "@material-ui/core";
+import "./ProfileCard.css";
+import axios from 'axios';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    width: '100%'
-  },
-  details: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  content: {
-    flex: '1 0 auto',
-  },
-  cover: {
-    width: '300px',
-    height: '300px',
-    borderRadius: '250px'
-  },
-  controls: {
-    display: 'flex',
-    alignItems: 'center',
-    paddingLeft: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
-  },
-  playIcon: {
-    height: 38,
-    width: 38,
-  },
-}));
+function ProfileCard(props) {
 
-export default function DoctorProfile() {
-  const classes = useStyles();
-  const theme = useTheme();
+  const [doctor, setDoctor] = useState([]);
 
-  return (
-    <>
-    <Card className={classes.root}>
-      <div className={classes.details}>
-        <CardContent className={classes.content}>
-          <Typography component="h5" variant="h5">
-           Shourya Kothari
-          </Typography>
-          <Typography variant="subtitle1" color="textSecondary">
-            Mac Miller
-          </Typography>
-        </CardContent>
-        <div className={classes.controls}>
-          <IconButton aria-label="previous">
-            {theme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon />}
-          </IconButton>
-          <IconButton aria-label="play/pause">
-            <PlayArrowIcon className={classes.playIcon} />
-          </IconButton>
-          <IconButton aria-label="next">
-            {theme.direction === 'rtl' ? <SkipPreviousIcon /> : <SkipNextIcon />}
-          </IconButton>
-        </div>
-      </div>
-    </Card>
-     <CardMedia
-     className={classes.cover}
-     image="https://images.unsplash.com/photo-1622049550864-87faaa5a7ae9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1051&q=80"s
-   />
-   </>
-  );
+    useEffect(() => {
+        axios.get(`http://localhost:5000/doctor-home/${props.match.params.id}`)
+        .then(res => {
+          // console.log(res.data.appointments)
+          // const appointment = res.data.appointments;
+          console.log(res.data)
+          // console.log(appointment.url)
+          setDoctor(res.data)
+        })
+    }, [])
+
+	return (
+		<div className="card-container">
+			<header className="ava">
+				<img src={doctor.image}alt="asjk"/>
+			</header>
+			<h1 className="">
+				{doctor.fullName}
+			</h1>
+      <h4 className="normal-text-spec">Specialisation in:  <span className="normal-text-spec2">{doctor.specialisation}</span></h4>
+      <Button variant="contained">Book an appointment now</Button>
+			<h2 className="normal-text"></h2>
+			<div className="social-container">
+				<div className="followers">
+					<h1 className="bold-text">{doctor.dob} years</h1>
+					<h2 className="smaller-text">Age</h2>
+				</div>
+				<div className="likes">
+					<h1 className="bold-text">{doctor.clinicContact}</h1>
+					<h2 className="smaller-text">Clinic Contact</h2>
+				</div>
+				<div className="photos">
+					<h1 className="bold-text">{doctor.fees}</h1>
+					<h2 className="smaller-text">Consultation Fees</h2>
+				</div>
+			</div>
+		</div>
+	);
 }
+
+export default ProfileCard;

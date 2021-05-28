@@ -33,6 +33,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import axios from "../Axios";
 import {validatePassword, validateEmail} from '../helper/validate.js'
 
+import ReactFilestack from 'react-filestack'
 
 const useStyles = makeStyles((theme) => ({
   radio:{
@@ -42,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
   checked: {},
   paper: {
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(2),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -116,6 +117,7 @@ export default function SignUp(props) {
     gender: '',
     specialisation:'',
     image: '',
+    fee: '',
     });
 
     const handleChange = (e)=>{
@@ -294,9 +296,22 @@ export default function SignUp(props) {
                 onChange={handleChange}
               />
             </Grid>
-            <p className={classes.upload}>Upload Profile Picture</p>
             <Grid item xs ={12}>
             <TextField
+              variant="outlined"
+              required
+              fullWidth
+              type="text"
+              id="fee"
+              label="Consultation Fees"
+              name="fee"
+              autoComplete="fee"
+              onChange={handleChange}
+            />
+            </Grid>
+            <p className={classes.upload}>Upload Profile Picture</p>
+            <Grid item xs ={12}>
+            {/* <TextField
               variant="outlined"
               required
               fullWidth
@@ -306,6 +321,14 @@ export default function SignUp(props) {
               name="image"
               autoComplete="image"
               onChange={handleImg}
+            /> */}
+            
+            <ReactFilestack 
+              apikey="As9Na4GuRDGAeFOcRfEgqz"
+              mode={'pick'}
+              onSuccess={({ filesUploaded }) => setDoctor({...doctor, image: filesUploaded[0].url })}
+              onError={(e) => console.log(e)}
+              buttonText={'Pick File'}
             />
             </Grid>
             <Grid className={classes.aligncenter}>

@@ -38,7 +38,8 @@ app.use(express.urlencoded({extended : true}));
 
 
 const PORT = process.env.PORT || 5000;
-const CONNECTION_URL = "mongodb+srv://admin:shourya1234@cluster0.rhgoj.mongodb.net/Virtual_Clinic?retryWrites=true&w=majority";
+const CONNECTION_URL = "mongodb+srv://admin:tJ2AoR50nzohb06h@cluster0.rhgoj.mongodb.net/Virtual_Clinic?retryWrites=true&w=majority";
+// const CONNECTION_URL = "mongodb+srv://Admin:Xf9bnXJ7Q6aaKgn@cluster0.wo3zb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -162,4 +163,4 @@ mongoose.connect(CONNECTION_URL,{
     useNewUrlParser : true,
     useUnifiedTopology : true
 }).then(()=>server.listen(PORT, ()=> console.log(`Connection to mongoDB is established and is now listening on port : ${PORT}`)
-)).catch((err)=> console.log(err.message));
+)).catch((err)=> console.log(err));

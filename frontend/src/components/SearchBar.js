@@ -258,6 +258,10 @@ let [filterChosen, setFilterChosen] = useState([]);
       props.history.push('/login')
     }
 
+    const showDoctorProfile = (id) =>{
+      props.history.push(`/doctor-profile/${id}`)
+    }
+
     const handleFilter =()=>{
       setOpenFilterDialouge(!openFilterDialouge);
       console.log(openFilterDialouge)
@@ -326,7 +330,7 @@ let [filterChosen, setFilterChosen] = useState([]);
         {groupedOptions.length > 0 ? (
           <ul className={classes.listbox} {...getListboxProps()}>
             {groupedOptions.map((option, index) => (
-              <li {...getOptionProps({ option, index })}>{option.fullName} <img className={classes.imagehandle}src={option.image} alt="doc pic"/></li>
+              <li {...getOptionProps({ option, index })}>{option.fullName} </li>
             ))}
           </ul>
         ) : null}
