@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     formControl: {
       margin: theme.spacing(3),
     },
-    inputInput: {
+    nputInput: {
 
       paddingLeft: `calc(1em + ${theme.spacing(5)}px)`,
       transition: theme.transitions.create('width'),
@@ -258,10 +258,6 @@ let [filterChosen, setFilterChosen] = useState([]);
       props.history.push('/login')
     }
 
-    const showDoctorProfile = (id) =>{
-      props.history.push(`/doctor-profile/${id}`)
-    }
-
     const handleFilter =()=>{
       setOpenFilterDialouge(!openFilterDialouge);
       console.log(openFilterDialouge)
@@ -312,13 +308,25 @@ let [filterChosen, setFilterChosen] = useState([]);
                     
                   {props.isLoggedIn?
                   <>
-                    <Link to = {`/book-appointment/${props.id}`} >
-                      <Button  style={{backgroundColor: '#22577A', color: '#FFFFFF'}} variant="contained"  className={classes.bookbutton}> Book an Appointment</Button>
+                    <Link to = {`/book-appointment/${props.id}`} styles={{textDecoration:'none'}}>
+                      <Button  
+                        style={{backgroundColor: '#22577A', color: '#FFFFFF'}} 
+                        variant="contained"  className={classes.bookbutton}
+                      > 
+                          Book an Appointment
+                      </Button>
                     </Link>
                   </>:
                   <>
-                    <Link >
-                      <Button  style={{backgroundColor: '#22577A', color: '#FFFFFF'}}  onClick={handleBookAppButton} variant="contained" className={classes.bookbutton}> Book an Appointment</Button>
+                    <Link styles={{textDecoration:'none'}}>
+                      <Button  
+                        style={{backgroundColor: '#22577A', color: '#FFFFFF'}}  
+                        onClick={handleBookAppButton} 
+                        variant="contained" 
+                        className={classes.bookbutton}
+                      > 
+                        Book an Appointment
+                      </Button>
                     </Link>
                   </>
                   }
@@ -330,7 +338,7 @@ let [filterChosen, setFilterChosen] = useState([]);
         {groupedOptions.length > 0 ? (
           <ul className={classes.listbox} {...getListboxProps()}>
             {groupedOptions.map((option, index) => (
-              <li {...getOptionProps({ option, index })}>{option.fullName} </li>
+              <li {...getOptionProps({ option, index })} onClick={()=>props.history.push(`/doctor-profile/${option._id}`)}>{option.fullName} </li>
             ))}
           </ul>
         ) : null}

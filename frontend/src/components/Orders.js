@@ -69,11 +69,29 @@ export default function Orders(props) {
               <TableCell>{app.startDate.toString().slice(11,16)}</TableCell>
               <TableCell>{app.patientName}</TableCell>
               {app.url?
-                <TableCell><Link href={`${app.url}`}><Button style={{backgroundColor: '#22577A', color: '#FFFFFF'}} >View Reports</Button></Link></TableCell>:
+                <TableCell>
+                    <Link href={`${app.url}`}>
+                      <Button style={{backgroundColor: '#22577A', color: '#FFFFFF'}} >
+                        View Reports
+                      </Button>
+                    </Link>
+                </TableCell>:
                 <TableCell>- </TableCell>}
               {app.prescription.diagnosis?
-              <TableCell align="right"><Link to ={`/prescription/${app._id}`}><Button style={{backgroundColor: '#22577A', color: '#FFFFFF'}} >View Prescription</Button></Link></TableCell>:
-              <TableCell align="right"><Link to ={`/prescription/${app._id}`}><Button style={{backgroundColor: '#22577A', color: '#FFFFFF'}} >Add Prescription</Button></Link></TableCell>
+              <TableCell align="right">
+                <Link to ={`/prescription/${app._id}`} styles={{textDecoration:'none'}}>
+                  <Button style={{backgroundColor: '#22577A', color: '#FFFFFF'}} >
+                    View Prescription
+                  </Button>
+                </Link>
+              </TableCell>:
+              <TableCell align="right">
+                <Link to ={`/prescription/${app._id}`} styles={{textDecoration:'none'}}>
+                  <Button style={{backgroundColor: '#22577A', color: '#FFFFFF'}} >
+                    Add Prescription
+                  </Button>
+                </Link>
+              </TableCell>
               }
               
             </TableRow>

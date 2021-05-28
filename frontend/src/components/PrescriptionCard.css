@@ -31,8 +31,10 @@ img {
 
 .bold-text {
 	font-weight: bold;
+	margin-top: -27px;
 	font-size: 1.1rem;
 	text-align: center;
+	margin-bottom: 12px;
 	padding: 10px 20px 0px 20px;
 }
 
@@ -47,16 +49,15 @@ img {
 /* SOCIAL STATS */
 .smaller-text {
 	font-weight: normal;
-	font-size: 0.7rem;
+	font-size: 0.9rem;
 	color: hsl(0, 0%, 50%);
 	text-align: center;
+	margin-top: 20px;
 	letter-spacing: 1px;
 	padding-bottom: 20px;
 	line-height: 5px;
 }
-.contained{
-	margin-bottom: 20px;
-}
+
 .social-container {
 	display: flex;
 	border-top: solid rgb(206, 206, 206) 1px;
@@ -88,4 +89,17 @@ img {
 
 .photos {
 	flex: 1;
+}
+.heading{
+	margin-top: 20px;
+}
+
+p {
+	margin: auto;
+	width: 150px;
+    height: 50px;
+	border-radius: 50%;
+	margin-top: 30px;
+    margin-bottom: 25px;
+
 }

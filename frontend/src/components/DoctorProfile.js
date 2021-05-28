@@ -16,7 +16,18 @@ function ProfileCard(props) {
           // console.log(appointment.url)
           setDoctor(res.data)
         })
-    }, [])
+    }, [props.match.params.id])
+
+	function getAge(dateString) {
+		var today = new Date();
+		var birthDate = new Date(dateString);
+		var age = today.getFullYear() - birthDate.getFullYear();
+		var m = today.getMonth() - birthDate.getMonth();
+		if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+			age--;
+		}
+		return age;
+	}
 
 	return (
 		<div className="card-container">
@@ -28,10 +39,10 @@ function ProfileCard(props) {
 			</h1>
       <h4 className="normal-text-spec">Specialisation in:  <span className="normal-text-spec2">{doctor.specialisation}</span></h4>
       <Button variant="contained">Book an appointment now</Button>
-			<h2 className="normal-text"></h2>
+			{/* <h2 className="normal-text"></h2> */}
 			<div className="social-container">
 				<div className="followers">
-					<h1 className="bold-text">{doctor.dob} years</h1>
+					<h1 className="bold-text">{getAge(doctor.dob)} years</h1>
 					<h2 className="smaller-text">Age</h2>
 				</div>
 				<div className="likes">

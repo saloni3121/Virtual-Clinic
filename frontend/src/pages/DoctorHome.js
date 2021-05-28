@@ -21,7 +21,8 @@ import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
+// import NotificationsIcon from '@material-ui/icons/Notifications';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { mainListItems} from '../components/ListItems';
 import Chart from '../components/Chart';
 import Deposits from '../components/Deposits';
@@ -168,8 +169,8 @@ function DoctorHome(props) {
             Dashboard
           </Typography>
           <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
+            <Badge color="secondary">
+              <ExitToAppIcon onClick={logout}/>
             </Badge>
           </IconButton>
         </Toolbar>
