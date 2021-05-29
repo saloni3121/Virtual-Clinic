@@ -110,14 +110,14 @@ export default function Orders(props) {
                 <TableCell>- </TableCell>}
               {app.prescription.diagnosis?
               <TableCell align="right">
-                <Link to ={`/prescription/${app._id}`} styles={{textDecoration:'none'}}>
+                <Link to ={`/prescription/${app._id}`} style={{textDecoration:'none'}}>
                   <Button style={{backgroundColor: '#22577A', color: '#FFFFFF'}} >
                     View Prescription
                   </Button>
                 </Link>
               </TableCell>:
               <TableCell align="right">
-                <Link to ={`/prescription/${app._id}`} styles={{textDecoration:'none'}}>
+                <Link to ={`/prescription/${app._id}`} style={{textDecoration:'none'}}>
                   <Button style={{backgroundColor: '#22577A', color: '#FFFFFF'}} >
                     Add Prescription
                   </Button>
@@ -137,7 +137,7 @@ export default function Orders(props) {
     </React.Fragment>
     </>:
     <>
-    <CircularProgress/>
+    <CircularProgress style={{margin: '0 auto'}}/>
     </>
     }
     </>

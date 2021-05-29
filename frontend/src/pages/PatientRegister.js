@@ -58,6 +58,10 @@ const useStyles = makeStyles((theme) => ({
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(3),
   },
+  dobField:{
+    marginLeft: '-5px',
+    width: '185px'
+  },
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
@@ -222,7 +226,10 @@ export default function SignUp(props) {
               label="Date of Birth"
               type="date"
               value={patient.dob}
-              className={classes.textField}
+              className={classes.dobField}
+              inputProps={{
+                max: "2001-12-31"
+              }}s
               InputLabelProps={{
                 shrink: true,
               }}

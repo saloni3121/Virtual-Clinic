@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     formControl: {
       margin: theme.spacing(3),
     },
-    nputInput: {
+    inputInput: {
 
       paddingLeft: `calc(1em + ${theme.spacing(5)}px)`,
       transition: theme.transitions.create('width'),
@@ -61,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
       border: '1px solid #b2b2b2',
       display: 'inline-block',
       marginRight: '20px',
+      marginBottom: '30px'
     },
     media: {
       height: 0,
@@ -247,17 +248,19 @@ const [isLoaded, setIsLoaded] = useState(false)
       }
       getDoctors();
       setIsLoaded(true)
-      const doctors = allDoctors.filter(doctor => {
-        return (filterChosen.includes(doctor.specialisation)) 
-          // return true;
-      });
+        const doctors = allDoctors.filter(doctor => {
+          // console.log(doctors) 
+          return (filterChosen.includes(doctor.specialisation)) 
+            // return true;
+        });
+
       setFilteredDoctors(doctors);
       },300)
 
   
 
     
-    },[filterChosen, allDoctors]);
+    },[allDoctors]);
 
     const handleBookAppButton = () =>{
       props.history.push('/login')
@@ -290,8 +293,7 @@ const [isLoaded, setIsLoaded] = useState(false)
     }
 
     return (
-      <>
-      {isLoaded?
+      
       <>
         <div className={classes.central}>
 
@@ -316,7 +318,7 @@ const [isLoaded, setIsLoaded] = useState(false)
             
           {props.isLoggedIn?
           <>
-            <Link to = {`/book-appointment/${props.id}`} styles={{textDecoration:'none'}}>
+            <Link to = {`/book-appointment/${props.id}`} style={{textDecoration:'none'}}>
               <Button  
                 style={{backgroundColor: '#22577A', color: '#FFFFFF'}} 
                 variant="contained"  className={classes.bookbutton}
@@ -326,7 +328,7 @@ const [isLoaded, setIsLoaded] = useState(false)
             </Link>
           </>:
           <>
-            <Link styles={{textDecoration:'none'}}>
+            <Link style={{textDecoration:'none'}}>
               <Button  
                 style={{backgroundColor: '#22577A', color: '#FFFFFF'}}  
                 onClick={handleBookAppButton} 
@@ -399,18 +401,14 @@ const [isLoaded, setIsLoaded] = useState(false)
               image={doc.image}
             />
             <CardContent>
-              <Typography variant="body2" color="textSecondary" component="p">
-              <Button variant="contained" style={{backgroundColor: '#22577A', color: '#fff'}}>Book an appointment</Button>
+              <Typography style={{ textDecoration: 'none'}} variant="body2" color="textSecondary" component="p">
+              <Button variant="contained" style={{backgroundColor: '#22577A', color: '#fff', textDecoration: 'none'}}>Book an appointment</Button>
               </Typography>
             </CardContent>
           </Card>
         ))}
 </div>
-      </>:
-      <>
-      <CircularProgress/>
-      </>
-      }
+   
         
       </>
     );

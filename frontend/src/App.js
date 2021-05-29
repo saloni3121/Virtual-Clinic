@@ -13,6 +13,7 @@ import PatientHistory from './components/PatientHistory';
 import Prescription from './pages/Prescription';
 import DoctorProfile from './components/DoctorProfile';
 import PrescriptionCard from './components/PrescriptionCard';
+import Scheduler from './components/Scheduler'
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route exact path = "/edit-appointment/:id" render={(routeProps) => <EditAppointment {...routeProps}/>} />
           <Route exact path = "/meeting/:id" render ={(routeProps) => <Meeting {...routeProps} />}/>
           <Route exact path = "/prescription/:id" render ={(routeProps) => <Prescription {...routeProps} />}/>
+          <Route exact path = "/schedule/:id" render ={(routeProps) => <Scheduler {...routeProps} />}/>
         </Switch>
     </div>
     </Router>

@@ -90,6 +90,14 @@ const useStyles = makeStyles((theme) => ({
     width: '395px',
     // marginTop: '-18px',
   },
+  buttonUpload:{
+    padding:' 8px',
+    borderRadius: theme.shape.borderRadius,
+    border: 'none',
+    width: '250px',
+    backgroundColor: '#38A3A5',
+    color: '#fff',
+  },
   shiftup:{
     marginTop: '0px',
     width: '190px',
@@ -309,7 +317,7 @@ export default function SignUp(props) {
               onChange={handleChange}
             />
             </Grid>
-            <p className={classes.upload}>Upload Profile Picture</p>
+            {/* <p className={classes.upload}>Upload Profile Picture</p> */}
             <Grid item xs ={12}>
             {/* <TextField
               variant="outlined"
@@ -328,7 +336,8 @@ export default function SignUp(props) {
               mode={'pick'}
               onSuccess={({ filesUploaded }) => setDoctor({...doctor, image: filesUploaded[0].url })}
               onError={(e) => console.log(e)}
-              buttonText={'Pick File'}
+              buttonText={'Upload Profile Picture'}
+              buttonClass={classes.buttonUpload}
             />
             </Grid>
             <Grid className={classes.aligncenter}>
@@ -351,7 +360,7 @@ export default function SignUp(props) {
           </Button>
           <Grid container justify="center">
             <Grid item>
-              <Link href="#" variant="body2" color="inherit">
+              <Link href="/login" variant="body2" color="inherit">
                 Already have an account? Sign in
               </Link>
             </Grid>

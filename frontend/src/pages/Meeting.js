@@ -1,5 +1,11 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import io from "socket.io-client";
+import CallEndIcon from '@material-ui/icons/CallEnd';
+import MicIcon from '@material-ui/icons/Mic';
+import MicOffIcon from '@material-ui/icons/MicOff';
+import VideocamIcon from '@material-ui/icons/Videocam';
+import VideocamOffIcon from '@material-ui/icons/VideocamOff';
+import { IconButton } from '@material-ui/core';
 
 const Meeting = (props) => {
     const userVideo = useRef();
@@ -8,6 +14,9 @@ const Meeting = (props) => {
     const socketRef = useRef();
     const otherUser = useRef();
     const userStream = useRef();
+
+    const [isMuted,setIsMuted] = useState(false)
+    const [isVideoOn,setIsVideoOn] = useState(false)
 
     useEffect(() => {
         navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(stream => {
@@ -135,11 +144,76 @@ const Meeting = (props) => {
         props.history.goBack();
     }
 
+    const micToggle =()=>{
+        setIsMuted(!isMuted)
+    }
+
+    const videoToggle =()=>{
+        setIsVideoOn(!isVideoOn)
+    }
+
     return (
         <div>
-            <button onClick={disconnect}>Disconnect</button>
-            <video autoPlay muted ref={userVideo} />
+            <div style={{display:'inline-block',marginRight: '50px',marginTop: '90px'}}>
+                <video autoPlay muted ref={userVideo} />
+            </div>
             <video autoPlay muted ref={partnerVideo} />
+            <div style={{margin: '20px auto'}}>
+                <IconButton>
+                    {isMuted?
+                        <MicOffIcon 
+                            onClick={micToggle} 
+                            style= {{
+                                backgroundColor:'#EA4335',
+                                height:'30px',
+                                width:'30px',
+                                borderRadius:'30px',
+                                padding:'10px'}}
+                        />:
+                        <MicIcon
+                            onClick={micToggle}
+                            style={{
+                                height:'30px',
+                                width:'30px',
+                                borderRadius:'30px',
+                                border: '1px solid #b2b2b2',
+                                padding:'10px'
+                            }}
+                        />
+                    }
+                </IconButton>
+                <IconButton>
+                    <CallEndIcon 
+                        onClick={disconnect} 
+                        style={{backgroundColor:' #EA4335',height:'30px',width:'30px',borderRadius:'30px',padding:'10px'}}
+                    />
+                </IconButton>
+                <IconButton>
+                    {isVideoOn?
+                        <VideocamOffIcon 
+                            onClick={videoToggle} 
+                            style= {{
+                                backgroundColor:'#EA4335',
+                                height:'30px',
+                                width:'30px',
+                                borderRadius:'30px',
+                                padding:'10px'}}
+                        />:
+                        <VideocamIcon
+                         onClick={videoToggle}
+                         style={{
+                            height:'30px',
+                            border: '1px solid #b2b2b2',
+                            width:'30px',
+                            borderRadius:'30px',
+                            padding:'10px'
+                         }}
+                         />
+                    }
+                </IconButton>
+            </div>
+            
+          
         </div>
     );
 };

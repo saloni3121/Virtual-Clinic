@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState}from 'react';
 // import Button from '@material-ui/core/Button';
 // import Navbar from '../components/Navbar'
 // import Scheduler from '../components/Scheduler.js';
@@ -23,12 +23,12 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 // import NotificationsIcon from '@material-ui/icons/Notifications';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { mainListItems} from '../components/ListItems';
+import {mainListItems} from '../components/ListItems';
 import Chart from '../components/Chart';
 import Deposits from '../components/Deposits';
 import Orders from '../components/Orders';
 import { CircularProgress } from '@material-ui/core';
-// import Scheduler from '../components/Scheduler'
+import Scheduler from '../components/Scheduler'
 
 
 function Copyright() {
@@ -138,7 +138,7 @@ function DoctorHome(props) {
     }
 
   
-
+  const [viewScheduler, setViewScheduler] = useState(false)
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -194,6 +194,20 @@ function DoctorHome(props) {
         <List>{mainListItems}</List>
         {/* <Divider /> */}
       </Drawer>
+      {viewScheduler?
+      <>
+      <Container maxWidth="lg" className={classes.container}>
+          <Grid container spacing={3}> 
+            <Grid item xs={12} md={8} lg={9}>
+              <Paper >
+                <Scheduler />
+              </Paper>
+            </Grid>
+          </Grid>
+        </Container>
+      
+      </>:
+      <>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
@@ -221,22 +235,10 @@ function DoctorHome(props) {
             <Copyright />
           </Box>
         </Container>
-
-
-        {/* <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>  */}
-            {/* <Grid item xs={12} md={8} lg={9}> */}
-              {/* <Paper >
-                <Scheduler />
-              </Paper> */}
-            {/* </Grid> */}
-          {/* </Grid>
-        </Container> */}
-
-
-
-
       </main>
+      </>
+      }
+      
     </div>
         </div>
     

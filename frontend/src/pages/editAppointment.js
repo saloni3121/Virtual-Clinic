@@ -11,8 +11,10 @@ import Container from '@material-ui/core/Container';
 // import moment from 'moment'
 // import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { CircularProgress } from '@material-ui/core';
 
 function EditAppointment(props) {
+    const [isLoaded,setIsLoaded] = useState(false)
     const[data, setData] = useState('');
     // const [allDoctors, setAllDoctors] = useState([]);
 
@@ -40,6 +42,7 @@ function EditAppointment(props) {
   }
 
     useEffect(()=>{
+      setTimeout(()=>{
         async function getAppointment(){
             console.log(appointmentId)
             await axios.get(`http://localhost:5000/meeting/${appointmentId}`).then((res)=>{
@@ -48,9 +51,10 @@ function EditAppointment(props) {
                 console.log(response)
                 setData(response)
             })
-        }
-
+        }   
         getAppointment();
+        setIsLoaded(true)
+      },300)
     },[appointmentId]);
 
     const useStyles = makeStyles((theme) => ({
@@ -69,7 +73,7 @@ function EditAppointment(props) {
           marginTop: theme.spacing(3),
         },
         datefield:{
-          width: '180px'
+          width: '190px'
         },
         docfield:{
           width: '395px',
@@ -87,8 +91,10 @@ function EditAppointment(props) {
     const classes = useStyles();
     
     return (
-    
-            <Container component="main" maxWidth="xs">
+      <>
+      {isLoaded?
+      <>
+       <Container component="main" maxWidth="xs">
                 <CssBaseline />
             <div className={classes.paper}>
     
@@ -123,7 +129,7 @@ function EditAppointment(props) {
                 id="doctorName"
                 // select
                 className={classes.docfield}
-                label="Doctor's Name"
+                label="Specialist's Name"
                 value={`${appointment.doctorName}`}
                 disabled
                 onChange={(e)=> {
@@ -192,6 +198,13 @@ function EditAppointment(props) {
         </form>
       </div>
     </Container>
+      </>:
+      <>
+      <CircularProgress style={{margin: '150px auto'}}/>
+      </>}
+      </>
+    
+           
     )
 }
 
