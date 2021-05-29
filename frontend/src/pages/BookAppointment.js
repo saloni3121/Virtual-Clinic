@@ -9,6 +9,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import Container from '@material-ui/core/Container';
 import 'react-datepicker/dist/react-datepicker.css';
+// import {Stack} from '@material-ui/core';
+// import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
+// import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
+// import TimePicker from '@material-ui/lab/TimePicker';
 import dotenv from 'dotenv';
 import ReactFilestack from 'react-filestack'
 import { CircularProgress } from '@material-ui/core';
@@ -19,7 +23,8 @@ function BookAppointment(props) {
 
     const[data, setData] = useState('');
     const [allDoctors, setAllDoctors] = useState([]);
-    const [isLoaded, setIsLoaded] = useState(false)
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [value, setValue] = React.useState(new Date('2020-01-01 12:00'))
 
     const patientId = props.match.params.id;
 
@@ -30,6 +35,7 @@ function BookAppointment(props) {
       startDate: new Date(),
       url: '',
   });
+  console.log(`${new Date().getDate()}-${new Date().getMonth()}-${new Date().getFullYear()}`)
 
 
   const bookAppointment =(e)=>{
@@ -68,7 +74,7 @@ function BookAppointment(props) {
       setIsLoaded(true)
       },300)
 
-    },[allDoctors, patientId]);
+    },[patientId]);
 
     const useStyles = makeStyles((theme) => ({
         paper: {
@@ -91,7 +97,15 @@ function BookAppointment(props) {
         docfield:{
           width: '395px',
         },
-        submit: {
+        
+        buttonUpload:{
+          padding:' 8px',
+          borderRadius: theme.shape.borderRadius,
+          border: 'none',
+          width: '250px',
+          backgroundColor: '#38A3A5',
+          color: '#fff',
+        },submit: {
           margin: theme.spacing(3, 0, 2),
         },
         fullsize:{
@@ -103,7 +117,11 @@ function BookAppointment(props) {
 
     const classes = useStyles();
     // console.log(new Date())
-    
+    let m = `0${new Date().getMonth().toString()}`
+    let month = m.slice(-2)
+    month = `0${(parseInt(month)+1).toString()}`
+    month = month.slice(-2)
+    console.log(month)
     return (
 
           <>
@@ -164,9 +182,11 @@ function BookAppointment(props) {
                 type="date"
                 variant="outlined"
                 value={appointment.date}
-                name="dob"
+                name="date"
                 className={classes.datefield}
-                inputProps={{ min: "25-05-2021"}}
+                inputProps={{
+                   min: `${new Date().getFullYear()}-${month}-${new Date().getDate()}`
+                  }}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -201,9 +221,10 @@ function BookAppointment(props) {
             <ReactFilestack 
               apikey="As9Na4GuRDGAeFOcRfEgqz"
               mode={'pick'}
-              onSuccess={({ filesUploaded }) => setAppointment({...appointment, url: filesUploaded[0].url })}
+              onSucReportscess={({ filesUploaded }) => setAppointment({...appointment, url: filesUploaded[0].url })}
               onError={(e) => console.log(e)}
-              buttonText={'Pick File'}
+              buttonClass={classes.buttonUpload}
+              buttonText={'Upload Reports'}
             />
             </Grid>
           </Grid>
@@ -222,7 +243,7 @@ function BookAppointment(props) {
     </Container>
           </>:
           <>
-          <CircularProgress/>
+          <CircularProgress style={{margin: '250px auto'}}/>
           </>}
         </>
             
