@@ -8,7 +8,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import axios from 'axios'
+import axios from 'axios';
+import {Link} from 'react-router-dom'
 
 const breakPoints = [
   { width: 1, itemsToShow: 1 },
@@ -60,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-function DoctorCarousel() {
+function DoctorCarousel(props) {
 
     
   const [allDoctors, setAllDoctors] = useState([]);
@@ -72,6 +73,7 @@ function DoctorCarousel() {
           await axios.get("http://localhost:5000/doctor").then((res)=>{
               const response = res.data;
               setAllDoctors(response);
+              console.log(res.data)
           })
       }
 
@@ -80,6 +82,7 @@ function DoctorCarousel() {
   },[]);
 
   const classes = useStyles();
+  console.log(props.loggedIn)
 
   return (
     <>
@@ -108,7 +111,18 @@ function DoctorCarousel() {
                     />
                     <CardContent>
                       <Typography variant="body2" color="textSecondary" component="p">
-                      <Button variant="contained" style={{backgroundColor: '#22577A', color: '#fff'}}>Book an appointment</Button>
+                        {props.loggedIn?
+                        <>
+                          <Link to={`/book-appointment/${props.id}`} style={{textDecoration: 'none'}}>
+                          <Button variant="contained" style={{backgroundColor: '#22577A', color: '#fff'}}>Book an appointment</Button>
+                          </Link>
+                        </>:
+                        <>
+                         <Link to="/login" style={{textDecoration: 'none'}}>
+                          <Button variant="contained" style={{backgroundColor: '#22577A', color: '#fff'}}>Book an appointment</Button>
+                          </Link>
+                        </>}
+                      
                       </Typography>
                     </CardContent>
                   </Card>

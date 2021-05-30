@@ -9,10 +9,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import Container from '@material-ui/core/Container';
 import 'react-datepicker/dist/react-datepicker.css';
-// import {Stack} from '@material-ui/core';
-// import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
-// import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
-// import TimePicker from '@material-ui/lab/TimePicker';
 import dotenv from 'dotenv';
 import ReactFilestack from 'react-filestack'
 import { CircularProgress } from '@material-ui/core';
@@ -35,17 +31,14 @@ function BookAppointment(props) {
       startDate: new Date(),
       url: '',
   });
-  console.log(`${new Date().getDate()}-${new Date().getMonth()}-${new Date().getFullYear()}`)
 
 
   const bookAppointment =(e)=>{
     e.preventDefault();
-    console.log(appointment);
     axios.post(`http://localhost:5000/book-appointment/${patientId}`,appointment).then((res)=>{
       props.history.push('/patient-home/'+ patientId);
       alert("appointment booked");
       window.location.reload(false);
-      console.log(appointment);
     }).catch((err)=>{
       console.log(err)
       props.history.push(`/book-appointment/${patientId}`)
@@ -61,17 +54,17 @@ function BookAppointment(props) {
               const response = res.data;
               setAllDoctors(response);
           })
-      }
-
-      async function makeRequest() {
+        }
+        async function makeRequest() {
           await axios.get(`http://localhost:5000/patient/${patientId}`).then ((res)=>{
               const patient = res.data;
               setData(patient);
           })
-      }
-      makeRequest();
-      getDoctors();
-      setIsLoaded(true)
+        }
+        makeRequest();
+        getDoctors();
+        setIsLoaded(true)
+
       },300)
 
     },[patientId]);
@@ -88,7 +81,7 @@ function BookAppointment(props) {
           backgroundColor: theme.palette.secondary.main,
         },
         form: {
-          width: '100%', // Fix IE 11 issue.
+          width: '100%',
           marginTop: theme.spacing(3),
         },
         datefield:{
@@ -113,138 +106,140 @@ function BookAppointment(props) {
         }
       }));
       
-      
-
     const classes = useStyles();
-    // console.log(new Date())
     let m = `0${new Date().getMonth().toString()}`
     let month = m.slice(-2)
     month = `0${(parseInt(month)+1).toString()}`
     month = month.slice(-2)
-    console.log(month)
     return (
-
           <>
-          {isLoaded ? <>
-            <Container component="main" maxWidth="xs">
-                <CssBaseline />
-            <div className={classes.paper}>
-    
-        <Typography component="h1" variant="h5" color="textSecondary">
-          Book an Appointment
-        </Typography> 
-        <form className={classes.form} noValidate onSubmit={bookAppointment}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} >
-              <TextField
-                autoComplete="patientName"
-                name="patientName"
-                variant="outlined"
-                value={`${data.firstName} ${data.lastName}`}
-                required
-                fullWidth
-                id="patientName"
-                label="Patient's Name"
-                autoFocus
-                onBeforeInput =  {(e)=> 
-                  setAppointment({...appointment, patientName: e.target.value})}
-                onChange={(e)=> {
-                  setAppointment({...appointment, patientName: e.target.value});
-                }}
-              />
-            </Grid>
-          
-            <Grid item xs={12} >
-        
-              <TextField
-                id="doctorName"
-                select
-                className={classes.docfield}
-                label="Select a specialist to consult"
-                value={appointment.doctorName}
-                onChange={(e)=> {
-                  setAppointment({...appointment, doctorName: e.target.value});
-                }}
-                variant="outlined"
-              >
-                {allDoctors.map((doc) => (
-                  <MenuItem key={doc._id} value={doc.fullName}>
-                    {doc.fullName}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-            
-            <Grid item xs ={12} sm={6}>
-            <TextField
-                id="date"
-                label="Date of appointment"
-                type="date"
-                variant="outlined"
-                value={appointment.date}
-                name="date"
-                className={classes.datefield}
-                inputProps={{
-                   min: `${new Date().getFullYear()}-${month}-${new Date().getDate()}`
-                  }}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                onChange={(evt)=> {
-                  setAppointment({...appointment, date: evt.target.value})
-                  
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-                <TextField
-                    id="startDate"
-                    label="Time of appointment"
-                    type="time"
-                    variant="outlined"
-                    defaultValue="09:00"
-                    value={appointment.startDate}
-                    className={classes.fullsize}
-                    onChange={
-                      (e)=> {setAppointment({...appointment, startDate: e.target.value})
-                    }}
-                    InputLabelProps={{
-                    shrink: true,
-                    }}
-                    inputProps={{
-                    step: 1800, // 5 min
-                    }}
-                />
-            </Grid>
-            <Grid item xs ={12}>
+            {isLoaded ? 
+            <>
+              <Container component="main" maxWidth="xs">
+                  <CssBaseline />
+                  <div className={classes.paper}>
+                    <Typography component="h1" variant="h5" color="textSecondary">
+                        Book an Appointment
+                    </Typography> 
+                    <form className={classes.form} noValidate onSubmit={bookAppointment}>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12} >
+                          <TextField
+                            autoComplete="patientName"
+                            name="patientName"
+                            variant="outlined"
+                            value={`${data.firstName} ${data.lastName}`}
+                            required
+                            fullWidth
+                            id="patientName"
+                            label="Patient's Name"
+                            autoFocus
+                            onBeforeInput =  {(e)=> 
+                              setAppointment({...appointment, patientName: e.target.value})}
+                            onChange={(e)=> {
+                              setAppointment({...appointment, patientName: e.target.value});
+                            }}
+                          />
+                        </Grid>
+                      
+                        <Grid item xs={12} >
+                    
+                          <TextField
+                            id="doctorName"
+                            select
+                            className={classes.docfield}
+                            label="Select a specialist to consult"
+                            value={appointment.doctorName}
+                            onChange={(e)=> {
+                              setAppointment({...appointment, doctorName: e.target.value});
+                            }}
+                            variant="outlined"
+                          >
+                            {allDoctors.map((doc) => (
+                              <MenuItem key={doc._id} value={doc.fullName}>
+                                {doc.fullName}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                        </Grid>
+                        
+                        <Grid item xs ={12} sm={6}>
+                        <TextField
+                            id="date"
+                            label="Date of appointment"
+                            type="date"
+                            variant="outlined"
+                            value={appointment.date}
+                            name="date"
+                            className={classes.datefield}
+                            inputProps={{
+                              min: `${new Date().getFullYear()}-${month}-${new Date().getDate()}`
+                              }}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            onChange={(evt)=> {
+                              setAppointment({...appointment, date: evt.target.value})
+                              
+                            }}
+                          />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                id="startDate"
+                                label="Time of appointment"
+                                type="time"
+                                variant="outlined"
+                                defaultValue="07:30"
+                                value={appointment.startDate}
+                                className={classes.fullsize}
+                                onChange={
+                                  (e)=> {setAppointment({...appointment, startDate: e.target.value})
+                                }}
+                                inputProps={{
+                                  minValue: "09:00",
+                                  maxValue: "17:00"
+                                }}
+                                InputLabelProps={{
+                                shrink: true,
+                                }}
+                                inputProps={{
+                                step: 300, // 5 min
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs ={12}>
 
-            <ReactFilestack 
-              apikey="As9Na4GuRDGAeFOcRfEgqz"
-              mode={'pick'}
-              onSucReportscess={({ filesUploaded }) => setAppointment({...appointment, url: filesUploaded[0].url })}
-              onError={(e) => console.log(e)}
-              buttonClass={classes.buttonUpload}
-              buttonText={'Upload Reports'}
-            />
-            </Grid>
-          </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            style={{backgroundColor: '#22577A', color: '#FFFFFF'}}
-            className={classes.submit}
-          >
-            Book an Appointment
-          </Button>
-        </form>
-      </div>
-    </Container>
-          </>:
-          <>
-          <CircularProgress style={{margin: '250px auto'}}/>
-          </>}
+                        <ReactFilestack 
+                          apikey="As9Na4GuRDGAeFOcRfEgqz"
+                          mode={'pick'}
+                          onSuccess={({ filesUploaded }) => {
+                            setAppointment({...appointment, url: filesUploaded[0].url })
+                          }}
+                          onError={(e) => console.log(e)}
+                          buttonClass={classes.buttonUpload}
+                          buttonText={'Upload Reports'}
+                        />
+                        </Grid>
+                      </Grid>
+                      <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        style={{backgroundColor: '#22577A', color: '#FFFFFF'}}
+                        className={classes.submit}
+                      >
+                        Book an Appointment
+                      </Button>
+                    </form>
+                  </div>
+            </Container>
+            </>:
+            <>
+            <CircularProgress style={{margin: '250px auto'}}/>
+            </>
+            }
         </>
             
     )

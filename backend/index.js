@@ -29,9 +29,7 @@ const io = new Server(server, {
     origin: '*',
   }
 });
-// const io = Server.listen(server);
 
-// console.log(io)
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended : true}));
@@ -39,7 +37,6 @@ app.use(express.urlencoded({extended : true}));
 
 const PORT = process.env.PORT || 5000;
 const CONNECTION_URL = "mongodb+srv://admin:tJ2AoR50nzohb06h@cluster0.rhgoj.mongodb.net/Virtual_Clinic?retryWrites=true&w=majority";
-// const CONNECTION_URL = "mongodb+srv://Admin:Xf9bnXJ7Q6aaKgn@cluster0.wo3zb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 
 app.use(passport.initialize());
 app.use(passport.session());

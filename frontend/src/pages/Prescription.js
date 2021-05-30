@@ -1,28 +1,22 @@
 import React, {useState, useEffect} from 'react';
-// import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import AddIcon from '@material-ui/icons/Add';
 import Grid from '@material-ui/core/Grid';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Box from '@material-ui/core/Box';
-// import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
-// import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-// import { TextareaAutosize } from '@material-ui/core';
 import axios from 'axios'
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" href="https://material-ui.com/" style={{textDecoration : 'none'}}>
         Your Website
       </Link>{' '}
       {new Date().getFullYear()}
@@ -43,24 +37,20 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%', 
     marginTop: theme.spacing(3),
   },
   add:{
-    width: '235px',
-    // margin: theme.spacing(0, 10, 0),   
+    width: '235px',  
     marginLeft: '90px',
     marginTop: '10px'
   },
   medicineField:{
-    // width: '3px',
     position: 'relative',
     marginLeft: '-2px',
     marginBottom: '10px',
   },
-  deleteIcon:{
-    // marginTop: 
-  },
+
   eachInput:{
     marginTop: '30px'
   },
@@ -80,8 +70,6 @@ const useStyles = makeStyles((theme) => ({
 export default function Prescription(props) {
   const classes = useStyles();
 
-  // const [diagnosis, setDiagnosis] = useState('');
-
   const [fields, setFields] = useState({ 
     diagnosis: '',
     medicine : [{
@@ -96,11 +84,9 @@ export default function Prescription(props) {
   const appointmentId = props.match.params.id
   useEffect(() => {
     async function getAppointment(){
-      console.log(appointmentId)
       await axios.get(`http://localhost:5000/meeting/${appointmentId}`).then((res)=>{
           const response = res.data;
           setData(response)
-          console.log(response)
       }).catch((err)=>{
         console.log(err);
       })
@@ -111,18 +97,14 @@ export default function Prescription(props) {
 
   function handleChangeValue(i, event) {
     const spread = {...fields};
-    // const values = [...spread, spread[i].value: event.target.value]
     const values = [...spread.medicine];
     values[i].value = event.target.value
-    // values[i].medicine.value = event.target.value;
     setFields({...fields,medicine: values});
   }
   function handleChangeInstruction(i, event) {
     const spread = {...fields};
-    // const values = [...spread, spread[i].value: event.target.value]
     const instructions = [...spread.medicine];
     instructions[i].instruction = event.target.value
-    // values[i].medicine.value = event.target.value;
     setFields({...fields,medicine: instructions});
   }
 
@@ -147,7 +129,6 @@ export default function Prescription(props) {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    console.log('submitted')
     axios.put(`http://localhost:5000/add-prescription/${appointmentId}`,fields).then((res)=>{
       if(res){
         alert('prescription made');
@@ -158,18 +139,6 @@ export default function Prescription(props) {
       props.history.push(`/prescription/${appointmentId}`)
     })
   }
-
-  function getAge(dateString) {
-    var today = new Date();
-    var birthDate = new Date(dateString);
-    var age = today.getFullYear() - birthDate.getFullYear();
-    var m = today.getMonth() - birthDate.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
-    }
-    return age;
-}
-
 
   return (
     <Container component="main" maxWidth="xs">
@@ -184,7 +153,6 @@ export default function Prescription(props) {
             <Grid item xs={12}>
               <TextField
                 autoComplete="fname"
-                // name="patientName"
                 variant="outlined"
                 required
                 fullWidth
@@ -192,20 +160,6 @@ export default function Prescription(props) {
                 value={`${data.patientName}`}
                 id="patientName"
                 label="Patient Name"
-                // autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                disabled
-                // value={getAge(data.patient.dob)}
-                id="age"
-                label="Age"
-                name="age"
-                autoComplete="lname"
               />
             </Grid>
             <Grid item xs={12}>
@@ -224,20 +178,17 @@ export default function Prescription(props) {
 
             <Grid item xs={12}>
             <TextField
-                    variant="outlined"
-                    fullWidth
-                    id="Diagnosis"
-                    label="Diagnosis"
-                    type="text"
-                    name="diagnosis"
-                    required
-                    multiline
-                    // className={classes.instructionField}
-                    onChange={e => handleDiagnosis(e)}
+              variant="outlined"
+              fullWidth
+              id="Diagnosis"
+              label="Diagnosis"
+              type="text"
+              name="diagnosis"
+              required
+              multiline
+              onChange={e => handleDiagnosis(e)}
             />
             </Grid>
-           
-           
            <Grid item xs={12}>
              {fields.medicine.map((field, idx) => {
             return (
@@ -253,17 +204,17 @@ export default function Prescription(props) {
                   value={field.value || ""}
                   onChange={e => handleChangeValue(idx, e)}
                 />
-                  <TextField
-                    variant="outlined"
-                    id="Instructions"
-                    label="Instructions"
-                    type="text"
-                    required
-                    multiline
-                    value={field.instruction || ""}
-                    className={classes.instructionField}
-                    onChange={e => handleChangeInstruction(idx, e)}
-                  />
+                <TextField
+                  variant="outlined"
+                  id="Instructions"
+                  label="Instructions"
+                  type="text"
+                  required
+                  multiline
+                  value={field.instruction || ""}
+                  className={classes.instructionField}
+                  onChange={e => handleChangeInstruction(idx, e)}
+                />
 
                 <Button type="button" style={{backgroundColor: '#f50057', color: '#fff'}} className={classes.deleteButton} onClick={() => handleRemove(idx)}>
                   <DeleteIcon className={classes.deleteIcon}/>
@@ -272,31 +223,25 @@ export default function Prescription(props) {
             );
           })}
             </Grid>
-
-            <Button
-              type="button"
-              // fullWidth
-              variant="contained"
-              style={{backgroundColor: '#38A3A5', color: '#fff'}}
-              className={classes.add}
-              onClick={() => handleAdd()}
-            >
-              <AddIcon/>Click to add medicine
-            </Button>
-
+              <Button
+                type="button"
+                variant="contained"
+                style={{backgroundColor: '#38A3A5', color: '#fff'}}
+                className={classes.add}
+                onClick={() => handleAdd()}
+              >
+                <AddIcon/>Click to add medicine
+              </Button>
             </Grid>
-
-
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            style={{backgroundColor: '#22577A', color: '#fff'}}
-            className={classes.submit}
-          >
-            Submit
-          </Button>
-
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              style={{backgroundColor: '#22577A', color: '#fff'}}
+              className={classes.submit}
+            >
+              Submit
+            </Button>
         </form>
       </div>
       <Box mt={5}>

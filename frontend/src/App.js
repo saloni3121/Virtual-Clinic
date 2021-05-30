@@ -35,7 +35,7 @@ function App() {
           <Route exact path = "/prescription/:id" render ={(routeProps) => <Prescription {...routeProps} />}/>
           <Route exact path = "/schedule/:id" render ={(routeProps) => <Scheduler {...routeProps} />}/>
         </Switch>
-    </div>
+      </div>
     </Router>
     
   );

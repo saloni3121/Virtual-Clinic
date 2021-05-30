@@ -14,6 +14,7 @@ export const getPatient = async (req,res) =>{
     }
 }
 
+
 export const createPatient = async (req,res) =>{
     Patient.findOne({email:req.body.email},(patient,err,done)=>{
         if(patient){
@@ -33,6 +34,7 @@ export const createPatient = async (req,res) =>{
         res.status(409).json({message: error.message})
     }
 }
+
 
 export const findPatient = async (req,res)=>{
     Patient.findById(req.params.id).populate("appointments").exec((err,foundPatient)=>{

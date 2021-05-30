@@ -13,6 +13,8 @@ const useStyles = makeStyles({
     maxWidth: 500,
     height: 'auto',
     margin: '150px auto',
+    border: '1px solid #b2b2b2',
+    backgroundColor: '#fff'
   },
   bullet: {
     display: 'inline-block',
@@ -29,7 +31,6 @@ const useStyles = makeStyles({
 
 export default function PrescriptionCard(props) {
 
-  console.log(props.match.params.id)
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
 
@@ -39,20 +40,17 @@ export default function PrescriptionCard(props) {
   const [medicines, setMedicines] = useState([])
   const [isLoaded, setIsLoaded] = useState(false)
 
-  console.log(isLoaded)
-
   useEffect(() => {
+      document.body.style.backgroundColor = '#22577A'
       axios.get(`http://localhost:5000/meeting/${props.match.params.id}`)
       .then(res => {
 
         setTimeout(()=>{
           const app = res.data;
-          // console.log(appointment.doctor.clinicContact)
           setAppointment(app)
           setDoctor(app.doctor)
           setPrescription(app.prescription)
           setMedicines(app.prescription.medicine)
-          console.log(medicines)
           setIsLoaded(true)
         },300)
 
@@ -62,30 +60,30 @@ export default function PrescriptionCard(props) {
   return (
     <>
     {isLoaded?
-          <>
-          <Card className={classes.root}>
+      <>
+        <Card className={classes.root}>
           <CardContent>
             <Typography className={classes.title} color="textSecondary" gutterBottom>
-              Prescription
+              Prescribed
             </Typography>
             <Typography variant="h6" component="h2" style={{marginTop: '-15px'}}>
-              by {appointment.doctorName}
+              by Dr. {appointment.doctorName}
             </Typography>
-            <Typography variant="h6" component="h2" style={{backgroundColor: '#b2b2b2',marginTop: '15px',width:'580px',marginLeft: '-55px'}}>
-            {prescription.diagnosis}
+            <Typography variant="h6" component="h2" style={{marginTop: '45px',width:'580px',marginLeft: '-55px'}}>
+              Diagnosis: {prescription.diagnosis}
             </Typography>
             <Typography variant="body2" component="p">
-              <ul style={{marginTop: '30px'}}>
+              <ul style={{marginTop: '10px'}}>
                 {medicines.map(med => (
-                    <p style={{backgroundColor: '#b2b2b2', width: '500px',marginLeft: '-55px',marginTop: '10px',marginBottom: '10px', padding: '15px'}}>
-                    <p style={{display: 'inline-block'}}>Medicine Name:</p>
-                    <p style={{display: 'inline-block', fontWeight: '700'}}>  {med.value}</p> 
+                    <p style={{ width: '500px',marginLeft: '-55px',marginTop: '10px',marginBottom: '10px', padding: '15px'}}>
+                    <p style={{display: 'inline-block'}}>Medicine: </p>
+                    <p style={{display: 'inline-block', fontWeight: '700',marginLeft: '8px'}}> {med.value}</p> 
                     <br></br>
                     <p 
                       style={{display: 'inline-block',marginTop: '-20px'}}>
                           Instructions:
                     </p> 
-                    <p style={{display: 'inline-block',marginTop: '-20px', fontWeight: '700'}}>
+                    <p style={{display: 'inline-block',marginTop: '-20px', fontWeight: '700',marginLeft: '8px'}}>
                         {med.instruction}
                     </p>
                   </p>
@@ -95,16 +93,25 @@ export default function PrescriptionCard(props) {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small" style={{backgroundColor: '#22577A',color: '#fff',margin: '0px auto',padding : '10px 10px',marginBottom: '20px'}}>
-              Call {doctor.clinicContact} for any queries
+            <Button size="small" 
+            style={{
+              backgroundColor: '#22577A',
+              color: '#fff',
+              margin: '0px auto',
+              padding : '10px 10px',
+              marginBottom: '20px', 
+              fontWeight: '500',
+              marginTop: '-25px'}}
+            >
+              Call {doctor.clinicContact} for help
             </Button>
           </CardActions>
         </Card>
-    </> :
-    <>
-    <CircularProgress/>
-    </>
-    }
+      </> :
+        <>
+          <CircularProgress style={{margin: '250px auto'}}/>
+        </>
+      }
 
     </>
   );

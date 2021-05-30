@@ -9,13 +9,9 @@ import Grid from '@material-ui/core/Grid';
 import Alert from '@material-ui/lab/Alert';
 import Box from '@material-ui/core/Box';
 import IconButton from '@material-ui/core/IconButton';
-// import Input from '@material-ui/core/Input';
-// import clsx from 'clsx';
-// import FilledInput from '@material-ui/core/FilledInput';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
-// import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import Visibility from '@material-ui/icons/Visibility';
@@ -27,7 +23,6 @@ import Container from '@material-ui/core/Container';
 import axios from '../Axios.js';
 
 function Copyright() {
-
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
@@ -52,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#22577A',
   },
   form: {
-    width: '90%', // Fix IE 11 issue.
+    width: '90%', 
     marginTop: theme.spacing(1),
   },
   aligncenter:{
@@ -83,31 +78,31 @@ export default function Login(props) {
   const [user,setUser]= useState({
     email : '',
     password: '',
-})
+  })
 
-const [error,setError] = useState('')
-
+  const [error,setError] = useState('')
   const [showPassword,setShowPassword] = useState(false)
 
   const handleSubmit = (evt)=>{
     evt.preventDefault();
-    axios.post("http://localhost:5000/login",user).then((response)=>{
-      if(response.data){
-        const currentRole = response.data.role;
-        props.history.push(`${currentRole}-home/${response.data._id}`)
-      }else{
-        props.history.push("/login")
-      }
-    }).catch((error)=>{
-        console.log(error);
-        props.history.push("/login")
-        setError('Invalid email or password')
-    })
+      axios.post("http://localhost:5000/login",user).then((response)=>{
+        if(response.data){
+          const currentRole = response.data.role;
+          props.history.push(`${currentRole}-home/${response.data._id}`)
+        }else{
+          props.history.push("/login")
+        }
+      }).catch((error)=>{
+          console.log(error);
+          props.history.push("/login")
+          setError('Invalid email or password')
+      })
   }
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
+
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
@@ -162,7 +157,7 @@ const [error,setError] = useState('')
                   onMouseDown={handleMouseDownPassword}
                   edge="end"
                 >
-                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                {showPassword ? <Visibility /> : <VisibilityOff />}
                 </IconButton>
               </InputAdornment>
             }

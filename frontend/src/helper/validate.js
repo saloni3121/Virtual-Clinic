@@ -1,5 +1,4 @@
 import validator from 'validator';
-// import {useState} from 'react';
 
 export function validatePassword(value){
     let errorPassword
@@ -11,7 +10,6 @@ export function validatePassword(value){
     } else {
         errorPassword = 'Password is weak'
     }
-
     return errorPassword
 }
 
@@ -22,6 +20,5 @@ export function validateEmail(value){
     } else {
         error = 'Enter valid Email!'
     }
-
     return error;
 }

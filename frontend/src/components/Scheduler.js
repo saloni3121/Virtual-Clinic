@@ -35,6 +35,10 @@ const style = ({ palette }) => ({
     width: '200px',
     marginLeft: '60px'
   },
+  contain:{
+    marginTop: '50px',
+    width: '100%'
+  },
   commandButton: {
     backgroundColor: 'rgba(255,255,255,0.65)',
   },
@@ -64,14 +68,8 @@ const Content = withStyles(style, { name: 'Content' })(({
   <AppointmentTooltip.Content {...restProps} appointmentData={appointmentData}>
     <Grid container alignItems="center">
       <Grid item xs={2} className={classes.textCenter}>
-        <Link to= {`/meeting/${appointmentData.location}`}>
+        <Link to= {`/meeting/${appointmentData.location}`} style={{textDecoration: 'none'}}>
         <Button className={classes.joinbutton} variant="contained" color="primary" >Join the meeting</Button>
-        </Link>
-        <a href= {`${appointmentData.reportLink}`}>
-        <Button className={classes.joinbutton} variant="contained" color="primary" >view reports</Button>
-        </a>
-        <Link to= {`/prescription/${appointmentData.location}`}>
-        <Button className={classes.joinbutton} variant="contained" color="primary" >Write a prescription</Button>
         </Link>
       </Grid>
       <Grid item xs={10}>
@@ -106,9 +104,7 @@ export class DoctorHome extends React.PureComponent {
     componentDidMount() {
       axios.get(`http://localhost:5000/doctor-home/${this.props.id}`)
         .then(res => {
-          console.log(res.data.appointments)
           const appointments = res.data.appointments;
-          console.log(appointments)
           this.setState({apps: appointments});
         })
     }
@@ -128,22 +124,17 @@ export class DoctorHome extends React.PureComponent {
 
                 }
       })
-
-   console.log(data)
         
         return (
-          <Paper>
+          <Paper style={{marginTop: '50px', width: '1200px'}}>
             <Scheduler
               data={data}
               height={660}
             >
-              
-             
               <ViewState
                 currentDate={currentDate}
                 onCurrentDateChange={this.currentDateChange}
               />
-              
               <WeekView
                 startDayHour={10}
                 endDayHour={19}

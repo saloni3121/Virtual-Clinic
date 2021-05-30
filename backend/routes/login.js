@@ -10,7 +10,6 @@ router.get("/logout", function (req, res) {
     res.status(200).json({message: "Success"})
   });
 
-
 router.post( '/login', passport.authenticate([ 'patient-local', 'doctor-local' ], {
         failureRedirect : 'http://localhost:5000/login'
     }),

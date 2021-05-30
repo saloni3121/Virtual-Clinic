@@ -27,7 +27,6 @@ const Meeting = (props) => {
             socketRef.current.emit("join room", props.match.params.id);
             
             socketRef.current.on('other user', userID => {
-                console.log(userID)
                 callUser(userID);
                 otherUser.current = userID;
             });
@@ -51,7 +50,6 @@ const Meeting = (props) => {
     }
 
     function createPeer(userID) {
-      console.log("peer created ///// by saloni")
         const peer = new RTCPeerConnection({
             iceServers: [
                 {
@@ -74,7 +72,6 @@ const Meeting = (props) => {
 
     function handleNegotiationNeededEvent(userID) {
         peerRef.current.createOffer().then(offer => {
-            console.log("offer made by saloni")
             return peerRef.current.setLocalDescription(offer);
         }).then(() => {
             const payload = {
@@ -82,7 +79,6 @@ const Meeting = (props) => {
                 caller: socketRef.current.id,
                 sdp: peerRef.current.localDescription
             };
-            console.log(" data is sent by saloni ")
             socketRef.current.emit("offer", payload);
         }).catch(e => console.log(e));
     }
@@ -90,11 +86,9 @@ const Meeting = (props) => {
     function handleRecieveCall(incoming) {
         peerRef.current = createPeer();
         const desc = new RTCSessionDescription(incoming.sdp);
-        console.log("shourya recevied salonis offer")
         peerRef.current.setRemoteDescription(desc).then(() => {
             userStream.current.getTracks().forEach(track => peerRef.current.addTrack(track, userStream.current));
         }).then(() => {
-          console.log("creating answer   ///shourya")
             return peerRef.current.createAnswer();
         }).then(answer => {
             return peerRef.current.setLocalDescription(answer);
@@ -104,19 +98,13 @@ const Meeting = (props) => {
                 caller: socketRef.current.id,
                 sdp: peerRef.current.localDescription
             }
-            console.log("answer sent back to saloni")
             socketRef.current.emit("answer", payload);
         })
-        console.log(peerRef.current)
     }
 
     function handleAnswer(message) {
-      // console.log(message.sdp)
         const desc = new RTCSessionDescription(message.sdp);
-        // console.log(desc)
         peerRef.current.setRemoteDescription(desc).catch(e => console.log(e));
-        console.log("saloni recieved answer by shourya") 
-        console.log( peerRef.current)
     }
 
     function handleICECandidateEvent(e) {

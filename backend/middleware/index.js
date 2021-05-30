@@ -1,14 +1,12 @@
-var middlewareObj = {};
 import Doctor from '../models/doctor.js'
 import Patient from '../models/patient.js'
+var middlewareObj = {};
 
 middlewareObj.isLoggedIn = function(req, res, next){
     if(req.isAuthenticated()){
         return next();
     }
     res.status(409).json("Please login to continue")
-    // req.flash("error", "You need to be logged in to do that")
-    // res.redirect("/login");
 }
 
 middlewareObj.checkPatientOwnership = function(req,res,next){

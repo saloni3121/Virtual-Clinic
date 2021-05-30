@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
   bg:{
       backgroundColor: '#22577A',
+      borderRadius: '0px'
   },
   allnav:{
       float: 'right',
@@ -45,7 +46,7 @@ export default function ButtonAppBar(props) {
             <>
                 {props.isPatient?
                 <>
-                  <Link to ={`/history/${props.id}`}><Button className={classes.navlink}  color="inherit">Recent Appointments</Button></Link>
+                  <Link to ={`/history/${props.id}`} style={{textDecoration: 'none'}}><Button className={classes.navlink}  color="inherit">Recent Appointments</Button></Link>
                   <Button onClick={props.logout} className={classes.navlink}  color="inherit">Logout</Button>
                 </>:
                 <>

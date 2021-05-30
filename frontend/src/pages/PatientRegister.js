@@ -1,28 +1,18 @@
 import React, {useState} from 'react';
-// import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
 import Alert from '@material-ui/lab/Alert';
 import Grid from '@material-ui/core/Grid';
-// import Box from '@material-ui/core/Box';
-// import clsx from 'clsx';
-// import { CAlert } from '@coreui/react'
-// import FilledInput from '@material-ui/core/FilledInput';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
-// import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
-// import TextField from '@material-ui/core/TextField';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-// import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-// import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -269,7 +259,7 @@ export default function SignUp(props) {
           </Button>
           <Grid container justify="center">
             <Grid item>
-              <Link href="/login" variant="body2" color="inherit">
+              <Link href="/login" variant="body2" color="inherit" >
                 Already have an account? Sign in
               </Link>
             </Grid>

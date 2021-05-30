@@ -8,14 +8,13 @@ import DoctorCarousel from '../components/DoctorCarousel.js';
 
 
 function Home(props) {
-    console.log(props)
     return (
         <div>
             <Navbar loggedIn={false} />
             <SearchBar loggedIn={false} {...props}/>
             <Card1/>
             <Card2/>
-            <DoctorCarousel/>
+            <DoctorCarousel loggedIn={false}/>
             <Footer/>
            
         </div>

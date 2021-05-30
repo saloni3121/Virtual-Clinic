@@ -5,8 +5,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
-// import Alert from '@material-ui/lab/Alert';
-import { CircularProgress, ClickAwayListener } from '@material-ui/core';
+import {ClickAwayListener } from '@material-ui/core';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import FormControl from '@material-ui/core/FormControl';
@@ -15,6 +14,9 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import Avatar from '@material-ui/core/Avatar';
@@ -22,6 +24,7 @@ import CardContent from '@material-ui/core/CardContent';
 import axios from 'axios';
 import TuneIcon from '@material-ui/icons/Tune';
 import '../App.css'
+
 
 const useStyles = makeStyles((theme) => ({
     label: {
@@ -144,11 +147,25 @@ const useStyles = makeStyles((theme) => ({
       marginTop: '30px',
       marginBottom: '20px'
     },
+    listItem:{
+      height: '35px',
+      flex: 'start',
+      backgroundColor: '#EAE7D6',
+      '&:hover': {
+        backgroundColor: '#fff',
+      },
+    },
     filterIcon:{
       marginRight: '10px',
     },
     inputRoot: {
       color: '#000',
+    },
+    imagesizing:{
+      width: '20px',
+      height: '20px',
+      padding: '-20px',
+      border: 'none',
     },
     central:{
       marginTop: '20px',
@@ -202,17 +219,17 @@ const useStyles = makeStyles((theme) => ({
       },
     },
     listbox: {
-      width: 511,
-      marginTop: '212px',
+      width: 516,
+      marginTop: '260px',
       marginLeft: '-112px',
       padding: 0,
       zIndex: 1,
+      backgroundColor: '#EAE7D6',
       position: 'absolute',
       listStyle: 'none',
       backgroundColor: theme.palette.background.paper,
       overflow: 'auto',
       maxHeight: 200,
-      border: '1px solid rgba(0,0,0,.25)',
       
       '& li[data-focus="true"]': {
         backgroundColor: '#4a8df6',
@@ -236,9 +253,8 @@ let [filteredDoctors, setFilteredDoctors] = useState([]);
 const [openFilterDialouge, setOpenFilterDialouge] = useState(false)
 let [filterChosen, setFilterChosen] = useState([]);
 const [isLoaded, setIsLoaded] = useState(false)
-  
-    useEffect(()=>{
 
+    useEffect(()=>{
       setTimeout(()=>{
         async function getDoctors(){
           await axios.get("http://localhost:5000/doctor").then((res)=>{
@@ -247,20 +263,21 @@ const [isLoaded, setIsLoaded] = useState(false)
           })
       }
       getDoctors();
+      function xyz(){
+        const arr = filterChosen.map((item)=>(
+          {...item,isChecked:false}
+        ))
+        setFilterChosen(arr)
+      }
+      xyz()
       setIsLoaded(true)
-        const doctors = allDoctors.filter(doctor => {
-          // console.log(doctors) 
-          return (filterChosen.includes(doctor.specialisation)) 
-            // return true;
-        });
+      const doctors = allDoctors.filter(doctor => {
+        return (filterChosen.includes(doctor.specialisation)) 
+      });
 
       setFilteredDoctors(doctors);
       },300)
-
-  
-
-    
-    },[allDoctors]);
+    },[]);
 
     const handleBookAppButton = () =>{
       props.history.push('/login')
@@ -293,12 +310,18 @@ const [isLoaded, setIsLoaded] = useState(false)
     }
 
     return (
-      
       <>
         <div className={classes.central}>
 
-<Toolbar className={classes.center} {...getRootProps()}>
-<Button className={classes.filterButton}style={{backgroundColor: '#22577A', color: '#FFFFFF'}}  onClick={handleFilter}> <TuneIcon className={classes.filterIcon}/> Filter </Button>
+          <Toolbar className={classes.center} {...getRootProps()}>
+            <Button 
+              className={classes.filterButton}
+              style={{backgroundColor: '#22577A', color: '#FFFFFF'}}  
+              onClick={handleFilter}
+            > 
+              <TuneIcon className={classes.filterIcon}/> 
+              Filter 
+            </Button>
   
             <div className={classes.search} {...getInputLabelProps()}>
                 <div className={classes.searchIcon}>
@@ -306,110 +329,126 @@ const [isLoaded, setIsLoaded] = useState(false)
                 </div>
                 <InputBase
                  {...getInputProps()} 
-                placeholder="Search for doctors"
-                classes={{
+                  placeholder="Search for doctors"
+                  classes={{
                     root: classes.inputRoot,
                     input: classes.inputInput,
-                }}
-                inputProps={{ 'aria-label': 'search' }}
+                  }}
+                  inputProps={{ 'aria-label': 'search' }}
                 />
                 
             </div>
-            
-          {props.isLoggedIn?
-          <>
-            <Link to = {`/book-appointment/${props.id}`} style={{textDecoration:'none'}}>
-              <Button  
-                style={{backgroundColor: '#22577A', color: '#FFFFFF'}} 
-                variant="contained"  className={classes.bookbutton}
-              > 
+            {props.isLoggedIn?
+            <>
+              <Link to = {`/book-appointment/${props.id}`} style={{textDecoration:'none'}}>
+                <Button  
+                  style={{backgroundColor: '#22577A', color: '#FFFFFF'}} 
+                  variant="contained"  className={classes.bookbutton}
+                > 
                   Book an Appointment
-              </Button>
-            </Link>
-          </>:
-          <>
-            <Link style={{textDecoration:'none'}}>
-              <Button  
-                style={{backgroundColor: '#22577A', color: '#FFFFFF'}}  
-                onClick={handleBookAppButton} 
-                variant="contained" 
-                className={classes.bookbutton}
-              > 
-                Book an Appointment
-              </Button>
-            </Link>
-          </>
+                </Button>
+              </Link>
+            </>:
+            <>
+              <Link style={{textDecoration:'none'}}>
+                <Button  
+                  style={{backgroundColor: '#22577A', color: '#FFFFFF'}}  
+                  onClick={handleBookAppButton} 
+                  variant="contained" 
+                  className={classes.bookbutton}
+                > 
+                  Book an Appointment
+                </Button>
+              </Link>
+            </>
           }
-          
-            
-           
-            
-</Toolbar>
-{groupedOptions.length > 0 ? (
-  <ul className={classes.listbox} {...getListboxProps()}>
-    {groupedOptions.map((option, index) => (
-      <li {...getOptionProps({ option, index })} onClick={()=>props.history.push(`/doctor-profile/${option._id}`)}>{option.fullName} </li>
-    ))}
-  </ul>
-) : null}
-{openFilterDialouge &&
-<>
-<ClickAwayListener onClickAway={handleClickAway}>
-  <ul className={classes.listbox2}> 
-    <FormControl component="fieldset" className={classes.formControl}>
-    <FormLabel style={{fontSize: '12px', marginLeft: '-37px', marginBottom: '4px'}} component="legend">Filter by specialisation </FormLabel>
-    <FormGroup className={classes.allspec}>
-    {arrayUniqueByKey.sort((a, b) => a.specialisation.localeCompare(b.specialisation)).map((option, index) => (
-        <FormControlLabel
-        className={classes.checkboxes}
-        name={option.specialisation}
-        key={index}
-            control={<Checkbox 
-              onClick={e => {
-              if(e.target.checked) {
-                setFilterChosen(filterChosen => [...filterChosen, e.target.name]);
-              }else{
-                setFilterChosen(filterChosen.filter(item => item !== e.target.name));
-              }
-            }
-            }
-            />}
-          label= {option.specialisation}
-        />
-    ))}
-    </FormGroup>
-    </FormControl>
-  </ul>
-  </ClickAwayListener>
-</>}
-</div>
-<div className={classes.allcards}>
-{filteredDoctors.map((doc)=> (
-<Card className={classes.rootcard} key={doc._id}>
-            <CardHeader
-              avatar={
-                <Avatar aria-label="doctor" className={classes.avatar}>
-                  {doc.fullName.charAt(0).toUpperCase()}
-                </Avatar>
-              }
-              className={classes.center}
-              title={doc.fullName}
-              subheader={`Specialized in: ${doc.specialisation}`}
-            />
-            <CardMedia
-              className={classes.media}
-              image={doc.image}
-            />
-            <CardContent>
-              <Typography style={{ textDecoration: 'none'}} variant="body2" color="textSecondary" component="p">
-              <Button variant="contained" style={{backgroundColor: '#22577A', color: '#fff', textDecoration: 'none'}}>Book an appointment</Button>
-              </Typography>
-            </CardContent>
-          </Card>
+
+          </Toolbar>
+          {groupedOptions.length > 0 ? (
+            <ul className={classes.listbox} {...getListboxProps()}>
+            {groupedOptions.map((option, index) => (
+              <ListItem 
+                {...getOptionProps({ option, index })}  
+                button 
+                onClick={()=>props.history.push(`/doctor-profile/${option._id}`)} 
+                className={classes.listItem}
+              >
+              <ListItemIcon>
+                <img 
+                  className={classes.imagesizing} 
+                  src= {option.image} 
+                  alt="doctor">
+                </img>
+              </ListItemIcon>
+            <ListItemText primary={option.fullName}/>
+          </ListItem>
+     
         ))}
-</div>
-   
-        
+        </ul>
+          ) : null}
+            {openFilterDialouge &&
+              <>
+                <ClickAwayListener onClickAway={handleClickAway}>
+                  <ul className={classes.listbox2}> 
+                    <FormControl component="fieldset" className={classes.formControl}>
+                      <FormLabel 
+                        style={{fontSize: '12px', marginLeft: '-37px', marginBottom: '4px'}} 
+                        component="legend"
+                      >
+                          Filter by specialisation 
+                      </FormLabel>
+                      <FormGroup className={classes.allspec}>
+                        {arrayUniqueByKey.sort((a, b) => a.specialisation.localeCompare(b.specialisation)).map((option, index) => (
+                      <FormControlLabel
+                        className={classes.checkboxes}
+                        name={option.specialisation}
+                        key={index}
+                        control={<Checkbox 
+                        onClick={(e) => {
+                        if(e.target.checked) {
+                          setFilterChosen([...filterChosen, {value: e.target.name , isChecked: true}])
+                        }else{
+                          setFilterChosen(filterChosen.map(item=>(
+                            item.value !== e.target.name? item: {...item,isChecked:false}
+                          )))
+                        }
+                      }
+                      }
+                    />}
+                    label= {option.specialisation}
+                    />
+                ))}
+          </FormGroup>
+        </FormControl>
+      </ul>
+    </ClickAwayListener>
+  </>}
+  </div>
+  <div className={classes.allcards}>
+    {filteredDoctors.map((doc)=> (
+      <Card className={classes.rootcard} key={doc._id}>
+        <CardHeader
+          avatar={
+            <Avatar aria-label="doctor" className={classes.avatar}>
+              {doc.fullName.charAt(0).toUpperCase()}
+            </Avatar>
+          }
+          className={classes.center}
+          title={doc.fullName}
+          subheader={`Specialized in: ${doc.specialisation}`}
+        />
+        <CardMedia
+          className={classes.media}
+          image={doc.image}
+        />
+        <CardContent>
+          <Typography style={{ textDecoration: 'none'}} variant="body2" color="textSecondary" component="p">
+          <Button variant="contained" style={{backgroundColor: '#22577A', color: '#fff', textDecoration: 'none'}}>Book an appointment</Button>
+          </Typography>
+        </CardContent>
+      </Card>
+        ))}
+    </div>
       </>
     );
 }
