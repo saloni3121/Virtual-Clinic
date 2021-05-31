@@ -68,11 +68,9 @@ export default function Orders(props) {
                 <TableCell>{app.patientName}</TableCell>
                 {app.url?
                   <TableCell>
-                      {/* <Link to={`${app.url}` } target="_blank"> */}
                         <Button style={{backgroundColor: '#22577A', color: '#FFFFFF'}} href={`${app.url}`} target="_blank">
                           View Reports
                         </Button>
-                      {/* </Link> */}
                   </TableCell>:
                   <TableCell style={{marginLeft: '80px'}}>- </TableCell>}
                 {app.prescription?

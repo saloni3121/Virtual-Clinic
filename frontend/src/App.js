@@ -33,7 +33,7 @@ function App() {
           <Route exact path = "/edit-appointment/:id" render={(routeProps) => <EditAppointment {...routeProps}/>} />
           <Route exact path = "/meeting/:id" render ={(routeProps) => <Meeting {...routeProps} />}/>
           <Route exact path = "/prescription/:id" render ={(routeProps) => <Prescription {...routeProps} />}/>
-          <Route exact path = "/schedule/:id" render ={(routeProps) => <Scheduler {...routeProps} />}/>
+          {/* <Route exact path = "/schedule/:id" render ={(routeProps) => <Scheduler {...routeProps} />}/> */}
         </Switch>
       </div>
     </Router>

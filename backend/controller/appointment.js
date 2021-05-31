@@ -32,7 +32,7 @@ export const createAppointment = (req,res) =>{
         if(err){
             console.error(err);
         }else if(!foundPatient){
-            console.log("Patient not found")
+            res.status(409).json("Patient not found")
         }
         else{
             let doctorName  = req.body.doctorName;
@@ -42,7 +42,6 @@ export const createAppointment = (req,res) =>{
                     res.status(409).json({message: err})
                 }
                 else if(!foundDoctor){
-                    console.log("No doctor found");
                     res.status(409).json("Doctor not found")
                 }else{
                     

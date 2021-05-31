@@ -1,7 +1,7 @@
 import React,{useState, useEffect} from "react";
 import { Button, CircularProgress } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
-// import "./ProfileCard.css";
+import {Link} from 'react-router-dom';
 import axios from 'axios';
 
 const useStyles = makeStyles((theme)=> ({
@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme)=> ({
 
 }))
 
-function ProfileCard(props) {
+function ProfileCard(props){
 
   const classes = useStyles();
   const [isLoaded, setIsLoaded] = useState(false)
@@ -129,11 +129,7 @@ function ProfileCard(props) {
 			>
 				Specialisation in:  
 				<span className={classes.normal_text_spec2}>{doctor.specialisation}</span>
-	  		</h4>
-      		<Button variant="contained" style={{marginTop: '-20px',marginBottom: '20px', backgroundColor: '#22577A', color: '#fff'}}>
-			  	Book an appointment now
-	  		</Button>
-				
+	  		</h4> 
 				<div className={classes.social_container}>
 					<div className={classes.followers}>
 						<h2 className={classes.smaller_text}>Age</h2>

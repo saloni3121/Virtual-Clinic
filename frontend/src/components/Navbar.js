@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ButtonAppBar(props) {
-  console.log(props)
   const classes = useStyles();
 
   return (
@@ -59,6 +58,7 @@ export default function ButtonAppBar(props) {
             <>
             <Button href= "#precaution" className={classes.navlink}  color="inherit">Precaution</Button>
             <Button href= "#doctorCaro" className={classes.navlink}  color="inherit">Our Specialists</Button>
+            <Button href= "/register-doctor" className={classes.navlink}  color="inherit">Register as Doctor</Button>
             <Button href= "/login" className={classes.navlink}  color="inherit">Login</Button>
             </>
             }

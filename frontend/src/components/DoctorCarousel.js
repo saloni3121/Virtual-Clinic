@@ -73,7 +73,6 @@ function DoctorCarousel(props) {
           await axios.get("http://localhost:5000/doctor").then((res)=>{
               const response = res.data;
               setAllDoctors(response);
-              console.log(res.data)
           })
       }
 
@@ -82,13 +81,12 @@ function DoctorCarousel(props) {
   },[]);
 
   const classes = useStyles();
-  console.log(props.loggedIn)
 
   return (
     <>
             <div  id ="doctorCaro" className={classes.contain}>
             <Typography variant="h4" style={{color: '#000'}} component="p" className={classes.title}>
-                        Our Specialists
+                Our Specialists
             </Typography>
             <div className={classes.carocontainer}>
             <Carousel  breakPoints={breakPoints}>

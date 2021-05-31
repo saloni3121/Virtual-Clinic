@@ -31,9 +31,8 @@ import { CircularProgress } from '@material-ui/core';
     },
     media: {
         height: 150,
-        width: 150,
-        marginTop: '5px',
-        marginBottom: '-15px'
+        width: 355,
+        marginBottom: '5px'
     },
     title: {
       fontSize: 14,
@@ -143,6 +142,8 @@ function PatientHome(props) {
                                 <Typography variant="h6" color="textSecondary" component="p">
                                     {new Date(app.startDate).toLocaleDateString(undefined, {day:'2-digit'}) + '-' + new Date(app.startDate).toLocaleDateString(undefined, {month:'short'}) + '-' + new Date(app.startDate).toLocaleDateString(undefined, {year:'numeric'})} {bull} {app.startDate.toString().slice(11,16)}
                                 </Typography>
+                                {app.prescription?
+                                <>
                                 <Button 
                                     variant="contained" 
                                     style={{backgroundColor:"#38A3A5",marginTop:'10px', marginBottom: '-10px',fontWeight: '500',color: '#fff'}} 
@@ -151,6 +152,18 @@ function PatientHome(props) {
                                 >
                                     View Prescription
                                 </Button>
+                                </>:
+                                <>
+                                <Button 
+                                    variant="contained" 
+                                    style={{backgroundColor:"#b2b2b2",marginTop:'10px', marginBottom: '-10px',fontWeight: '500',color: '#000'}} 
+                                    className={classes.button} 
+                                    disabled
+                                >
+                                    View Prescription
+                                </Button>
+                                </>
+                                }
                             </CardContent>
                             <CardActions>
                                 <Button

@@ -140,12 +140,10 @@ io.on("connection", socket => {
     });
 
     socket.on("offer", payload => {
-      console.log(payload);
         io.to(payload.target).emit("offer", payload);
     });
 
     socket.on("answer", payload => {
-      console.log(payload);
         io.to(payload.target).emit("answer", payload);
     });
 

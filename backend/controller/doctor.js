@@ -26,7 +26,6 @@ export const createDoctor =  (req,res) =>{
     const hash = bcrypt.hashSync(req.body.password, salt);
     let fullName = req.body.firstName + " " + req.body.lastName;
     if(req.body.image){
-        console.log(req.body)
         cloudinary.uploader.upload(req.body.image, (error,result)=>{
             const doctor = {...req.body,"password": hash,"role": "doctor", "fullName": fullName,"image":result.url};
             const newDoctor = new Doctor(doctor);

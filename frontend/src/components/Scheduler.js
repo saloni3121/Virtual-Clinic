@@ -43,12 +43,12 @@ const style = ({ palette }) => ({
     backgroundColor: 'rgba(255,255,255,0.65)',
   },
 });
+
 const getClassByLocation = (classes, location) => {
   if (location === 'Room 1') return classes.firstRoom;
   if (location === 'Room 2') return classes.secondRoom;
   return classes.thirdRoom;
 };
-
 
 
 const Header = withStyles(style, { name: 'Header' })(({
@@ -88,41 +88,40 @@ const CommandButton = withStyles(style, { name: 'CommandButton' })(({
 
 export class DoctorHome extends React.PureComponent {
 
-    constructor(props) {
-        super(props)
+  constructor(props) {
+    super(props)
 
-        this.state = {
-            data: [],
-            apps: [],
-            currentDate: new Date(),
-        };
-        this.currentDateChange = (currentDate) => { this.setState({ currentDate }); };
-    }
+    this.state = {
+        data: [],
+        apps: [],
+        currentDate: new Date(),
+    };
+    this.currentDateChange = (currentDate) => { this.setState({ currentDate }); };
+  }
 
-
-    
-    componentDidMount() {
-      axios.get(`http://localhost:5000/doctor-home/${this.props.id}`)
-        .then(res => {
-          const appointments = res.data.appointments;
-          this.setState({apps: appointments});
-        })
-    }
+  componentDidMount() {
+    axios.get(`http://localhost:5000/doctor-home/${this.props.id}`)
+      .then(res => {
+        const appointments = res.data.appointments;
+        this.setState({apps: appointments});
+      })
+  }
 
     render(){
+
       const {currentDate} = this.state;
       const istTime = date => new Date(date).toLocaleString('en-US', {timeZone: 'UTC'});
         
       const data = this.state.apps.map(function(row){
-          return {
+        return {
 
-                  title: row.patientName,
-                  startDate: istTime(row.startDate),
-                  endDate: istTime(row.endDate),
-                  location: row._id,
-                  reportLink: row.url
+          title: row.patientName,
+          startDate: istTime(row.startDate),
+          endDate: istTime(row.endDate),
+          location: row._id,
+          reportLink: row.url
 
-                }
+        }
       })
         
         return (
