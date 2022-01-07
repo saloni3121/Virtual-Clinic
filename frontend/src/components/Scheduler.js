@@ -135,7 +135,7 @@ export class DoctorHome extends React.PureComponent {
                 onCurrentDateChange={this.currentDateChange}
               />
               <WeekView
-                startDayHour={10}
+                startDayHour={9}
                 endDayHour={19}
               />
               <MonthView />

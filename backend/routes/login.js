@@ -11,7 +11,11 @@ router.get("/logout", function (req, res) {
   });
 
 router.post( '/login', passport.authenticate([ 'patient-local', 'doctor-local' ], {
+    if(err){
+        console.log(err)
+    },
         failureRedirect : 'http://localhost:5000/login'
+        // console.log("listening")
     }),
     async (req, res) => {
         if (req.user.role === 'doctor') {

@@ -37,7 +37,7 @@ export default function ButtonAppBar(props) {
     <div className={classes.root}>
       <AppBar className={classes.bg}position="static">
         <Toolbar>
-          <Typography variant= "h6">Sash</Typography>
+          <Typography variant= "h6">Virtual Clinic</Typography>
           <Typography variant="h6" className={classes.title}></Typography>
           <Typography className = {classes.allnav}>
             

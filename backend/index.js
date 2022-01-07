@@ -36,7 +36,8 @@ app.use(express.urlencoded({extended : true}));
 
 
 const PORT = process.env.PORT || 5000;
-const CONNECTION_URL = "mongodb+srv://admin:tJ2AoR50nzohb06h@cluster0.rhgoj.mongodb.net/Virtual_Clinic?retryWrites=true&w=majority";
+// const CONNECTION_URL = "mongodb+srv://admin:tJ2AoR50nzohb06h@cluster0.rhgoj.mongodb.net/Virtual_Clinic?retryWrites=true&w=majority";
+const CONNECTION_URL = "mongodb+srv://admin:4XzlDSaCNNmiY4N9@cluster0.rhgoj.mongodb.net/Virtual_Clinic?retryWrites=true&w=majority";
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -121,6 +122,18 @@ passport.deserializeUser((login, done) => {
 app.get("/", (req,res)=>{
     res.send("hello");
 })
+
+app.post('/log-client-errors', (req, res) => {
+
+  let error       = req.body.error.message;
+  let errorInfo   = req.body.error.stack;
+  console.log(errorInfo);
+  console.log(error)
+  // send these errors to some service or to a logger (ex: winston)
+  //ex: logger.error(`The app received a new client log: ${error} ${errorInfo}`);
+
+  res.status(200);
+});
 
 const rooms = {};
 

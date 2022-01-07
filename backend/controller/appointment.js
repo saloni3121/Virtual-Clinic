@@ -19,14 +19,29 @@ function convertUTCDateToLocalDate(date) {
 
 export const createAppointment = (req,res) =>{
     let appointment = req.body
-    let date = req.body.date.toString()
-    let year = parseInt(date.slice(0,4))
-    let month = parseInt(date.slice(5,7))-1
-    let day = parseInt(date.slice(8,10))
+    // let date = req.body.date.toString()
+    // let year = parseInt(date.slice(0,4))
+    // let month = parseInt(date.slice(5,7))-1
+    // let day = parseInt(date.slice(8,10))
     
-    let startDate = new Date(year,month,day,parseInt(req.body.startDate.slice(0,2)),parseInt(req.body.startDate.slice(-2)))
-    startDate = convertUTCDateToLocalDate(startDate)
-    let endDate = new Date(startDate.getTime() + 30*60000)
+    // let startDate = new Date(year,month,day,parseInt(req.body.startDate.slice(0,2)),parseInt(req.body.startDate.slice(-2)))
+    // startDate = convertUTCDateToLocalDate(startDate)
+    // let endDate = new Date(startDate.getTime() + 30*60000)
+
+    let startDate = req.body.startDate.toString();
+    let year = parseInt(startDate.slice(0, 4));
+    let month = parseInt(startDate.slice(5, 7)) - 1;
+    let day = parseInt(startDate.slice(8, 10));
+
+    const date = new Date(
+      year,
+      month,
+      day,
+      parseInt(req.body.startDate.slice(0, 2)),
+      parseInt(req.body.startDate.slice(-2))
+    );
+    // startDate = convertUTCDateToLocalDate(startDate);
+    let endDate = new Date(date.getTime() + 30 * 60000);
 
     Patient.findById(req.params.id,(err,foundPatient)=>{
         if(err){

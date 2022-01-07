@@ -21,6 +21,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from '../Axios.js';
+import { ErrorHandler} from 'universal-react-logger';
+import Navbar from '../components/Navbar'
 
 function Copyright() {
   return (
@@ -72,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login(props) {
+function Login(props) {
   const classes = useStyles();
   
   const [user,setUser]= useState({
@@ -95,6 +97,7 @@ export default function Login(props) {
       }).catch((error)=>{
           console.log(error);
           props.history.push("/login")
+          // props.setEventError(error)
           setError('Invalid email or password')
       })
   }
@@ -109,6 +112,8 @@ export default function Login(props) {
 
 
   return (
+    <>
+    <Navbar/>
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
@@ -165,11 +170,11 @@ export default function Login(props) {
           />
         </FormControl>
 
-          <FormControlLabel
+          {/* <FormControlLabel
           className={classes.topmargin}
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
-          />
+          /> */}
           <Button
             type="submit"
             fullWidth
@@ -197,5 +202,8 @@ export default function Login(props) {
         <Copyright />
       </Box>
     </Container>
+    </>
   );
 }
+
+export default ErrorHandler(Login, true);
